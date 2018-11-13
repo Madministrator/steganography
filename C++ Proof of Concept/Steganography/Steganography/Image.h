@@ -9,8 +9,8 @@ class Image {
 private:
 	//Raw array of image data. RGBARGBARGBA....
 	vector<unsigned char> data;
-	int width;
-	int height;
+	unsigned int width;
+	unsigned int height;
 	string filename;
 public:
 	Image(string filename);
@@ -18,7 +18,9 @@ public:
 
 	void saveImage();
 
-	vector<unsigned char> getData();
-	int getWidth();
-	int getHeight();
+	vector<unsigned char>& getData();
+	unsigned int getWidth();
+	unsigned int getHeight();
+	unsigned int getSize();
+
 };

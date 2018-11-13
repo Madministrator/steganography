@@ -115,10 +115,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\lodepng\lodepng.cpp" />
+    <ClCompile Include="BitManipulation.cpp" />
+    <ClCompile Include="find.cpp" />
+    <ClCompile Include="hide.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\lodepng\lodepng.h" />
+    <ClInclude Include="BitManipulation.h" />
     <ClInclude Include="find.h" />
     <ClInclude Include="hide.h" />
     <ClInclude Include="Image.h" />

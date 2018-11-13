@@ -1,8 +1,9 @@
 #include "Image.h"
+#include "../lodepng/lodepng.h"
 
 Image::Image(string filename)
 {
-
+	lodepng::decode(data, width, height, filename.c_str());
 }
 
 Image::Image(vector<unsigned char> data, int width, int height, string filename)
@@ -15,19 +16,25 @@ Image::Image(vector<unsigned char> data, int width, int height, string filename)
 
 void Image::saveImage()
 {
+	lodepng::encode(filename.c_str(), data, width, height);
 }
 
-vector<unsigned char> Image::getData()
+vector<unsigned char>& Image::getData()
 {
 	return data;
 }
 
-int Image::getWidth()
+unsigned int Image::getWidth()
 {
 	return width;
 }
 
-int Image::getHeight()
+unsigned int Image::getHeight()
 {
 	return height;
+}
+
+unsigned int Image::getSize()
+{
+	data.size();
 }
