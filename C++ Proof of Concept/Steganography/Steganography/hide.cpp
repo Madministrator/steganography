@@ -30,6 +30,15 @@ bool hide(Image &haystack, Image needle, int greed)
 		dataToHide[i + 4] = needle.getData()[i];
 	}
 
-	//TODO: finish this
-
+	//Hide needle's data in haystack
+	for (int dataToHideByte = 0; dataToHideByte < sizeOfDataToHide; dataToHideByte++) {
+		for (int dataToHideBit = 0; dataToHideBit < 8; dataToHideBit++) {
+			for (int haystackByte = 0; haystackByte < haystack.getData().size(); haystackByte++) {
+				for (int haystackBit = 8 - greed; haystackBit < 8; haystackBit++) {
+					setBit(haystack.getData()[haystackByte], haystackBit, isBitSet(dataToHide[dataToHideByte], dataToHideBit));
+				}
+			}
+		}
+	}
+	return true;
 }
