@@ -14,47 +14,76 @@ bool canHide(unsigned int sizeOfHaystack, unsigned int sizeOfNeedle, int greed) 
 	return sizeOfNeedle < spaceAvailableForHiding;
 }
 
-bool hide(Image &haystack, Image needle, int greed)
+Image* hide(Image haystack, Image needle, int greed)
 {
 	cout << "Your needle image is a " << needle.getWidth() << "x" << needle.getHeight() << " image." << endl;
 
 	if (!canHide(haystack.getSize(), needle.getSize(), greed))
-		return false;
+		return nullptr;
 
-	unsigned int sizeOfDataToHide = needle.getSize() + 4;
-	unsigned char* dataToHide = new unsigned char[sizeOfDataToHide];
+	unsigned int sizeOfNeedleWithHeader = needle.getSize() + 4;
+	unsigned char* needleDataWithHeader = new unsigned char[sizeOfNeedleWithHeader];
+	
+	vector<unsigned char> haystackWithNeedleData(haystack.getData().size());
 
 	//Create header
-	dataToHide[0] = getByte(needle.getWidth(), 2);
-	dataToHide[1] = getByte(needle.getWidth(), 3);
-	dataToHide[2] = getByte(needle.getHeight(), 2);
-	dataToHide[3] = getByte(needle.getHeight(), 3);
+	needleDataWithHeader[0] = getByte(needle.getWidth(), 2);
+	needleDataWithHeader[1] = getByte(needle.getWidth(), 3);
+	needleDataWithHeader[2] = getByte(needle.getHeight(), 2);
+	needleDataWithHeader[3] = getByte(needle.getHeight(), 3);
 
-	//Copy image data over
+	//Copy needle image data over
 	for (int i = 0; i < needle.getData().size(); i++) {
-		dataToHide[i + 4] = needle.getData()[i];
+		needleDataWithHeader[i + 4] = needle.getData()[i];
 	}
 
+	cout << "Here is the header for the needle image:" << endl;
+	for (int i = 0; i < 4; i++) {
+		cout << (int)needleDataWithHeader[i] << ", ";
+	}
+	cout << endl;
+
+	//Copy haystack image data over
+	for (int i = 0; i < haystack.getData().size(); i++) {
+		haystackWithNeedleData[i] = haystack.getData()[i];
+	}
+
+	cout << "Here are the first four bytes from the haystack before hiding needle in it:" << endl;
+	for (int i = 0; i < 4; i++) {
+		cout << (int)haystackWithNeedleData[i] << ", ";
+	}
+	cout << endl;
+
+	//This keeps track of how many more bits of needleDataWithHeader we still need to hide
+	int needleDataBitsToHide = sizeOfNeedleWithHeader * 8;
+
+	//These keep track of what bit from what byte of needleDataWithHeader we are currently hiding
+	int needleWithHeaderByte = 0;
+	int needleWithHeaderBit = 0;
+
 	//Hide needle's data in haystack
-	int bitsToWrite = sizeOfDataToHide * 8;
-	int dataToHideByte = 0;
-	int dataToHideBit = 0;
 	for (int haystackByte = 0; haystackByte < haystack.getData().size(); haystackByte++) {
 		for (int haystackBit = 8 - greed; haystackBit < 8; haystackBit++) {
-			if (bitsToWrite > 0) {
-				setBit(haystack.getData()[haystackByte], haystackBit, isBitSet(dataToHide[dataToHideByte], dataToHideBit));
-				bitsToWrite--;
+			if (needleDataBitsToHide > 0) {
+				setBit(haystackWithNeedleData[haystackByte], haystackBit, isBitSet(needleDataWithHeader[needleWithHeaderByte], needleWithHeaderBit));
+				needleDataBitsToHide--;
 
-				dataToHideBit++;
-				if (dataToHideBit >= 8) {
-					dataToHideBit = 0;
-					dataToHideByte++;
+				needleWithHeaderBit++;
+				if (needleWithHeaderBit >= 8) {
+					needleWithHeaderBit = 0;
+					needleWithHeaderByte++;
 				}
 			}
 		}
 	}
 
-	delete[] dataToHide;
+	cout << "Here are the first four bytes of haystack after hiding needle in it:" << endl;
+	for (int i = 0; i < 4; i++) {
+		cout << (int)haystackWithNeedleData[i] << ", ";
+	}
+	cout << endl;
 
-	return true;
+	delete[] needleDataWithHeader;
+
+	return new Image(haystackWithNeedleData, haystack.getWidth(), haystack.getHeight(), "");
 }

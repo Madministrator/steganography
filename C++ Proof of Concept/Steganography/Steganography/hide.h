@@ -6,4 +6,4 @@
 
 //Stores 'needle''s metadata in a fixed length 4 byte header:
 //[First two bytes are the width][Last two bytes are the height]
-bool hide(Image &haystack, Image needle, int greed);
+Image* hide(Image haystack, Image needle, int greed);

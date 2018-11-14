@@ -9,17 +9,23 @@ using namespace std;
 Image find(Image haystack, string needleFilename, int greed)
 {
 	unsigned char header[4];
-	vector<unsigned char> data;
-	unsigned int width = 0;
-	unsigned int height = 0;
+	vector<unsigned char> foundNeedleData;
+	unsigned int needleWidth = 0;
+	unsigned int needleHeight = 0;
 
 	int bitsToReadForHeader = 32;
 	int headerByte = 0;
 	int headerBit = 0;
 
-	int bitsToReadForImage = -1;
+	int bitsToReadForNeedle = -1;
 	int needleByte = 0;
 	int needleBit = 0;
+
+	cout << "Here are the first four bytes from our loaded haystack:" << endl;
+	for (int i = 0; i < 4; i++) {
+		cout << (int)haystack.getData()[i] << ", ";
+	}
+	cout << endl;
 
 	for (int haystackByte = 0; haystackByte < haystack.getData().size(); haystackByte++) {
 		for (int haystackBit = 8 - greed; haystackBit < 8; haystackBit++) {
@@ -37,25 +43,31 @@ Image find(Image haystack, string needleFilename, int greed)
 				bitsToReadForHeader--;
 				//Header has been read. Calculate needle's width, height, and size.
 				if (bitsToReadForHeader == 0) {
-					width = header[0];
-					width <<= 8;
-					width += header[1];
-					height = header[2];
-					height <<= 8;
-					height += header[3];
+					needleWidth = header[0];
+					needleWidth <<= 8;
+					needleWidth += header[1];
+					needleHeight = header[2];
+					needleHeight <<= 8;
+					needleHeight += header[3];
 
-					cout << "The needle image appears to be a " << width << "x" << height << " image." << endl;
+					cout << "Here is the header information that has been recovered:" << endl;
+					for (int i = 0; i < 4; i++) {
+						cout << (int)header[i] << ", ";
+					}
+					cout << endl;
 
-					int bytesNeededForNeedle = width * height * 4;
-					bitsToReadForImage = bytesNeededForNeedle * 8;
+					cout << "The needle image appears to be a " << needleWidth << "x" << needleHeight << " image." << endl;
 
-					data = vector<unsigned char>(bytesNeededForNeedle);
+					int bytesNeededForNeedle = needleWidth * needleHeight * 4;
+					bitsToReadForNeedle = bytesNeededForNeedle * 8;
+
+					foundNeedleData = vector<unsigned char>(bytesNeededForNeedle);
 				}
 			}
 
 			//Read bits from haystack for needle
-			else if (bitsToReadForImage > 0) {
-				setBit(data[needleByte], needleBit, isBitSet(haystack.getData()[haystackByte], haystackBit));
+			else if (bitsToReadForNeedle > 0) {
+				setBit(foundNeedleData[needleByte], needleBit, isBitSet(haystack.getData()[haystackByte], haystackBit));
 
 				needleBit++;
 				if (needleBit >= 8) {
@@ -63,9 +75,16 @@ Image find(Image haystack, string needleFilename, int greed)
 					needleByte++;
 				}
 
-				bitsToReadForImage--;
+				bitsToReadForNeedle--;
 			}
 		}
 	}
-	return Image(data, width, height, needleFilename);
+
+	cout << "Here are the first four bytes of the recovered image:" << endl;
+	for (int i = 0; i < 4; i++) {
+		cout << (int)foundNeedleData[i] << ", ";
+	}
+	cout << endl;
+
+	return Image(foundNeedleData, needleWidth, needleHeight, needleFilename);
 }

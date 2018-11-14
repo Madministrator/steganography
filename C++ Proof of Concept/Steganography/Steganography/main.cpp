@@ -9,7 +9,8 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	//Usage: Steganography.exe [hide/find] [greed] [haystack filename] [needle filename] [loaded haystack filename]
+	//Usage: Steganography.exe hide [greed] [haystack filename for loading] [needle filename for loading] [loaded haystack filename for saving]
+	//Usage: Steganography.exe find [greed] [haystack filename for loading] [needle filename for saving] 
 	if (argc == 5 || argc == 6) {
 		string command = argv[1];
 		if (command != "hide" && command != "find") {
@@ -30,9 +31,11 @@ int main(int argc, char* argv[]) {
 
 			Image haystack(argv[3]);
 			Image needle(argv[4]);
+			Image* loadedHaystack = hide(haystack, needle, greed);
 
-			if (hide(haystack, needle, greed)) {
-				haystack.saveImage(argv[5]);
+			if (loadedHaystack!=nullptr) {
+				loadedHaystack->saveImage(argv[5]);
+				delete loadedHaystack;
 			}
 			else {
 				cout << "Error. Can't fit " << argv[4] << " inside of " << argv[3] << " with greed set to " << greed << ". Aborting." << endl;
