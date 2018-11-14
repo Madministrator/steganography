@@ -2,17 +2,22 @@
 #include "BitManipulation.h"
 
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
 bool canHide(unsigned int sizeOfHaystack, unsigned int sizeOfNeedle, int greed) {
 	sizeOfNeedle += 4; //Add size of fixed length header
 	int spaceAvailableForHiding = (sizeOfHaystack*greed) / 8;
+	cout << "Your needle image will take up " << sizeOfNeedle << " bytes." << endl;
+	cout << "Your haystack provides " << spaceAvailableForHiding << " bytes of storage with greed set to " << greed << "." << endl;
 	return sizeOfNeedle < spaceAvailableForHiding;
 }
 
 bool hide(Image &haystack, Image needle, int greed)
 {
+	cout << "Your needle image is a " << needle.getWidth() << "x" << needle.getHeight() << " image." << endl;
+
 	if (!canHide(haystack.getSize(), needle.getSize(), greed))
 		return false;
 
@@ -32,17 +37,24 @@ bool hide(Image &haystack, Image needle, int greed)
 
 	//Hide needle's data in haystack
 	int bitsToWrite = sizeOfDataToHide * 8;
-	for (int dataToHideByte = 0; dataToHideByte < sizeOfDataToHide; dataToHideByte++) {
-		for (int dataToHideBit = 0; dataToHideBit < 8; dataToHideBit++) {
-			for (int haystackByte = 0; haystackByte < haystack.getData().size(); haystackByte++) {
-				for (int haystackBit = 8 - greed; haystackBit < 8; haystackBit++) {
-					if (bitsToWrite > 0) {
-						setBit(haystack.getData()[haystackByte], haystackBit, isBitSet(dataToHide[dataToHideByte], dataToHideBit));
-						bitsToWrite--;
-					}
+	int dataToHideByte = 0;
+	int dataToHideBit = 0;
+	for (int haystackByte = 0; haystackByte < haystack.getData().size(); haystackByte++) {
+		for (int haystackBit = 8 - greed; haystackBit < 8; haystackBit++) {
+			if (bitsToWrite > 0) {
+				setBit(haystack.getData()[haystackByte], haystackBit, isBitSet(dataToHide[dataToHideByte], dataToHideBit));
+				bitsToWrite--;
+
+				dataToHideBit++;
+				if (dataToHideBit >= 8) {
+					dataToHideBit = 0;
+					dataToHideByte++;
 				}
 			}
 		}
 	}
+
+	delete[] dataToHide;
+
 	return true;
 }

@@ -16,7 +16,7 @@ public:
 	Image(string filename);
 	Image(vector<unsigned char> data, int width, int height, string filename);
 
-	void saveImage();
+	void saveImage(string newFilename="");
 
 	vector<unsigned char>& getData();
 	unsigned int getWidth();

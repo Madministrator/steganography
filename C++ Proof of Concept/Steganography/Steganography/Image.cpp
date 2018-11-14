@@ -1,9 +1,16 @@
 #include "Image.h"
 #include "../lodepng/lodepng.h"
 
+#include <iostream>
+
+using namespace std;
+
 Image::Image(string filename)
 {
-	lodepng::decode(data, width, height, filename.c_str());
+	unsigned int error = lodepng::decode(data, width, height, filename.c_str());
+	if (error) {
+		cout << "lodepng error " << error << ": " << lodepng_error_text(error) << endl;
+	}
 }
 
 Image::Image(vector<unsigned char> data, int width, int height, string filename)
@@ -14,9 +21,15 @@ Image::Image(vector<unsigned char> data, int width, int height, string filename)
 	this->filename = filename;
 }
 
-void Image::saveImage()
+void Image::saveImage(string newFilename)
 {
-	lodepng::encode(filename.c_str(), data, width, height);
+	if (newFilename == "") newFilename = filename;
+	vector<unsigned char> png;
+	unsigned int error = lodepng::encode(png, data, width, height);
+	if (!error) lodepng::save_file(png, newFilename.c_str());
+	if (error) {
+		cout << "lodepng error " << error << ": " << lodepng_error_text(error) << endl;
+	}
 }
 
 vector<unsigned char>& Image::getData()
@@ -36,5 +49,5 @@ unsigned int Image::getHeight()
 
 unsigned int Image::getSize()
 {
-	data.size();
+	return data.size();
 }

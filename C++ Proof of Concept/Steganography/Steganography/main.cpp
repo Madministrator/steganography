@@ -4,29 +4,49 @@
 #include "Image.h"
 #include "hide.h"
 #include "find.h"
+#include "BitManipulation.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	//Usage: Steganography.exe [hide/find] [greed] [haystack filename] [needle filename] 
-	if (argc == 5) {
+	//Usage: Steganography.exe [hide/find] [greed] [haystack filename] [needle filename] [loaded haystack filename]
+	if (argc == 5 || argc == 6) {
 		string command = argv[1];
-		if (command != "hide" || command != "find") return 1;
+		if (command != "hide" && command != "find") {
+			cout << "Invalid syntax. Expect \"hide\" or \"find\"." << endl;
+			return 1;
+		}
 		int greed = atoi(argv[2]);
-		if (greed < 1 || greed>8) return 2;
+		if (greed < 1 || greed>8) {
+			cout << "Invalid level of greed. Must be between 1 and 8 inclusively." << endl;
+			return 2;
+		}
 		if (command == "hide") {
+			if (argc != 6) {
+				cout << "Invalid number of arguments for hide command." << endl;
+				return 4;
+			}
+			cout << "Hiding " << argv[4] << " into " << argv[3] << " and storing result in " << argv[5] << "..." << endl;
+
 			Image haystack(argv[3]);
 			Image needle(argv[4]);
 
 			if (hide(haystack, needle, greed)) {
-				haystack.saveImage();
+				haystack.saveImage(argv[5]);
 			}
-			else return 3;
+			else {
+				cout << "Error. Can't fit " << argv[4] << " inside of " << argv[3] << " with greed set to " << greed << ". Aborting." << endl;
+				return 3;
+			}
 		}
 		else {
+			cout << "Finding " << argv[4] << " inside of " << argv[3] << "..." << endl;
 			Image haystack(argv[3]);
 			find(haystack, argv[4], greed).saveImage();
 		}
 	}
-	else return -1;
+	else {
+		cout << "Invalid number of commandline arguments." << endl;
+		return -1;
+	}
 }
