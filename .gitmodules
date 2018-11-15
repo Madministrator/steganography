@@ -1,0 +1,3 @@
+[submodule "C++ Proof of Concept/Steganography/lodepng"]
+	path = C++ Proof of Concept/Steganography/lodepng
+	url = https://github.com/lvandeve/lodepng.git
