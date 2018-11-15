@@ -1,0 +1,7 @@
+User Story 1:
+As a Stegnographer, I want to hide a .txt file inside an image, 
+so that the secrets inside the .txt file don't get read by the wrong people. (2 weeks)
+
+
+User Story 2:
+As a Steganographer, I want to retrieve a .txt file from an image so that I can read it. (2 weeks)
