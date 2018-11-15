@@ -18,3 +18,14 @@ As a photographer, I want to input multiple types of image files and have them c
   Weeks: 2
   Confirmation: Code that converts different types of image files to .png without changing or losing data
 What I will do for next class: Become familiar with Javascript
+
+Brendan Bard
+As a developer, I want to check if my file sizes are able to support steganography and return an error message otherwise.
+So that steganography doesn't occcur when it's impossible.
+  Weeks: 1
+As a non-tech-save user, I want to see the maximum file size I can store in a given image with a given greediness.
+So that I can select an appropriate file.
+  Weeks: 1
+As a paranoid person, I want to check that the steganography worked via a color picker to compare before and after photos.
+So that I can see the change in the image.
+  Weeks: 2
