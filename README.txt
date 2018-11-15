@@ -19,6 +19,7 @@ As a photographer, I want to input multiple types of image files and have them c
   Confirmation: Code that converts different types of image files to .png without changing or losing data
 What I will do for next class: Become familiar with Javascript
 
+
 Brendan Bard
 As a developer, I want to check if my file sizes are able to support steganography and return an error message otherwise.
 So that steganography doesn't occcur when it's impossible.
@@ -29,3 +30,16 @@ So that I can select an appropriate file.
 As a paranoid person, I want to check that the steganography worked via a color picker to compare before and after photos.
 So that I can see the change in the image.
   Weeks: 2
+  
+  
+  Austin Scott
+  As a programmer, I want a fixed length header to guide my file discovery algorithm so that we stop decrypting at the end of the hidden file.
+  Weeks: 1
+  Confirmation: Given an image with a file hidden in it, as well as a greed level, there will be a function that will determine the hidden file's type (text/image) and the size (length/shape).
+  As a developer, I want an optimized algorithm so that our program runs faster and uses less memory. 
+  Confirmation: The four algorithms written to find and hide data inside images won't take any uneccessary steps and they will use only the memory that they need to.
+  Weeks: 2
+  As a programmer, I want a Javascript Pseudocode layout of our algorithm. This should give me an idea of the structure that my team and I will need to follow when we implement our core hide/find functions.
+  Confirmation: JavaScript functions that demonstrate the basic functionality of hiding and finding hidden data inside PNG images.
+  Weeks: 1
+  
