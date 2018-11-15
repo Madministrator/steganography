@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Image find(Image haystack, string needleFilename, int greed)
+Image* find(Image haystack, string needleFilename, int greed)
 {
 	unsigned char header[4];
 	vector<unsigned char> foundNeedleData;
@@ -61,6 +61,12 @@ Image find(Image haystack, string needleFilename, int greed)
 					int bytesNeededForNeedle = needleWidth * needleHeight * 4;
 					bitsToReadForNeedle = bytesNeededForNeedle * 8;
 
+					//If this image is impossibly big, abort!
+					if ((haystack.getData().size() - haystackByte)*greed + (8 - (haystackBit + 1)) < bitsToReadForNeedle) {
+						cout << "Error. Hidden image too big. Source image or greed level is incorrect." << endl;
+						return nullptr;
+					}
+
 					foundNeedleData = vector<unsigned char>(bytesNeededForNeedle);
 				}
 			}
@@ -86,5 +92,5 @@ Image find(Image haystack, string needleFilename, int greed)
 	}
 	cout << endl;
 
-	return Image(foundNeedleData, needleWidth, needleHeight, needleFilename);
+	return new Image(foundNeedleData, needleWidth, needleHeight, needleFilename);
 }

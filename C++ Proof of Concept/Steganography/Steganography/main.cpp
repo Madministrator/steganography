@@ -45,7 +45,10 @@ int main(int argc, char* argv[]) {
 		else {
 			cout << "Finding " << argv[4] << " inside of " << argv[3] << "..." << endl;
 			Image haystack(argv[3]);
-			find(haystack, argv[4], greed).saveImage();
+			Image* discoveredImage = find(haystack, argv[4], greed);
+			if (discoveredImage == nullptr) return 5;
+			discoveredImage->saveImage(argv[4]);
+			delete discoveredImage;
 		}
 	}
 	else {

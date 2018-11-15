@@ -15,7 +15,7 @@ Image::Image(string filename)
 
 Image::Image(vector<unsigned char> data, int width, int height, string filename)
 {
-	this->data;
+	this->data = data;
 	this->width = width;
 	this->height = height;
 	this->filename = filename;
