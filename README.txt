@@ -43,3 +43,13 @@ So that I can see the change in the image.
   Confirmation: JavaScript functions that demonstrate the basic functionality of hiding and finding hidden data inside PNG images.
   Weeks: 1
   
+  
+  
+Connor Fergesen
+As a Stegnographer, I want to hide a .txt file inside an image, so that the secrets inside the .txt file doesn't get read by the wrong people. 
+  Confirmation: Given a .txt file, hide the text within a given image. Shows a before and after (although you may not be able to tell).
+  Weeks: 2
+
+As a Steganographer, I want to retrieve a .txt file from an image so that I can read it. 
+  Confirmation: Given an image that has undergone steganography with a .txt file. Retreive the text from the image and display it on screen.
+  Weeks: 2
