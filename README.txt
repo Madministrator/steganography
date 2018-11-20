@@ -53,3 +53,9 @@ As a Stegnographer, I want to hide a .txt file inside an image, so that the secr
 As a Steganographer, I want to retrieve a .txt file from an image so that I can read it. 
   Confirmation: Given an image that has undergone steganography with a .txt file. Retreive the text from the image and display it on screen.
   Weeks: 2
+  
+ Nicholas LaBelle
+ As a Steganographer I want a simple and elagant interface to select my image and hidden file so that I don't accidentally select the wrong files.
+ weeks 2
+ As a Mobile User, I want to be able to use the steganography app via a phone
+ weeks 2
