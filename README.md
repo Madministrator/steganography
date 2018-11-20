@@ -32,7 +32,6 @@ so that the secrets inside the .txt file don't get read by the wrong people.
  * As a photographer, I want to input multiple types of image files and have them converted to .png files if necessary
    * Weeks: 2
    * Confirmation: Code that converts different types of image files to .png without changing or losing data
- + What I will do for next class: Become familiar with Javascript
 
 
  ## Brendan Bard
