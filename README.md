@@ -18,10 +18,13 @@ so that the secrets inside the .txt file don't get read by the wrong people.
  ## Evan Vander Hoeven
  * As a programmer I can have a repository to share my code so that we can collaborate as a team. 
    * Weeks: 1
+   * Confirmation: The existance of this repository is confirmation of this task.
  * As an internet connected person, I want to connect to the app via the internet to secure my data so that I can staganographize from any place.
    * Weeks: 1
+   * Confirmation: A computer without the repository as local files can access the application in its web browser.
  * As a programmer, I want my code to be readable so that others can read our source code
    * Weeks: 2
+   * Confirmation: All of the source code in this repository have an appropriate amount of comments, every function has doxygen documentation, and all files have appropriate headers. 
 
 
  ## Tanner Verber
