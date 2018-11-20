@@ -1,3 +1,10 @@
+ ## Nicholas LaBelle
+ * As a Steganographer I want a simple and elagant interface to select my image and hidden file so that I don't accidentally select the wrong files.
+   * Weeks: 2
+ * As a Mobile User, I want to be able to use the steganography app via a phone
+   * Weeks: 2
+
+
  ## Connor Fergesen
  * As a Stegnographer, I want to hide a .txt file inside an image, 
 so that the secrets inside the .txt file don't get read by the wrong people.
