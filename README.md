@@ -9,8 +9,10 @@
  * As a Stegnographer, I want to hide a .txt file inside an image, 
 so that the secrets inside the .txt file don't get read by the wrong people.
    * Weeks: 2
+   * Confirmation: Give a .txt file to the program you want to be hidden. The program will display the before and after image.
  * As a Steganographer, I want to retrieve a .txt file from an image so that I can read it.
    * Weeks: 2
+   * Confirmation: Give an image that has gone through steganography with a .txt file to our program. The program will find the data hidden in the image and display to the user what it finds.
 
 
  ## Evan Vander Hoeven
