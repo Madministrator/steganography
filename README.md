@@ -26,7 +26,7 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * Weeks: 2
    * Confirmation: All of the source code in this repository have an appropriate amount of comments, every function has doxygen documentation, and all files have appropriate headers. 
 
-# Evan's Log
+### Evan's Log
 * (11-27-2018)
    * What did I do? I created a repository and ensured that everyone in the group had access to the repository.
    * What will I do? I will be looking into ways to host the website for free.
