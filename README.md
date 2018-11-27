@@ -13,6 +13,13 @@ so that the secrets inside the .txt file don't get read by the wrong people.
  * As a Steganographer, I want to retrieve a .txt file from an image so that I can read it.
    * Weeks: 2
    * Confirmation: Give an image that has gone through steganography with a .txt file to our program. The program will find the data hidden in the image and display to the user what it finds.
+   
+### Connor's Log
+* (11-27-2018)
+   * What did I do? I started setting up my development environment and completed my confirmations for my tasks
+   * What will I do? Complete setting up my development environment and start working on my first task, converting text to binary
+   * Is anything blocking me? Nothing is currently blocking me.
+   * What do I believe is the percent chance that we will complete the sprint? 80%
 
 
  ## Evan Vander Hoeven
@@ -26,12 +33,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * Weeks: 2
    * Confirmation: All of the source code in this repository have an appropriate amount of comments, every function has doxygen documentation, and all files have appropriate headers. 
 
-# Evan's Log
+### Evan's Log
 * (11-27-2018)
- * What did I do? I created a repository and ensured that everyone in the group had access to the repository.
-  * What will I do? I will be looking into ways to host the website for free.
-  * Is anything blocking me? My github pages is already in use for another website, so I will need for alternate places to host, or to manipulate github pages to meet the needs of the application.
-  * What do I believe is the percent chance that we will complete the sprint? 65%
+   * What did I do? I created a repository and ensured that everyone in the group had access to the repository.
+   * What will I do? I will be looking into ways to host the website for free.
+   * Is anything blocking me? My github pages is already in use for another website, so I will need for alternate places to host, or to manipulate github pages to meet the needs of the application.
+   * What do I believe is the percent chance that we will complete the sprint? 65%
 
  ## Tanner Verber
  * As a programmer, I want to detect the word size of an image file so that we know what format we are working with
@@ -43,12 +50,6 @@ so that the secrets inside the .txt file don't get read by the wrong people.
  * As a photographer, I want to input multiple types of image files and have them converted to .png files if necessary
    * Weeks: 2
    * Confirmation: Code that converts different types of image files to .png without changing or losing data
-## Tanner's Log
-* (11-27-2018)
- * What did I do? Researched the Javascript language and how to process image files in Javascript
- * What will I do? Begin writing code to detect the word size of an image file
- * What is blocking me? Inexperience with the language/content
- * What is the percent change we will complete the sprint? 75%
 
 
  ## Brendan Bard
@@ -62,13 +63,7 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * Confirmation: So that I can see the change in the image.
    * Weeks: 2
   
- # Brendan's Log
-* (11-27-2018)
-   * What did I do? I did some reading on the concept we are implementing. I also looked at the proof of concept code.
-   * What will I do? Ask for specifications on the data. Once that is done it should be simple to finish the confirmation script.
-   * Is anything blocking me? Nothing that I can see as of right now.
-   * What do I believe is the percent chance that we will complete the sprint? 80%
-
+  
  ## Austin Scott
  * As a programmer, I want a fixed length header to guide my file discovery algorithm so that we stop decrypting at the end of the hidden file.
    * Weeks: 1
