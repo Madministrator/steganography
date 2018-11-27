@@ -1,9 +1,16 @@
  ## Nicholas LaBelle
  * As a Steganographer I want a simple and elagant interface to select my image and hidden file so that I don't accidentally select the wrong files.
    * Weeks: 2
+   * Confirmation: HTML and CSS that is written that works.
  * As a Mobile User, I want to be able to use the steganography app via a phone
    * Weeks: 2
-
+   * Confirmation: Mobile implementation is applied to website.
+## Nicholas's Log
+* 11-27-18
+  * I worked on HTML basics last week
+  * I will start basic css and front end javascript
+  * No major blockages
+  * 80%-90%
 
  ## Connor Fergesen
  * As a Stegnographer, I want to hide a .txt file inside an image, 
