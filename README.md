@@ -28,10 +28,10 @@ so that the secrets inside the .txt file don't get read by the wrong people.
 
 # Evan's Log
 * (11-27-2018)
-   * What did I do? I created a repository and ensured that everyone in the group had access to the repository.
-   * What will I do? I will be looking into ways to host the website for free.
-   * Is anything blocking me? My github pages is already in use for another website, so I will need for alternate places to host, or to manipulate github pages to meet the needs of the application.
-   * What do I believe is the percent chance that we will complete the sprint? 65%
+ * What did I do? I created a repository and ensured that everyone in the group had access to the repository.
+  * What will I do? I will be looking into ways to host the website for free.
+  * Is anything blocking me? My github pages is already in use for another website, so I will need for alternate places to host, or to manipulate github pages to meet the needs of the application.
+  * What do I believe is the percent chance that we will complete the sprint? 65%
 
  ## Tanner Verber
  * As a programmer, I want to detect the word size of an image file so that we know what format we are working with
@@ -43,6 +43,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
  * As a photographer, I want to input multiple types of image files and have them converted to .png files if necessary
    * Weeks: 2
    * Confirmation: Code that converts different types of image files to .png without changing or losing data
+## Tanner's Log
+* (11-27-2018)
+ * What did I do? Researched the Javascript language and how to process image files in Javascript
+ * What will I do? Begin writing code to detect the word size of an image file
+ * What is blocking me? Inexperience with the language/content
+ * What is the percent change we will complete the sprint? 75%
 
 
  ## Brendan Bard
