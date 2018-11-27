@@ -81,4 +81,11 @@ so that the secrets inside the .txt file don't get read by the wrong people.
  * As a programmer, I want a Javascript Pseudocode layout of our algorithm. This should give me an idea of the structure that my team and I will need to follow when we implement our core hide/find functions.
    * Confirmation: JavaScript functions that demonstrate the basic functionality of hiding and finding hidden data inside PNG images.
    * Weeks: 1
+
+ ### Austin's Log
+ * (11/27/2018)
+   * What did I do? Worked on designing the meta data header file that stores the hidden file type. For images it stores the dimensions and for text files it stores the length.
+   * What do I plan to do? I plan to work on implementing the function that reads the header from an image from having the greed level.
+   * Is there anything that is blocking me? Not at the moment.
+   * What is your percent chance that the team will finish this sprint on time? 90-95% 
   
