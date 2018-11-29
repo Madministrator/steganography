@@ -11,6 +11,11 @@
   * I will start basic css and front end javascript
   * No major blockages
   * 80%-90%
+* 11-29-18
+  * I did not do anything between today and last tuesday due to other classwork
+  * I will get to the css and front end
+  * I may have issues due to busy schedule of other classes.
+  * 80%-90%
 
  ## Connor Fergesen
  * As a Stegnographer, I want to hide a .txt file inside an image, 
