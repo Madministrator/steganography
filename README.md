@@ -11,6 +11,11 @@
   * I will start basic css and front end javascript
   * No major blockages
   * 80%-90%
+* 11-29-18
+  * I did not do anything between today and last tuesday due to other classwork
+  * I will get to the css and front end
+  * I may have issues due to busy schedule of other classes.
+  * 80%-90%
 
  ## Connor Fergesen
  * As a Stegnographer, I want to hide a .txt file inside an image, 
@@ -27,6 +32,11 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Complete setting up my development environment and start working on my first task, converting text to binary
    * Is anything blocking me? Nothing is currently blocking me.
    * What do I believe is the percent chance that we will complete the sprint? 80%
+* (11-29-2018)
+   * What did I do? I completed is_bit_set and convert_text_to_binary functions
+   * What will I do? Start scanning the image function and grab RGB values.
+   * Is anything blocking me? No
+   * What do I believe is the percent chance that we will complete the sprint? 70%
 
 
  ## Evan Vander Hoeven
@@ -46,6 +56,11 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? I will be looking into ways to host the website for free.
    * Is anything blocking me? My github pages is already in use for another website, so I will need for alternate places to host, or to manipulate github pages to meet the needs of the application.
    * What do I believe is the percent chance that we will complete the sprint? 65%
+* (11-29-2018)
+   * What did I do? I have done nothing for the app since last Tuesday
+   * What will I do? Add as much documentation as I can to the documents in the repository, provided people push to their branches.
+   * Is anything blocking me? My computer disk was re-imaged, so I need to reset many of the things on my computer.
+   * What do I believe is the percent chance that we will complete the sprint? 70%
 
  ## Tanner Verber
  * As a programmer, I want to detect the word size of an image file so that we know what format we are working with
@@ -58,6 +73,17 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * Weeks: 2
    * Confirmation: Code that converts different types of image files to .png without changing or losing data
 
+### Tanner's Log
+* (11-27-2018)
+   * What did I do? Researched Javascript
+   * What will I do? Start coding to detect the word size of an image file
+   * Is anything blocking me? Inexperience with the language
+   * What do I believe is the percent chance that we will complete the sprint? 75%
+* (11-29-2018)
+   * What did I do? Researched PNG file formats
+   * What will I do? Figure out how to access PNG metadata to get the word size
+   * Is anything blocking me? No major blocks currently
+   * What do I believe is the percent chance that we will complete the sprint? 75%
 
  ## Brendan Bard
  * As a developer, I want to check if my file sizes are able to support steganography and return an error message otherwise.
@@ -101,4 +127,9 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What do I plan to do? I plan to work on implementing the function that reads the header from an image from having the greed level.
    * Is there anything that is blocking me? Not at the moment.
    * What is your percent chance that the team will finish this sprint on time? 90-95% 
+ * (11/29/2018)
+   * What did I do? I implmented the functions for finding and hiding images which work directly with the header file data.
+   * What do I plan to do? I plan to test/debug those functions and clean them up with some comments.
+   * Is there anything that is blocking me? I need the functions setBit(), getBit(), and getByte() to test those functions.
+   * What is the percent chance that the team will finish this sprint on time? 93%
   
