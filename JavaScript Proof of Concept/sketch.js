@@ -1,21 +1,17 @@
-var input;
-var img;
-
 function setup() {
-    input = createFileInput(handleFile);
-    input.position(0, 0);
+    let testHaystackData = new Uint8ClampedArray([255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]);
+    let testNeedleData = new Uint8ClampedArray([0, 0, 0, 0]);
+    let testHaystack = new BasicImage(6, 6, testHaystackData);
+    let testNeedle = new BasicImage(1, 1, testHaystackData);
+
+    let testLoadedHaystack = hideImage(testHaystack, testNeedle, 2);
+    console.log(testLoadedHaystack);
 }
 
 function draw() {
-    if (img) {
-        image(img, 0, 0, width, height);
-    }
+    
 }
 
 function handleFile(file) {
-    print(file);
-    if (file.type === 'image') {
-        img = createImg(file.data);
-        img.hide();
-    }
+    
 }
