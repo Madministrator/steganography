@@ -63,6 +63,18 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * Weeks: 2
    * Confirmation: Code that converts different types of image files to .png without changing or losing data
 
+### Tanner's Log
+* (11-27-2018)
+   * What did I do? Researched Javascript
+   * What will I do? Start coding to detect the word size of an image file
+   * Is anything blocking me? Inexperience with the language
+   * What do I believe is the percent chance that we will complete the sprint? 75%
+* (11-29-2018)
+   * What did I do? Researched PNG file formats
+   * What will I do? Figure out how to access PNG metadata to get the word size
+   * Is anything blocking me? No major blocks currently
+   * What do I believe is the percent chance that we will complete the sprint? 75%
+
 
  ## Brendan Bard
  * As a developer, I want to check if my file sizes are able to support steganography and return an error message otherwise.
