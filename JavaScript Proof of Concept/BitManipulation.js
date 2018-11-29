@@ -7,8 +7,12 @@ isBitSet = function(byte, index) {
         return false
 }
 setBit = function(byte, index, value) {
-
+    byte[index] = value
 }
 getByte = function(number, index) {
+    let mask = 0x000000FF
+    let shift = 4-(index+1)*8
+    number = number >> shift
 
+    return number & mask
 }
