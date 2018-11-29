@@ -27,6 +27,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Complete setting up my development environment and start working on my first task, converting text to binary
    * Is anything blocking me? Nothing is currently blocking me.
    * What do I believe is the percent chance that we will complete the sprint? 80%
+   
+* (11-29-2018)
+   * What did I do? I completed is_bit_set and convert_text_to_binary functions
+   * What will I do? Start scanning the image function and grab RGB values.
+   * Is anything blocking me? No
+   * What do I believe is the percent chance that we will complete the sprint? 70%
 
 
  ## Evan Vander Hoeven
@@ -62,18 +68,6 @@ so that the secrets inside the .txt file don't get read by the wrong people.
  * As a photographer, I want to input multiple types of image files and have them converted to .png files if necessary
    * Weeks: 2
    * Confirmation: Code that converts different types of image files to .png without changing or losing data
-
-### Tanner's Log
-* (11-27-2018)
-   * What did I do? Researched Javascript
-   * What will I do? Start coding to detect the word size of an image file
-   * Is anything blocking me? Inexperience with the language
-   * What do I believe is the percent chance that we will complete the sprint? 75%
-* (11-29-2018)
-   * What did I do? Researched PNG file formats
-   * What will I do? Figure out how to access PNG metadata to get the word size
-   * Is anything blocking me? No major blocks currently
-   * What do I believe is the percent chance that we will complete the sprint? 75%
 
 
  ## Brendan Bard
