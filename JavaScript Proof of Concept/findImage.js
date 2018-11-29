@@ -1,6 +1,12 @@
-function find(haystack, needleFilename, greed) {
+/**
+findImage returns a BasicImage of the hidden image
+    Returns null if no image was found.
+haystack = BasicImage of the image with hidden data
+greed = Integer containing the current greed level (1-8)
+*/
+findImage = function(haystack, greed) {
     let header = new Uint8ClampedArray(4);
-    let foundNeedleDatanew = new Uint8ClampedArray();
+    let foundNeedleData = new Uint8ClampedArray();
     let needleWidth = 0;
     let needleHeight = 0;
 
@@ -12,13 +18,21 @@ function find(haystack, needleFilename, greed) {
     let needleByte = 0;
     let needleBit = 0;
 
+    //True when the first bit of needle's header has been read
+    //This let's us skip checking this value because at this point we already know the type
+    let flagRead = false;
+
 
     for (let haystackByte = 0; haystackByte < haystack.length; haystackByte++) {
         for (let haystackBit = 8 - greed; haystackBit < 8; haystackBit++) {
 
    
             if (bitsToReadForHeader > 0) {
-                setBit(header[headerByte], headerBit, isBitSet(haystack[haystackByte], haystackBit));
+                if (flagRead) {
+                    setBit(header[headerByte], headerBit, isBitSet(haystack.data[haystackByte], haystackBit));
+                } else {
+                    flagRead = true;
+                }
 
                 headerBit++;
                 if (headerBit >= 8) {
@@ -48,7 +62,7 @@ function find(haystack, needleFilename, greed) {
             }
 
             else if (bitsToReadForNeedle > 0) {
-                    setBit(foundNeedleData[needleByte], needleBit, isBitSet(haystack[haystackByte], haystackBit));
+                    setBit(foundNeedleData[needleByte], needleBit, isBitSet(haystack.data[haystackByte], haystackBit));
 
                     needleBit++;
                     if (needleBit >= 8) {
@@ -61,5 +75,5 @@ function find(haystack, needleFilename, greed) {
         }
     }
 
-    return foundNeedleData;
+    return new BasicImage(needleWidth, needleHeight, foundNeedleData);
 }
