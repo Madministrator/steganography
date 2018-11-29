@@ -17,8 +17,8 @@ haystack = BasicImage where we want to hide the needle image
 needle = BasicImage that we want to hide
 greed = Integer set to the current greed level (1-8)
 */
-hideImage = function(haystack, needle, greed) {
-    if (!canHideImage(haystack.length, needle.length, greed))
+hideText = function(haystack, needle, greed) {
+    if (!canHideText(haystack.length, needle.length, greed))
         return null;
 
     //Total number of bits we are hiding

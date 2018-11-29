@@ -3,7 +3,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.js"></script>
     <script src="sketch.js"></script>
+    
+    
 </head>
+<script>
+    function get_image() {
+    var img = document.getElementById('file').files[0];
+    var reader  = new FileReader();
+    reader.onload = function(e)  {
+        var image = document.createElement("img");
+        image.src = e.target.result;
+        document.body.appendChild(image);
+    }
+    reader.readAsDataURL(img);
+}
+
+</script>
 <body>
+    <input type=file name=filename id=file>
+    <button type=button onclick='get_image()'>Display</button></br>
 </body>
 </html>

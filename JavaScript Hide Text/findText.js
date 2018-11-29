@@ -1,10 +1,10 @@
 /**
-findImage returns a BasicImage of the hidden image
+findText returns a BasicImage of the hidden text
     Returns null if no image was found.
-haystack = BasicImage of the image with hidden data
+haystack = BasicImage of the text with hidden data
 greed = Integer containing the current greed level (1-8)
 */
-findImage = function(haystack, greed) {
+findText = function(haystack, greed) {
     let header = new Uint8ClampedArray(4);
     let foundNeedleData = new Uint8ClampedArray();
     let needleWidth = 0;
