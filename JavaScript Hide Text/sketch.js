@@ -1,3 +1,8 @@
+/*
+	Scrum Master Says: yeah, I don't know what these do, 
+	please explain them to me so I can document them.
+*/
+
 var input;
 var img;
 
