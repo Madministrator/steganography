@@ -1,9 +1,9 @@
 /**
-findText returns a BasicImage of the hidden text
-    Returns null if no image was found.
-haystack = BasicImage of the text with hidden data
-greed = Integer containing the current greed level (1-8)
-*/
+	@param	haystack	an image object with data hidden inside it.
+	@param	greed		a number indicating how many bits are manipulated by the steganography algorithm (range 1-8, inclusive)
+	@return	returns a BasicImage object with text hidden inside it, 
+			or NULL if no image was passed.
+*///TODO: check if this documentation is accurate, I'm not sure what the purpose of the BasicImage object is.
 findText = function(haystack, greed) {
     let header = new Uint8ClampedArray(4);
     let foundNeedleData = new Uint8ClampedArray();

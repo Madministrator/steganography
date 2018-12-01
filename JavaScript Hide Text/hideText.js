@@ -11,12 +11,14 @@ canHideImage = function (sizeOfHaystack, sizeOfNeedle, greed) {
     return sizeOfNeedle < spaceAvailableForHiding;
 }
 
-/*
-hideImage returns a BasicImage with hidden data inside it
-    Returns null if impossible.
-haystack = BasicImage where we want to hide the needle image
-needle = BasicImage that we want to hide
-greed = Integer set to the current greed level (1-8)
+/**
+	@brief hides "needle" data inside of the "haystack" data
+	@param	haystack	a 32-bit PNG image object
+	@param	needle		a ASCII encoded text file
+	@param	greed		a number indicating how many bits per byte we are
+						manipulating in the steganographic algorithm
+	@return	a 32-bit PNG haystack image with the text data hidden inside it,
+			or NULL if the steganographic algorithm failed.
 */
 hideText = function(haystack, needle, greed) {
     if (!canHideText(haystack.length, needle.length, greed))
