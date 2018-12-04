@@ -3,22 +3,13 @@ var inputHidden = document.getElementById( 'HiddenFile');
 var inputImageLabel = document.getElementById('ImageLabel');
 var inputHiddenLabel = document.getElementById('HiddenLabel');
 var originalImage = document.getElementById('original');
-var hiddenFile;
-var imageFile;
 
-inputImage.addEventListtener('click', applyNameImage);
-inputHidden.addEventListtener('click',applyNameHidden);
+inputImage.addEventListener('change', function(){applyName(inputImage,inputImageLabel)});
+inputHidden.addEventListener('change',function(){applyName(inputHidden, inputHiddenLabel)});
 
-function applyNameHidden(event) {
-	 hiddenFile = event.files[0];
+function applyName(input,label) {
+	 let file = input.files[0];
 
-	inputHiddenLabel.innerText = hiddenFile.name;
+	label.innerHTML = file.name;
 
-}
-function applyNameImage(event) {
-	 imageFile = event.files[0];
-
-	inputImageLabel.innerText = imageFile.name;
-	var ctx = originalImage.getContext("2d");
-	ctx.drawImage(imageFile);
 }
