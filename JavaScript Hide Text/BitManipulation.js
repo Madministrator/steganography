@@ -5,9 +5,12 @@
 	@param	index	the index of the bit we wish to check (0 = leftmost, 7 = rightmost)
 	@return 
 */
-isBitSet = function(byte, index) {
-    index = Number(index); //make sure input was a number
-    if(byte[index] == true)
+ function isBitSet(byte, index) {
+    // Align the bit at the index spot to the least significant bit
+    byte = byte >> (index - 1)
+
+    // Check if this number is odd. If it is then the bit is set
+    if(byte % 1 == 1)
         return true
     else
         return false
@@ -29,10 +32,16 @@ isBitSet = function(byte, index) {
 	@param	index	the location of the bit we wish to manipulate within the byte (0 = leftmost, 7 = rightmost)
 */
 //QUESTION: are we sure that we are doing pass-by-reference? JavaScript may be picky but I'm not sure...
-setBit = function(byte, index, value) {
-    byte[index] = value
+function setBit(byte, index, value) {
+    // Value should be 0 or 1
+    let mask = value << index
+    if (value == 1)
+        // or byte with mask to set the value bit in byte to 1
+        byte | mask
+    else 
+        // and byte with mask to set the value bit in byte to 0
+        byte & mask
 }
-
 /**
 	@brief	retrieves a byte of information
 	@param	number
@@ -40,8 +49,11 @@ setBit = function(byte, index, value) {
 	@return	a byte of information
 	///Yeah, I don't understand this code, would the author please fill in the doxygen comments?
 */
-getByte = function(number, index) {
-    let mask = 0x000000FF
+function getByte(number, index) {
+	let mask = 0x000000FF
+	// Shift the number to the correct index
+	// Index:   0    1    2    3
+	// Number: 0000 0000 0000 0000
     let shift = 4-(index+1)*8
     number = number >> shift
 

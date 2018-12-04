@@ -4,7 +4,7 @@
 	@param	greed			a number representing the number of bits we can manipulate in the steganographic process
 	@return	a boolean indicating if is possible to hide the needle in the haystack 
 */
-canHideImage = function (sizeOfHaystack, sizeOfNeedle, greed) {
+canHideText = function (sizeOfHaystack, sizeOfNeedle, greed) {
     //sizeOfNeedle = (number of bits for needle) + (size of the header in bits)
     sizeOfNeedle = (sizeOfNeedle * 8) + 33;
     let spaceAvailableForHiding = (sizeOfHaystack * greed);

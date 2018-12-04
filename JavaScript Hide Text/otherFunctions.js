@@ -6,8 +6,10 @@
 function convert_text_to_binary(text) {
     let output = ""
     for(let i = 0; i < text.length; i++) {
-        output += text[i].charCodeAt(0).toString(2) + " "
+        output += text[i].charCodeAt(0) // .toString(2) + " "
     }
+
+    output = parseInt(output)
     console.log(output)
     return output
 }
@@ -40,14 +42,14 @@ function convert_binary_to_text(binary) {
 }
 
 
-let letter = "H"
-let binary = convert_text_to_binary(letter)
-console.log(binary) 
+let test = "HELLO USER"
+// let binary = convert_text_to_binary(letter)
+// console.log(binary) 
 
-for (i = 0; i < binary.length; i++) {
-    console.log(is_bit_set(binary,i))
-}
+// for (i = 0; i < binary.length; i++) {
+//     console.log(is_bit_set(binary,i))
+// }
 
-// let binary = convert_text_to_binary(test)
+let binary = convert_text_to_binary(test)
 
 // convert_binary_to_text(binary)
