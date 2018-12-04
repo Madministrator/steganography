@@ -16,11 +16,7 @@
   * I will get to the css and front end
   * I may have issues due to busy schedule of other classes.
   * 80%-90%
-* 12-4-18
-  * I implemented a greedyness slider and edited basic html and css.
-  * I will work on css for next time
-  * I have had issues getting my javascript functions to work
-  * 70%-80%
+
  ## Connor Fergesen
  * As a Stegnographer, I want to hide a .txt file inside an image, 
 so that the secrets inside the .txt file don't get read by the wrong people.
@@ -41,6 +37,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Start scanning the image function and grab RGB values.
    * Is anything blocking me? No
    * What do I believe is the percent chance that we will complete the sprint? 70%
+   
+ * (12-4-2018)
+  * What did I do? I fix isBitSet and setBit functions and completed getByte.
+  * What will I do? I will start implementing the hideText function
+  * Is anything blocking me? No
+  * What do I believe is the percent chance that we will complete the sprint? 70%
 
 
  ## Evan Vander Hoeven
