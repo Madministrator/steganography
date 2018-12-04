@@ -128,6 +128,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Commit this and work on integrating it with the GUI, if it exists. Then the magnifying glass.
    * Is anything blocking me? Nothing that I can see as of right now.
    * What do I believe is the percent chance that we will complete the sprint? 80%
+
+* (12-4-2018)
+   * What did I do? Dealt with some git issues and ended up on the correct branch, whereas before I wasn't.
+   * What will I do? What I wanted to do last time.
+   * Is there anything blocking me? Still no
+   * What do I believe is the percent chance that we will complete the sprint? 75%
   
  ## Austin Scott
  * As a programmer, I want a fixed length header to guide my file discovery algorithm so that we stop decrypting at the end of the hidden file.
