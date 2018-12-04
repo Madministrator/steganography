@@ -5,18 +5,25 @@
 		<meta charset="utf-8">
 		<meta name="google" content="notranslate">
 		<title>Steganography Project</title>
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
 	</head>
 	<body>
 		<header>
 			<h1>Steganography Project</h1>
 		</header>
 		<section>
-			<p id="ImageFile">filename</p>
-			<button type="button" id="uploadImg">Upload Image</button>
-			<p id="HiddenFile">filename</p>
-			<button type="button" id="uploadHdn">Upload Hidden</button>
+			<p>Image Uploading</p>
+			<input type="file" id="ImageFile" accept="image/png,image/jpg">
+			<label for="ImageFile" id="ImageLabel">Upload Image File</label>
+			<input type="file" id="HiddenFile">
+			<label for="HiddenFile" id="HiddenLabel">Upload Hidden File</label>
 		</section>
 		<section>
+			<p>Greedyness</p>
+			<input type="range" min="1" max="8" value="1" class="slider">
+		</section>
+		<section>
+			<p>Image Display</p>
 			<div class="border">
 				<canvas id="original">
 				
@@ -31,6 +38,7 @@
 		<footer>
 			&copy; 2018 Nicholas LaBelle, Evan Vander Hoeven, Tanner Verber, Brendan Bard, Austin Scott and Connor Fergesen
 		</footer>
+		<script type="text/javascript" src="js/Front.js"></script>
 	</body>
 		
 </html>
