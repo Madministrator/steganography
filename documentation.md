@@ -16,19 +16,14 @@ This choice is to allow our encrypted .txt file to be large enough to contain th
 
 ## Conventions for the documentation of functions
 All functions should be preceeded with a block comment header with doxygen style comments. Example:
-
+~~~~
 /**
-
   @summary  this function does a task, and here is where I describe how in abstract terms
-  
   @brief  this function does x task
-  
   @param  name  description of the object and constraints
-  
   @return what the function returns, if anything.
-  
 */
-
+~~~~
 ### Items of note from the documentation structure
 * All parameter names are preceeded by and are followed by one tabbed space. (one must press TAB before and after typing the name)
 * the @summary tag is optional, and should only be used when a longer description is necessary.
@@ -43,6 +38,7 @@ For testing purposes only, should only be called once per run. Value set by user
 ## Declaring functions
 JavaScript allows for use to declare function in a variety of ways, which can make reading code difficult if each collaborator is using different ways to declare their functions.
 Here is our standard for declaring a function in javascript
+~~~~
 /**
 	Documentation goes here as described above
 */
@@ -50,3 +46,4 @@ function <functionName>(param1, param2)
 {
 	//function body
 }
+~~~~
