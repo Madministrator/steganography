@@ -16,7 +16,11 @@
   * I will get to the css and front end
   * I may have issues due to busy schedule of other classes.
   * 80%-90%
-
+* 12-4-18
+  * I implemented a greedyness slider and edited basic html and css.
+  * I will work on css for next time
+  * I have had issues getting my javascript functions to work
+  * 70%-80%
  ## Connor Fergesen
  * As a Stegnographer, I want to hide a .txt file inside an image, 
 so that the secrets inside the .txt file don't get read by the wrong people.
