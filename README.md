@@ -61,11 +61,6 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Add as much documentation as I can to the documents in the repository, provided people push to their branches.
    * Is anything blocking me? My computer disk was re-imaged, so I need to reset many of the things on my computer.
    * What do I believe is the percent chance that we will complete the sprint? 70%
-* (12-04-2018)
-   * What did I do? I have added Doxygen comments to (almost) every function pushed to the back end branch since last Thursday.
-   * What will I do? I will be following up with people whose functions or data structures I couldn't document due to lack of understanding.
-   * Is anything blocking me? I left comments in the code of any functions or data structures I didn't understand, I need to talk with anyone who has one of the marked objects.
-   * What do I believe is the percent change that we will complete the sprint? 70%
 
  ## Tanner Verber
  * As a programmer, I want to detect the word size of an image file so that we know what format we are working with
@@ -89,6 +84,11 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Figure out how to access PNG metadata to get the word size
    * Is anything blocking me? No major blocks currently
    * What do I believe is the percent chance that we will complete the sprint? 75%
+* (12-4-2018)
+   * What did I do? Found functions that paint an image to canvas, and pull image in desired format back from canvas.
+   * What will I do? Try to find a function that pulls back as a basic image
+   * Is anything blocking me? No major blocks currently
+   * What do I believe is the percent chance that we will complete the sprint? 85%
 
  ## Brendan Bard
  * As a developer, I want to check if my file sizes are able to support steganography and return an error message otherwise.
