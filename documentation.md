@@ -35,3 +35,7 @@ All functions should be preceeded with a block comment header with doxygen style
 * the @brief tag is required on all functions to describe the purpose of the function in abstract terms.
 * Regular block comments are proceeded by /* while doxygen comments must start with /** because they are read differently by certain programs.
 * any updates to function documentation headers must be pushed here for consistency.
+
+## Pulling the greediness value
+For testing purposes only, should only be called once per run. Value set by user before steganography
+* var greedVal = document.getElementById("greed").value;
