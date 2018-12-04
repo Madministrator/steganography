@@ -13,3 +13,25 @@ from the steganograhied image.
 After the leading header bit, there are three bytes. These three bytes indicate the number of characters (spaces and special characters included)
 in the hidden .txt file. It is important to note that the maximum number of characters in this instance is 33,554,431 characters.
 This choice is to allow our encrypted .txt file to be large enough to contain the entire works of William Shakespeare. 
+
+## Conventions for the documentation of functions
+All functions should be preceeded with a block comment header with doxygen style comments. Example:
+
+/**
+
+  @summary  this function does a task, and here is where I describe how in abstract terms
+  
+  @brief  this function does x task
+  
+  @param  name  description of the object and constraints
+  
+  @return what the function returns, if anything.
+  
+*/
+
+### Items of note from the documentation structure
+* All parameter names are preceeded by and are followed by one tabbed space. (one must press TAB before and after typing the name)
+* the @summary tag is optional, and should only be used when a longer description is necessary.
+* the @brief tag is required on all functions to describe the purpose of the function in abstract terms.
+* Regular block comments are proceeded by /* while doxygen comments must start with /** because they are read differently by certain programs.
+* any updates to function documentation headers must be pushed here for consistency.
