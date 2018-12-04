@@ -44,16 +44,9 @@ For testing purposes only, should only be called once per run. Value set by user
 JavaScript allows for use to declare function in a variety of ways, which can make reading code difficult if each collaborator is using different ways to declare their functions.
 Here is our standard for declaring a function in javascript
 /**
-
 	Documentation goes here as described above
-	
 */
-
 function <functionName>(param1, param2)
-
 {
-
 	//function body
-	
 }
-
