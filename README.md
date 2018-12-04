@@ -67,6 +67,11 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Add as much documentation as I can to the documents in the repository, provided people push to their branches.
    * Is anything blocking me? My computer disk was re-imaged, so I need to reset many of the things on my computer.
    * What do I believe is the percent chance that we will complete the sprint? 70%
+* (12-04-2018)
+   * What did I do? I have added Doxygen comments to (almost) every function pushed to the back end branch since last Thursday.
+   * What will I do? I will be following up with people whose functions or data structures I couldn't document due to lack of understanding.
+   * Is anything blocking me? I left comments in the code of any functions or data structures I didn't understand, I need to talk with anyone who has one of the marked objects.
+   * What do I believe is the percent change that we will complete the sprint? 70%
 
  ## Tanner Verber
  * As a programmer, I want to detect the word size of an image file so that we know what format we are working with
@@ -142,4 +147,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What do I plan to do? I plan to test/debug those functions and clean them up with some comments.
    * Is there anything that is blocking me? I need the functions setBit(), getBit(), and getByte() to test those functions.
    * What is the percent chance that the team will finish this sprint on time? 93%
-  
+ * (12/04/2018)
+   
+   * What did I do? Testing the functions that I wrote last time.
+   
+   * What do I plan to do? I plan to continue testing and debugging the functions for hiding images. 
+   
+   * Is there anything that is blocking me? Like last time I still need the functions for setBit(), getBit(), and getByte().
+   
+   * What is the percent chance that the team will finish on time? 85%
