@@ -142,4 +142,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What do I plan to do? I plan to test/debug those functions and clean them up with some comments.
    * Is there anything that is blocking me? I need the functions setBit(), getBit(), and getByte() to test those functions.
    * What is the percent chance that the team will finish this sprint on time? 93%
-  
+ * (12/04/2018)
+   
+   * What did I do? Testing the functions that I wrote last time.
+   
+   * What do I plan to do? I plan to continue testing and debugging the functions for hiding images. 
+   
+   * Is there anything that is blocking me? Like last time I still need the functions for setBit(), getBit(), and getByte().
+   
+   * What is the percent chance that the team will finish on time? 85%
