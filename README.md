@@ -39,10 +39,10 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What do I believe is the percent chance that we will complete the sprint? 70%
    
  * (12-4-2018)
-  * What did I do? I fix isBitSet and setBit functions and completed getByte.
-  * What will I do? I will start implementing the hideText function
-  * Is anything blocking me? No
-  * What do I believe is the percent chance that we will complete the sprint? 70%
+   * What did I do? I fix isBitSet and setBit functions and completed getByte.
+   * What will I do? I will start implementing the hideText function
+   * Is anything blocking me? No
+   * What do I believe is the percent chance that we will complete the sprint? 70%
 
 
  ## Evan Vander Hoeven
