@@ -5,7 +5,7 @@
  * As a Mobile User, I want to be able to use the steganography app via a phone
    * Weeks: 2
    * Confirmation: Mobile implementation is applied to website.
-## Nicholas's Log
+### Nicholas's Log
 * 11-27-18
   * I worked on HTML basics last week
   * I will start basic css and front end javascript
@@ -96,14 +96,13 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * Confirmation: So that I can see the change in the image.
    * Weeks: 2
   
-# Brendan's Log
+### Brendan's Log
 * (11-27-2018)
    * What did I do? I did some reading on the concept we are implementing. I also looked at the proof of concept code.
    * What will I do? Ask for specifications on the data. Once that is done it should be simple to finish the confirmation script.
    * Is anything blocking me? Nothing that I can see as of right now.
    * What do I believe is the percent chance that we will complete the sprint? 80%
 
-# Brendan's Log
 * (11-29-2018)
    * What did I do? Wrote Javascript code for determining the file size that will be needed and for warning when a file is too big.
    * What will I do? Commit this and work on integrating it with the GUI, if it exists. Then the magnifying glass.
