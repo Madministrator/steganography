@@ -32,3 +32,16 @@ function convertCanvasToImage(canvas) {
     image.src = canvas.toDataURL("image/png");
     return image;
 }
+
+function convertImageToBasicImage(image) {
+    let canvas = convertImageToCanvas(image);
+    let width = image.width;
+    let height = image.height;
+    let data = canvas.getContext("2d").getImageData(0, 0, width, height);
+    return new BasicImage(width, height, data.data);
+}
+
+//TODO: need a function to convert an Image to a BasicImage
+function convertBasicImageToImage(basicImage) {
+
+}

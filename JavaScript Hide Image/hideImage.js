@@ -66,7 +66,7 @@ function hideImage(haystack, needle, greed) {
     let needleWithHeaderBit = 0;
 
     //Have we already written out the one bit 'this is an image' flag?
-    let imageFlagWritten = false;
+    let fileTypeFlagWritten = false;
     
     //For every byte (RGBARGBARGBA...) in the haystack
     for (let haystackByte = 0; haystackByte < haystack.data.length; haystackByte++) {
@@ -76,7 +76,7 @@ function hideImage(haystack, needle, greed) {
             //If we still have more data that needs to be hidden
             if (needleDataBitsToHide > 0) {
                 //If we have already written the one bit 'this is an image' flag
-                if (imageFlagWritten) {
+                if (fileTypeFlagWritten) {
 
                     //Overwrite the bit at haystackWithNeedleData[ haystackByte ][ haystackBit ]
                     //with the bit at needleDataWithHeader[ needleWithHeaderByte ][ needleWithHeaderBit ]
@@ -97,7 +97,7 @@ function hideImage(haystack, needle, greed) {
 		            //The first bit of the header is always true representing that this is an image.
 		            haystackWithNeedleData[haystackByte]=setBit(haystackWithNeedleData[haystackByte], haystackBit, true);
                     //Record that the header type flag has been written
-		            imageFlagWritten = true;
+		            fileTypeFlagWritten = true;
 
                 }
 
