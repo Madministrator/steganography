@@ -5,6 +5,8 @@ var inputHiddenLabel = document.getElementById('HiddenLabel');
 var originalImage = document.getElementById('original');
 
 inputImage.addEventListener('change', function(){applyName(inputImage,inputImageLabel)});
+
+
 inputHidden.addEventListener('change',function(){applyName(inputHidden, inputHiddenLabel)});
 
 function applyName(input,label) {
