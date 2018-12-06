@@ -1,0 +1,61 @@
+input[type="file"] { 
+  z-index: -1;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+}
+
+input:focus + label {
+  outline: 2px solid;
+}
+label{
+	color:white;
+}
+.border{
+	border: 3px solid red;
+	margin: 1em 10%;
+	padding: 2px;
+	background-color: black; 
+}
+h1{
+	color: green;
+	align-content: center;
+}
+#pageborder{
+	align-content: center;
+	text-align: center;
+}
+.slider {
+    -webkit-appearance: none;
+    width: 70%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+span{
+	size:18px;
+	color: red;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}

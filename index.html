@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="google" content="notranslate">
+		<title>Steganography Project</title>
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
+	</head>
+	<body>
+		<div id="pageborder">
+			<header>
+				<h1>Steganography Project</h1>
+			</header>
+			<section>
+				<p>Image and File Uploading</p>
+				<div class="border">
+					<label for="ImageFile" id="ImageLabel">Upload Image File</label>
+					<input type="file" id="ImageFile" accept="image/png,image/jpg">
+				</div>
+				<div class="border">
+					<label for="HiddenFile" id="HiddenLabel" accept="image/png,image/jpg,text/txt">Upload Hidden File</label>
+					<input type="file" id="HiddenFile">
+				</div>
+			</section>
+			<section>
+				<p>Greedyness</p>
+				<span>1</span><input type="range" min="1" max="8" value="1" class="slider" id="greed"><span>8</span>
+			</section>
+			<section>
+				<p>Image Display and Magnify Zone</p>
+				<div class="border">
+					<img id="original"></img>
+				</div>
+				<div class="border">
+					<canvas id="changed">
+				
+					</canvas>
+				</div>
+			</section>
+			<footer>
+			&copy; 2018 Nicholas LaBelle, Evan Vander Hoeven, Tanner Verber, Brendan Bard, Austin Scott and Connor Fergesen
+			</footer>
+			<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+			<script type="text/javascript" src="js/Front.js"></script>
+		</div>
+
+	</body>
+		
+</html>
