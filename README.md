@@ -158,11 +158,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * Is there anything that is blocking me? I need the functions setBit(), getBit(), and getByte() to test those functions.
    * What is the percent chance that the team will finish this sprint on time? 93%
  * (12/04/2018)
-   
    * What did I do? Testing the functions that I wrote last time.
-   
    * What do I plan to do? I plan to continue testing and debugging the functions for hiding images. 
-   
    * Is there anything that is blocking me? Like last time I still need the functions for setBit(), getBit(), and getByte().
-   
    * What is the percent chance that the team will finish on time? 85%
+ * (12/06/2018)
+   * What did I do? I tested and debugged the findImage and hideImage functions. 
+   * What do I plan to do? I plan to help implement the findText and hideText functions as well as help convert BasicImage to a physical png file.
+   * Is there anything that is blocking me? Not at the time.
+   * What is the percent chance that the team will finish on time? 93%
