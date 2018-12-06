@@ -9,11 +9,10 @@
 	@return	a canvas HTML element which is both invisible and is displaying the passed image object.
 */
 function convertImageToCanvas(image) {
-    var canvas = document.createElement("canvas");
-    canvas.display = none;
-    //Draw the given image to canvaas, that way all images will have the same format when encrytion occurs
-    //Alpha should be true
-    canvas.getContext("2d", {alpha: true}).drawImage(image, 0, 0);
+    let canvas = document.createElement("canvas");
+    canvas.width = image.width;
+    canvas.height = image.height;
+    canvas.getContext("2d").drawImage(image, 0, 0);
 
     return canvas;
 }
@@ -41,7 +40,15 @@ function convertImageToBasicImage(image) {
     return new BasicImage(width, height, data.data);
 }
 
-//TODO: need a function to convert an Image to a BasicImage
 function convertBasicImageToImage(basicImage) {
+    let canvas = document.createElement("canvas");
+    let context = canvas.getContext("2d");
+    canvas.width = basicImage.width;
+    canvas.height = basicImage.height;
+    let data = new ImageData(basicImage.data, basicImage.width, basicImage.height);
+    context.putImageData(data, 0, 0);
 
+    let image = new Image();
+    image.src = canvas.toDataURL();
+    return image;
 }
