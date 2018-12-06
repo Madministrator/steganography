@@ -11,8 +11,3 @@ class BasicImage {
         this.data = data;
     }
 }
-
-/*
-	Scrum master question: What is this, and when do we use it?
-	How do I document this thing?
-*/
