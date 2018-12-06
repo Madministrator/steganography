@@ -3,7 +3,7 @@ canHideImage returns a Boolean if hiding an image is possible
 sizeOfHaystack = Integer representing the number of bytes in the Haystack image
 sizeOfNeedle = Integer representing the number of bytes in the Needle image
 */
-canHideImage = function (sizeOfHaystack, sizeOfNeedle, greed) {
+function canHideImage(sizeOfHaystack, sizeOfNeedle, greed) {
     //sizeOfNeedle = (number of bits for needle) + (size of the header in bits)
     sizeOfNeedle = (sizeOfNeedle * 8) + 33;
     let spaceAvailableForHiding = (sizeOfHaystack * greed);
@@ -21,7 +21,7 @@ haystack = BasicImage where we want to hide the needle image
 needle = BasicImage that we want to hide
 greed = Integer set to the current greed level (1-8)
 */
-hideImage = function(haystack, needle, greed) {
+function hideImage(haystack, needle, greed) {
     //If we cannot hide Needle's data inside of Haystack due to size constraints
     if (!canHideImage(haystack.data.length, needle.data.length, greed)) {
         console.log("Could not hide image");

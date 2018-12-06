@@ -4,7 +4,7 @@ findImage returns a BasicImage of the hidden image
 haystack = BasicImage of the image with hidden data
 greed = Integer containing the current greed level (1-8)
 */
-findImage = function (haystack, greed) {
+function findImage(haystack, greed) {
 
     //Stores the 4 byte dimensional data of the recovered image
     let header = new Uint8ClampedArray(4);

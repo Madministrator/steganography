@@ -4,7 +4,7 @@
 	@param	index	the index of the bit we wish to check (0 = leftmost, 7 = rightmost)
 	@return 
 */
-isBitSet = function (byte, index) {
+function isBitSet(byte, index) {
     if (index < 0 || index > 7) {
         console.log("Invalid index passed to isBitSet");
         return null;
@@ -26,7 +26,7 @@ isBitSet = function (byte, index) {
 	@param	index	the location of the bit we wish to manipulate within the byte (0 = leftmost, 7 = rightmost)
     @return the modified byte
 */
-setBit = function (byte, index, value) {
+function setBit(byte, index, value) {
     if (index < 0 || index > 7) {
         console.log("Invalid index passed to setBit");
         return null;
@@ -49,7 +49,7 @@ setBit = function (byte, index, value) {
 	@param	index
 	@return	the byte of information found at the 'index' index with 0 being the leftmost byte
 */
-getByte = function (number, index) {
+function getByte(number, index) {
     if (index < 0 || index > 3) {
         console.log("Invalid index passed to getByte");
         return null;
