@@ -134,6 +134,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? What I wanted to do last time.
    * Is there anything blocking me? Still no
    * What do I believe is the percent chance that we will complete the sprint? 75%
+
+* (12-6-2018)
+  * What did I do? Clarified questions regarding code and helped out with other task.
+  * What will I do? Create the magnifying glass feature. Mostly copying and pasting.
+  * Is there anything blocking me? This weekend working hard for Stout Game Expo
+  * What do I believe is the percent chance that we will complete the sprint? 75%
   
  ## Austin Scott
  * As a programmer, I want a fixed length header to guide my file discovery algorithm so that we stop decrypting at the end of the hidden file.
