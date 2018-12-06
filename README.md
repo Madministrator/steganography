@@ -36,6 +36,7 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Complete setting up my development environment and start working on my first task, converting text to binary
    * Is anything blocking me? Nothing is currently blocking me.
    * What do I believe is the percent chance that we will complete the sprint? 80%
+
 * (11-29-2018)
    * What did I do? I completed is_bit_set and convert_text_to_binary functions
    * What will I do? Start scanning the image function and grab RGB values.
@@ -43,10 +44,16 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What do I believe is the percent chance that we will complete the sprint? 70%
    
  * (12-4-2018)
-   * What did I do? I fix isBitSet and setBit functions and completed getByte.
+   * What did I do? I fixed isBitSet and setBit functions and completed getByte.
    * What will I do? I will start implementing the hideText function
    * Is anything blocking me? No
    * What do I believe is the percent chance that we will complete the sprint? 70%
+
+ * (12-6-2018)
+   * What did I do? Trying to complete the getText function
+   * What will I do? Start testing my current functions and trying to hide the needle
+   * Is anything blocking me? I am having issues getting a text file into a js variable to use in my other functions
+   * What do I believe is the percent chance that we will complete the sprint? 70% - May have to work more outside of class to complete my part
 
 
  ## Evan Vander Hoeven
@@ -139,6 +146,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? What I wanted to do last time.
    * Is there anything blocking me? Still no
    * What do I believe is the percent chance that we will complete the sprint? 75%
+
+* (12-6-2018)
+  * What did I do? Clarified questions regarding code and helped out with other task.
+  * What will I do? Create the magnifying glass feature. Mostly copying and pasting.
+  * Is there anything blocking me? This weekend working hard for Stout Game Expo
+  * What do I believe is the percent chance that we will complete the sprint? 75%
   
  ## Austin Scott
  * As a programmer, I want a fixed length header to guide my file discovery algorithm so that we stop decrypting at the end of the hidden file.
