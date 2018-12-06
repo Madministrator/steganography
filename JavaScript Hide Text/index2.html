@@ -1,0 +1,45 @@
+<html>
+<div id="page-wrapper">
+    <script>
+    source: https://codepen.io/matt-west/pen/KjEHg
+    var $injector = angular.injector(['q']);
+    
+    window.onload = function() {
+		var fileInput = document.getElementById('fileInput');
+		var fileDisplayArea = document.getElementById('fileDisplayArea');
+        var deferred = $q.defer()
+
+		fileInput.addEventListener('change', function(e) {
+			var file = fileInput.files[0];
+			var textType = /text.*/;
+
+			if (file.type.match(textType)) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    fileDisplayArea.innerText = reader.result;
+                    deferred.resolve(result);
+                }
+                
+            
+                reader.readAsText(file);
+                
+			} else {
+				fileDisplayArea.innerText = "File not supported!"
+            }
+            return deferred
+            
+		});
+    }    
+    </script>
+   
+   
+    <h1>Text File Reader</h1>
+    <div>
+        Select a text file: 
+        <input type="file" id="fileInput">
+    </div>
+    <pre id="fileDisplayArea"><pre>
+
+</div>
+</html>

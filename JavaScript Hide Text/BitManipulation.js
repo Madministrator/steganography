@@ -1,26 +1,20 @@
-//TO BE IMPLEMENTED
 /**
 	@brief	checks the status of an individual bit of data within a byte
 	@param	byte	one byte of data (8 bits of value 0 or 1)
 	@param	index	the index of the bit we wish to check (0 = leftmost, 7 = rightmost)
 	@return 
 */
- function isBitSet(byte, index) {
-    // Align the bit at the index spot to the least significant bit
-    byte = byte >> (index - 1)
-
-    // Check if this number is odd. If it is then the bit is set
-    if(byte % 1 == 1)
-        return true
-    else
-        return false
+isBitSet = function (byte, index) {
+    if (index < 0 || index > 7) {
+        console.log("Invalid index passed to isBitSet");
+        return null;
+    }
+    let bit = 1;
+    let offset = 7 - index;
+    bit <<= offset;
+    return (bit & byte)>0;
 }
-/*
-	Hey, when someone is giving you an index, make sure that the index is
-	actually within a valid range. I know that for the sake of our application
-	our partners are going to pass valid inputs, but there is something to be 
-	said about best practices.
-	
+/*	
 	Also, without explicit types in JavaScript, it's generally a good idea to 
 	force all data to be the type you want like on line 9 with "Number(index)"
 	otherwise things could get weird if the computer thinks its a string or bool.
@@ -30,32 +24,39 @@
 	@brief sets a bit to 0 or 1 within a byte
 	@param	byte	the byte we wish to manipulate
 	@param	index	the location of the bit we wish to manipulate within the byte (0 = leftmost, 7 = rightmost)
+    @return the modified byte
 */
-//QUESTION: are we sure that we are doing pass-by-reference? JavaScript may be picky but I'm not sure...
-function setBit(byte, index, value) {
-    // Value should be 0 or 1
-    let mask = value << index
-    if (value == 1)
-        // or byte with mask to set the value bit in byte to 1
-        byte | mask
-    else 
-        // and byte with mask to set the value bit in byte to 0
-        byte & mask
+setBit = function (byte, index, value) {
+    if (index < 0 || index > 7) {
+        console.log("Invalid index passed to setBit");
+        return null;
+    }
+    let result = byte;
+    let mask = 1;
+    mask = mask << (7 - index);
+    if (value) {
+        result = result | mask;
+    } else {
+        mask = ~mask;
+        result = result & mask;
+    }
+    return result;
 }
+
 /**
-	@brief	retrieves a byte of information
+	@brief	retrieves a byte of information from a 4 byte variable
 	@param	number
 	@param	index
-	@return	a byte of information
-	///Yeah, I don't understand this code, would the author please fill in the doxygen comments?
+	@return	the byte of information found at the 'index' index with 0 being the leftmost byte
 */
-function getByte(number, index) {
-	let mask = 0x000000FF
-	// Shift the number to the correct index
-	// Index:   0    1    2    3
-	// Number: 0000 0000 0000 0000
-    let shift = 4-(index+1)*8
-    number = number >> shift
-
-    return number & mask
+getByte = function (number, index) {
+    if (index < 0 || index > 3) {
+        console.log("Invalid index passed to getByte");
+        return null;
+    }
+    let bitMask = 255;
+    bitMask <<= ((3-index)*8);
+    number = number & bitMask;
+    number >>= ((3 - index) * 8);
+    return number;
 }
