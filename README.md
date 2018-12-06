@@ -68,7 +68,7 @@ so that the secrets inside the .txt file don't get read by the wrong people.
  * As an internet connected person, I want to connect to the app via the internet to secure my data so that I can staganographize from any place.
    * Weeks: 1
    * Confirmation: A computer without the repository as local files can access the application in its web browser.
-   * This task was completed 12-06-2018, the site is hosted using [GitHub Pages](https://madministrator.github.io/steganography/ "GitHub Pages Link")
+   * This task was completed 12-06-2018, the site is hosted using [GitHub Pages](https://madministrator.github.io/steganography/ "https://madministrator.github.io/steganography/").
  * As a programmer, I want my code to be readable so that others can read our source code
    * Weeks: 2
    * Confirmation: All of the source code in this repository have an appropriate amount of comments, every function has doxygen documentation, and all files have appropriate headers. 
