@@ -21,6 +21,11 @@
   * I will work on css for next time
   * I have had issues getting my javascript functions to work
   * 70%-80%
+* 12-6-18
+  * I implemented some css and edited html code.
+  * I will implement some more css and work on implementation.
+  * Nothing but other classes
+  * 70%
  ## Connor Fergesen
  * As a Stegnographer, I want to hide a .txt file inside an image, 
 so that the secrets inside the .txt file don't get read by the wrong people.
