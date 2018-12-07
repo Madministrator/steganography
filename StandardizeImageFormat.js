@@ -1,3 +1,8 @@
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 /**
 	@summary	this function will take an image object (be it in PNG, JPEG, or other file format)
 				and create a canvas object on the HTML page, making its display invisible so that 
@@ -54,18 +59,25 @@ function convertBasicImageToImage(basicImage) {
 }
 
 //Uses the UPNG library (https://github.com/photopea/UPNG.js) to decode raw PNG data inside a Blob into a BasicImage
-function convertBlobToBasicImage(blob) {
-    let reader = new FileReader();
-    reader.readAsArrayBuffer(blob);
-    while (reader.readyState != 2) { }
-    let image = UPNG.decode(reader.result);
-    return new BasicImage(image.width, image.height, UPNG.toRGBA8(image)[0])
+//Apparently this needs to be asynchronous, so it returns a promise of a BasicImage
+async function convertBlobToBasicImage(blob) {
+    return new Promise(function(resolve, reject) {
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(blob);
+        reader.onloadend = function(event) {
+            let image = UPNG.decode(reader.result);
+            let unFormattedData = UPNG.toRGBA8(image)[0];
+            let data = new Uint8ClampedArray(unFormattedData);
+            resolve(new BasicImage(image.width, image.height, data));
+        }
+    });
 }
 
 //Uses the UPNG library (https://github.com/photopea/UPNG.js) to encode a BasicImage into raw PNG data stored in a Blob
 function covertBasicImageToBlob(basicImage) {
-    let frames = new Array(basicImage.data);
-    let rawPNG = UPNG.encode(frames, basicImage.width, basicImage.height, 0);
+    let frames = basicImage.data.buffer;
+    console.log(frames);
+    let rawPNG = UPNG.encode([frames], basicImage.width, basicImage.height, 0);
     return new Blob([rawPNG], { type: "image/png" });
 }
 
@@ -74,19 +86,20 @@ both haystackFile and needleFile should be Files (https://developer.mozilla.org/
     File is a subclass of Blob!
 greed is a number between 1-8.
 
-returns a Blob (https://developer.mozilla.org/en-US/docs/Web/API/Blob) of the created image
-    if hidding fails, it returns null
+returns the promise of a Blob
 */
-function hideImageFile(haystackFile, needleFile, greed) {
-    let basicHaystack = convertBlobToBasicImage(haystackFile);
-    let basicNeedle = convertBlobToBasicImage(needleFile);
+async function hideImageFile(haystackFile, needleFile, greed) {
+    return new Promise(async function(resolve, reject) {
+        let basicHaystack = await convertBlobToBasicImage(haystackFile);
+        let basicNeedle = await convertBlobToBasicImage(needleFile);
+ 
+        let basicLoadedHaystack = hideImage(basicHaystack, basicNeedle, greed);
 
-    let basicLoadedHaystack = hideImage(basicHaystack, basicNeedle, greed);
+        if (basicLoadedHaystack == null)
+            reject(null);
 
-    if (basicLoadedHaystack == null)
-        return null;
-
-    return covertBasicImageToBlob(basicLoadedHaystack);
+        resolve(covertBasicImageToBlob(basicLoadedHaystack));
+    });
 }
 
 /*

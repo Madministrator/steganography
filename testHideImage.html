@@ -3,15 +3,19 @@
     
 </head>
 <body>
-    <h3>Here is the Haystack image:</h3><br />
-    <img src="images/haystack.png" id="haystack" alt="Test haystack image" />
-    <h3>Here is the Needle image:</h3><br />
-    <img src="images/needle.png" id="needle" alt="Test needle" />
-    <h3>And here is the loaded Haystack:</h3><br />
-    <img src="images/placeholder.png" id="placeholder" alt="Placeholder image" />
+    <div class="border">
+        <label for="ImageFile" id="ImageLabel">Upload Image File</label>
+        <input type="file" id="ImageFile" accept="image/png,image/jpg">
+    </div>
+    <div class="border">
+        <label for="HiddenFile" id="HiddenLabel" accept="image/png,image/jpg,text/txt">Upload Hidden File</label>
+        <input type="file" id="HiddenFile">
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.js"></script>
+    <script src="download2.js"></script>
+    <script src="pako.js"></script>
     <script src="UPNG.js"></script>
     <script src="StandardizeImageFormat.js"></script>
     <script src="JavaScript Hide Image/BitManipulation.js"></script>
@@ -19,5 +23,8 @@
     <script src="JavaScript Hide Image/hideImage.js"></script>
     <script src="JavaScript Hide Image/findImage.js"></script>
     <script src="testHideImage.js"></script>
+
+    <input type="button" value="Hide File" onclick="hideFile()" />
+
 </body>
 </html>
