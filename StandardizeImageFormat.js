@@ -49,6 +49,61 @@ function convertBasicImageToImage(basicImage) {
     context.putImageData(data, 0, 0);
 
     let image = new Image();
-    image.src = canvas.toDataURL();
+    image.src = canvas.toDataURL(1);
     return image;
+}
+
+//Uses the UPNG library (https://github.com/photopea/UPNG.js) to decode raw PNG data inside a Blob into a BasicImage
+function convertBlobToBasicImage(blob) {
+    let reader = new FileReader();
+    reader.readAsArrayBuffer(blob);
+    while (reader.readyState != 2) { }
+    let image = UPNG.decode(reader.result);
+    return new BasicImage(image.width, image.height, UPNG.toRGBA8(image)[0])
+}
+
+//Uses the UPNG library (https://github.com/photopea/UPNG.js) to encode a BasicImage into raw PNG data stored in a Blob
+function covertBasicImageToBlob(basicImage) {
+    let frames = new Array(basicImage.data);
+    let rawPNG = UPNG.encode(frames, basicImage.width, basicImage.height, 0);
+    return new Blob([rawPNG], { type: "image/png" });
+}
+
+/*
+both haystackFile and needleFile should be Files (https://developer.mozilla.org/en-US/docs/Web/API/File)
+    File is a subclass of Blob!
+greed is a number between 1-8.
+
+returns a Blob (https://developer.mozilla.org/en-US/docs/Web/API/Blob) of the created image
+    if hidding fails, it returns null
+*/
+function hideImageFile(haystackFile, needleFile, greed) {
+    let basicHaystack = convertBlobToBasicImage(haystackFile);
+    let basicNeedle = convertBlobToBasicImage(needleFile);
+
+    let basicLoadedHaystack = hideImage(basicHaystack, basicNeedle, greed);
+
+    if (basicLoadedHaystack == null)
+        return null;
+
+    return covertBasicImageToBlob(basicLoadedHaystack);
+}
+
+/*
+loadedHaystackFile is a File (https://developer.mozilla.org/en-US/docs/Web/API/File)
+greed is a number between 1-8
+
+returns a Blob (https://developer.mozilla.org/en-US/docs/Web/API/Blob) 
+    of the uncovered image if found
+    otherwise returns null
+*/
+function findImageFile(loadedHaystackFile, greed) {
+    let basicLoadedHaystack = convertBlobToBasicImage(loadedHaystackFile);
+
+    let basicNeedle = findImage(basicLoadedHaystack, greed);
+
+    if (basicNeedle == null)
+        return null;
+
+    return covertBasicImageToBlob(basicNeedle);
 }
