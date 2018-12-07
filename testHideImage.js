@@ -6,15 +6,3 @@ async function hideFile() {
     
     download(loadedHaystackBlob, "LoadedHaystack.png", "image/png");
 }
-
-function setup() {
-    
-}
-
-function draw() {
-    
-}
-
-function handleFile(file) {
-    
-}

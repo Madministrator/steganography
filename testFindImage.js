@@ -1,20 +1,7 @@
-function setup() {
 
-    let loadedHaystackImage = document.getElementById("haystack");
-
-    let basicHaystack = convertImageToBasicImage(loadedHaystackImage);
-
-    let basicNeedle = findImage(basicHaystack, 1);
-
-    let needleImage = convertBasicImageToImage(basicNeedle);
-    document.getElementById("needle").src = needleImage.src;
-
-}
-
-function draw() {
+async function findFile() {
+    let haystackBlob = document.getElementById('ImageFile').files.item(0);
+    let needleBlob = await findImageFile(haystackBlob, 1);
     
-}
-
-function handleFile(file) {
-    
+    download(needleBlob, "Needle.png", "image/png");
 }

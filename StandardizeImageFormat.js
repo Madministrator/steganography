@@ -106,17 +106,19 @@ async function hideImageFile(haystackFile, needleFile, greed) {
 loadedHaystackFile is a File (https://developer.mozilla.org/en-US/docs/Web/API/File)
 greed is a number between 1-8
 
-returns a Blob (https://developer.mozilla.org/en-US/docs/Web/API/Blob) 
+returns the promise of a Blob (https://developer.mozilla.org/en-US/docs/Web/API/Blob) 
     of the uncovered image if found
     otherwise returns null
 */
-function findImageFile(loadedHaystackFile, greed) {
-    let basicLoadedHaystack = convertBlobToBasicImage(loadedHaystackFile);
+async function findImageFile(loadedHaystackFile, greed) {
+    return new Promise(async function(resolve, reject) {
+        let basicLoadedHaystack = await convertBlobToBasicImage(loadedHaystackFile);
 
-    let basicNeedle = findImage(basicLoadedHaystack, greed);
+        let basicNeedle = findImage(basicLoadedHaystack, greed);
 
-    if (basicNeedle == null)
-        return null;
+        if (basicNeedle == null)
+            reject(null);
 
-    return covertBasicImageToBlob(basicNeedle);
+        resolve(covertBasicImageToBlob(basicNeedle));
+    });
 }

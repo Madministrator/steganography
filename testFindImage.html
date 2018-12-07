@@ -1,15 +1,17 @@
 <html>
 <head>
-    
+
 </head>
 <body>
-    <h3>Here is the Loaded Haystack image:</h3><br />
-    <img src="images/LoadedHaystack.png" id="haystack" alt="Test haystack image" />
-    <h3>Here is the recovered Needle image:</h3><br />
-    <img src="images/placeholder.png" id="needle" alt="Test needle" />
-    
+    <div class="border">
+        <label for="ImageFile" id="ImageLabel">Upload Image File with hidden data</label>
+        <input type="file" id="ImageFile" accept="image/png,image/jpg">
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.js"></script>
+    <script src="download2.js"></script>
+    <script src="pako.js"></script>
     <script src="UPNG.js"></script>
     <script src="StandardizeImageFormat.js"></script>
     <script src="JavaScript Hide Image/BitManipulation.js"></script>
@@ -17,5 +19,8 @@
     <script src="JavaScript Hide Image/hideImage.js"></script>
     <script src="JavaScript Hide Image/findImage.js"></script>
     <script src="testFindImage.js"></script>
+
+    <input type="button" value="Find File" onclick="findFile()" />
+
 </body>
 </html>
