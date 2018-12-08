@@ -28,7 +28,8 @@ hideText = function(haystack, needle, greed) {
 }
 
 //Total number of bits we are hiding (excluding the one bit type flag)
-let sizeOfNeedleWithHeader = needle.length + 3;
+let sizeOfNeedleWithHeader = needle.length + 2;
+console.log("Needle with Header: " + sizeOfNeedleWithHeader)
 
 //Array that stores the data (including everything in the header EXCEPT the image flag bit) that we will be hiding
 let needleDataWithHeader = new Uint8ClampedArray(sizeOfNeedleWithHeader);
@@ -41,13 +42,13 @@ console.log("Needle's length: " + needle.length);
 //Compute Needle's 2 byte dimension header data (first two bytes = width, last two bytes = height)
 needleDataWithHeader[0] = getByte(needle.length, 2);
 needleDataWithHeader[1] = getByte(needle.length, 3);
-needleDataWithHeader[2] = getByte(needle.length, 4);
+// needleDataWithHeader[2] = getByte(needle.length, 4);
 
-console.log("Here is Needle's 3 byte header from hideText: " + needleDataWithHeader[0] + ", " + needleDataWithHeader[1]+ ", " + needleDataWithHeader[2]);
+console.log("Here is Needle's 3 byte header from hideText: " + needleDataWithHeader[0] + ", " + needleDataWithHeader[1] /*+ ", " + needleDataWithHeader[2]*/);
 
 //Copy all of Needle's pixel data into the array that starts with its header data
 for (let i = 0; i < needle.length; i++) {
-    needleDataWithHeader[i + 3] = needle[i];
+    needleDataWithHeader[i + 2] = needle[i];
 }
 
 //Copy all of Haystack's pixel data into a duplicate array that we will be modifying and returning
@@ -92,9 +93,9 @@ for (let haystackByte = 0; haystackByte < haystack.data.length; haystackByte++) 
             } else {
 
                 //The first bit of the header is always false representing that this is an image.
-                haystackWithNeedleData[haystackByte]=setBit(haystackWithNeedleData[haystackByte], haystackBit, false);
+                haystackWithNeedleData[haystackByte]=setBit(haystackWithNeedleData[haystackByte], haystackBit, true);
                 //Record that the header type flag has been written
-                textFlagWritten = false;
+                textFlagWritten = true;
 
             }
 

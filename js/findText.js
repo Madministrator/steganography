@@ -16,7 +16,7 @@ findText = function(haystack, greed) {
 
     //This keeps track of how many more bits we need to read before we can construct the header.
     //(1 bit for type flag)+(16 bits for width)+(16 bits for height)=33 bits
-    let bitsToReadForHeader = 33;
+    let bitsToReadForHeader = 17;
 
     //Keeps track of the (byte, bit) postition where the next recovered header bit will need to be written to.
     let headerByte = 0;
@@ -67,9 +67,9 @@ findText = function(haystack, greed) {
 
                 //If that was the last bit we needed to read to construct the header
                 if (bitsToReadForHeader == 0) {
-                    console.log("Here is the recovered 2 byte header: " + header[0] + ", " + header[1]);
+                    console.log("Here is the recovered 3 byte header: " + header[0] + ", " + header[1]/* + ", " + header[2]*/);
 
-                    //Compute needle's width
+                    //Compute needle's length
                     needleLength = header[0];
                     needleLength = needleLength << 8;
                     needleLength += header[1];
@@ -77,17 +77,17 @@ findText = function(haystack, greed) {
 
                     console.log("The hidden text's length appears to be: " + needleLength);
 
-                    //How many bytes long is needle based on its width and height?
-                    let bytesNeededForNeedle = needleLength * 4;
+                    //How many bytes long is needle based on its length?
+                    let bytesNeededForNeedle = needleLength //* 4;
                     //How many bits long is that?
                     bitsToReadForNeedle = bytesNeededForNeedle * 8;
 
                     //If the computed size of Needle cannot fit in the number of usable bits remaining in Haystack
                     //or if the hidden image has dimensions less than one
-                    if ((haystack.data.length - haystackByte) * greed + (8 - (haystackBit + 1)) < bitsToReadForNeedle || needleLength<1) {
-                        console.log("Could not find hidden image");
+                    /*if ((haystack.data.length - haystackByte) * greed + (8 - (haystackBit + 1)) < bitsToReadForNeedle || needleLength<1) {
+                        console.log("Could not find hidden text");
                         return null;
-                    }
+                    }*/
 
                     //Array to store Needle's pixel data as it is recovered
                     foundNeedleData = new Uint8ClampedArray(bytesNeededForNeedle);
