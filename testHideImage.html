@@ -12,15 +12,24 @@
         <input type="file" id="HiddenFile">
     </div>
 
-    <script src="download2.js"></script>
-    <script src="pako.js"></script>
-    <script src="UPNG.js"></script>
-    <script src="StandardizeImageFormat.js"></script>
-    <script src="JavaScript Hide Image/BitManipulation.js"></script>
-    <script src="JavaScript Hide Image/BasicImage.js"></script>
-    <script src="JavaScript Hide Image/hideImage.js"></script>
-    <script src="JavaScript Hide Image/findImage.js"></script>
-    <script src="testHideImage.js"></script>
+    <script src="js/libraries/download2.js"></script>
+    <script src="js/libraries/pako.js"></script>
+    <script src="js/libraries/UPNG.js"></script>
+    <script src="js/typeConvertions.js"></script>
+    <script src="js/hide.js"></script>
+    <script src="js/bitManipulation.js"></script>
+    <script src="js/BasicImage.js"></script>
+    <script src="js/hideImage.js"></script>
+
+    <script>
+        async function hideFile() {
+            let haystackBlob = document.getElementById('ImageFile').files.item(0);
+            let needleBlob = document.getElementById('HiddenFile').files.item(0);
+            let loadedHaystackBlob = await hideImageFile(haystackBlob, needleBlob, 1);
+    
+            download(loadedHaystackBlob, "LoadedHaystack.png", "image/png");
+        }
+    </script>
 
     <input type="button" value="Hide File" onclick="hideFile()" />
 

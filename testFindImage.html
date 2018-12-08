@@ -8,15 +8,23 @@
         <input type="file" id="ImageFile" accept="image/png,image/jpg">
     </div>
 
-    <script src="download2.js"></script>
-    <script src="pako.js"></script>
-    <script src="UPNG.js"></script>
-    <script src="StandardizeImageFormat.js"></script>
-    <script src="JavaScript Hide Image/BitManipulation.js"></script>
-    <script src="JavaScript Hide Image/BasicImage.js"></script>
-    <script src="JavaScript Hide Image/hideImage.js"></script>
-    <script src="JavaScript Hide Image/findImage.js"></script>
-    <script src="testFindImage.js"></script>
+    <script src="js/libraries/download2.js"></script>
+    <script src="js/libraries/pako.js"></script>
+    <script src="js/libraries/UPNG.js"></script>
+    <script src="js/typeConvertions.js"></script>
+    <script src="js/find.js"></script>
+    <script src="js/bitManipulation.js"></script>
+    <script src="js/BasicImage.js"></script>
+    <script src="js/findImage.js"></script>
+    
+    <script>
+        async function findFile() {
+            let haystackBlob = document.getElementById('ImageFile').files.item(0);
+            let needleBlob = await findImageFile(haystackBlob, 1);
+    
+            download(needleBlob, "Needle.png", "image/png");
+        }
+    </script>
 
     <input type="button" value="Find File" onclick="findFile()" />
 
