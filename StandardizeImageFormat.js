@@ -89,6 +89,16 @@ function covertBasicImageToBlob(basicImage) {
 }
 
 /**
+    @brief  Checks the type of file that is hidden inside of an image.
+    @param  loadedHaystack  BasicImage (from BasicImage.js)
+            greed number 1-8 level of greediness the file was hidden with
+    @return Boolean True if an image was hidden, false if a text file was hidden
+*/
+function getHiddenFileType(loadedHaystack, greed) {
+    return isBitSet(loadedHaystack.data[0], 8-greed);
+}
+
+/**
     @summary  Hides a PNG file inside of another PNG file
               with a set greediness level. 
               This is performed as an async operation returning a Promise.
