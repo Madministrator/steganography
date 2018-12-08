@@ -1,8 +1,4 @@
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 /**
 	@summary	this function will take an image object (be it in PNG, JPEG, or other file format)
 				and create a canvas object on the HTML page, making its display invisible so that 
@@ -37,6 +33,14 @@ function convertCanvasToImage(canvas) {
     return image;
 }
 
+/**
+    @summary  This function coverts an Image into a BasicImage. 
+              NOTE: This function is NOT lossless! 
+              Do not use it when you need pixel perfect accuracy. 
+    @brief  Converts inputted Image parameter to a returned BasicImage
+    @param  image  (https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image)
+    @return BasicImage (from BasicImage.js)
+*/
 function convertImageToBasicImage(image) {
     let canvas = convertImageToCanvas(image);
     let width = image.width;
@@ -45,25 +49,20 @@ function convertImageToBasicImage(image) {
     return new BasicImage(width, height, data.data);
 }
 
-function convertBasicImageToImage(basicImage) {
-    let canvas = document.createElement("canvas");
-    let context = canvas.getContext("2d");
-    canvas.width = basicImage.width;
-    canvas.height = basicImage.height;
-    let data = new ImageData(basicImage.data, basicImage.width, basicImage.height);
-    context.putImageData(data, 0, 0);
-
-    let image = new Image();
-    image.src = canvas.toDataURL(1);
-    return image;
-}
-
-//Uses the UPNG library (https://github.com/photopea/UPNG.js) to decode raw PNG data inside a Blob into a BasicImage
-//Apparently this needs to be asynchronous, so it returns a promise of a BasicImage
-async function convertBlobToBasicImage(blob) {
+/**
+    @summary  Uses the UPNG library (https://github.com/photopea/UPNG.js) 
+              to decode a raw PNG File into a BasicImage.
+              This is performed as an async operation returning a Promise.
+              This is a pixel perfect operation.
+    @brief  Converts inputted File containing raw PNG data to returned Promise of BasicImage.
+    @param  file (https://developer.mozilla.org/en-US/docs/Web/API/File)
+    @return Promise (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+            of BasicImage (from BasicImage.js)
+*/
+async function convertFileToBasicImage(file) {
     return new Promise(function(resolve, reject) {
         let reader = new FileReader();
-        reader.readAsArrayBuffer(blob);
+        reader.readAsArrayBuffer(file);
         reader.onloadend = function(event) {
             let image = UPNG.decode(reader.result);
             let unFormattedData = UPNG.toRGBA8(image)[0];
@@ -73,7 +72,15 @@ async function convertBlobToBasicImage(blob) {
     });
 }
 
-//Uses the UPNG library (https://github.com/photopea/UPNG.js) to encode a BasicImage into raw PNG data stored in a Blob
+/**
+    @summary  Uses the UPNG library (https://github.com/photopea/UPNG.js) 
+              to encode a BasicImage into raw PNG file stored in a Blob.
+              This is a pixel perfect operation.
+    @brief  Converts inputted BasicImage to returned Blob.
+    @param  basicImage BasicImage (from BasicImage.js)
+    @return  Blob (https://developer.mozilla.org/en-US/docs/Web/API/Blob)
+             containing a PNG file.
+*/
 function covertBasicImageToBlob(basicImage) {
     let frames = basicImage.data.buffer;
     console.log(frames);
@@ -81,17 +88,26 @@ function covertBasicImageToBlob(basicImage) {
     return new Blob([rawPNG], { type: "image/png" });
 }
 
-/*
-both haystackFile and needleFile should be Files (https://developer.mozilla.org/en-US/docs/Web/API/File)
-    File is a subclass of Blob!
-greed is a number between 1-8.
-
-returns the promise of a Blob
+/**
+    @summary  Hides a PNG file inside of another PNG file
+              with a set greediness level. 
+              This is performed as an async operation returning a Promise.
+    @brief  Hides PNG file inside another PNG file.
+    @param  haystackFile File (https://developer.mozilla.org/en-US/docs/Web/API/File)
+                containing PNG data that you will be using to hide another image in.
+            needleFile File (https://developer.mozilla.org/en-US/docs/Web/API/File)
+                containing PNG data that you want to hide.
+            greed number 1-8 defining how greedy the hiding should be
+                1 = least greedy, 8 = most greedy
+    @return  Promise (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+             of a Blob (https://developer.mozilla.org/en-US/docs/Web/API/Blob)
+             containing PNG data of the haystack image with the needle image hidden within it.
+             Or null if the hiding failed.
 */
 async function hideImageFile(haystackFile, needleFile, greed) {
     return new Promise(async function(resolve, reject) {
-        let basicHaystack = await convertBlobToBasicImage(haystackFile);
-        let basicNeedle = await convertBlobToBasicImage(needleFile);
+        let basicHaystack = await convertFileToBasicImage(haystackFile);
+        let basicNeedle = await convertFileToBasicImage(needleFile);
  
         let basicLoadedHaystack = hideImage(basicHaystack, basicNeedle, greed);
 
@@ -102,17 +118,23 @@ async function hideImageFile(haystackFile, needleFile, greed) {
     });
 }
 
-/*
-loadedHaystackFile is a File (https://developer.mozilla.org/en-US/docs/Web/API/File)
-greed is a number between 1-8
-
-returns the promise of a Blob (https://developer.mozilla.org/en-US/docs/Web/API/Blob) 
-    of the uncovered image if found
-    otherwise returns null
+/**
+    @summary  Recovers a PNG file hidden inside of another PNG file
+              with a set greediness level. 
+              This is performed as an async operation returning a Promise.
+    @brief  Recovers PNG file hidden inside another PNG file.
+    @param  loadedHaystackFile File (https://developer.mozilla.org/en-US/docs/Web/API/File)
+                containing PNG data harboring the hidden image to be found.
+            greed number 1-8 defining how greedy the searching should be
+                1 = least greedy, 8 = most greedy
+    @return  Promise (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+             of a Blob (https://developer.mozilla.org/en-US/docs/Web/API/Blob)
+             containing PNG data recovered image.
+             Or null if no image was found.
 */
 async function findImageFile(loadedHaystackFile, greed) {
     return new Promise(async function(resolve, reject) {
-        let basicLoadedHaystack = await convertBlobToBasicImage(loadedHaystackFile);
+        let basicLoadedHaystack = await convertFileToBasicImage(loadedHaystackFile);
 
         let basicNeedle = findImage(basicLoadedHaystack, greed);
 
