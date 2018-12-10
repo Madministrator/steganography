@@ -1,0 +1,32 @@
+<html>
+<head>
+
+</head>
+<body>
+    <div class="border">
+        <label for="ImageFile" id="ImageLabel">Upload Image File with hidden data</label>
+        <input type="file" id="ImageFile" accept="image/png,image/jpg">
+    </div>
+
+    <script src="js/libraries/download2.js"></script>
+    <script src="js/libraries/pako.js"></script>
+    <script src="js/libraries/UPNG.js"></script>
+    <script src="js/typeConvertions.js"></script>
+    <script src="js/find.js"></script>
+    <script src="js/bitManipulation.js"></script>
+    <script src="js/BasicImage.js"></script>
+    <script src="js/findText.js"></script>
+    
+    <script>
+        async function findFile() {
+            let haystackBlob = document.getElementById('ImageFile').files.item(0);
+            let needleBlob = await findTextFile(haystackBlob, 1);
+    
+            download(needleBlob, "Needle.txt", "text/plain");
+        }
+    </script>
+
+    <input type="button" value="Find File" onclick="findFile()" />
+
+</body>
+</html>

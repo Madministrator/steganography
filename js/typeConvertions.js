@@ -81,7 +81,7 @@ async function convertFileToBasicImage(file) {
     @return Promise (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
             of Uint8ClampedArray.
 */
-async function convertFileToByteArray(file) {
+async function convertFileToCharArray(file) {
     return new Promise(function(resolve, reject) {
         let reader = new FileReader();
         reader.readAsArrayBuffer(file);
@@ -116,5 +116,5 @@ function convertBasicImageToBlob(basicImage) {
              containing an ASCII encoded text file.
 */
 function convertCharArrayToBlob(characterArray) {
-    return new Blob(characterArray.buffer, { type: "text/plain" });
+    return new Blob([characterArray.buffer], { type: "text/plain" });
 }

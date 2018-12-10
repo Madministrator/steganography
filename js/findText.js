@@ -116,5 +116,5 @@ findText = function(haystack, greed) {
         }
     }
 
-    return new foundNeedleData;
+    return foundNeedleData;
 }
