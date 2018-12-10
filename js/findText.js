@@ -1,28 +1,28 @@
 /**
 	@param	haystack	an image object with data hidden inside it.
 	@param	greed		a number indicating how many bits are manipulated by the steganography algorithm (range 1-8, inclusive)
-	@return	returns a BasicImage object with text hidden inside it, 
-			or NULL if no image was passed.
+	@return	returns a Uint8ClampedArray array of the ASCII encoded text found
+			or NULL if no text was recovered.
 */
 findText = function(haystack, greed) {
-    //Stores the 2 byte dimensional data of the recovered Text
-    let header = new Uint8ClampedArray(2);
+    //Stores the 3 byte dimensional data of the recovered Text
+    let header = new Uint8ClampedArray(3);
 
-    //Stores the raw pixel data of the recovered image in 'RGBARGBARGBA...' format
+    //Stores the raw pixel data of the recovered text in ASCII format
     let foundNeedleData = new Uint8ClampedArray();
 
-    //These are the width and height of the recovered image. This is calculated just after the header is read.
+    //This is the length of the recovered textfile in bytes. This is calculated just after the header is read.
     let needleLength = -1;
 
     //This keeps track of how many more bits we need to read before we can construct the header.
-    //(1 bit for type flag)+(16 bits for width)+(16 bits for height)=33 bits
-    let bitsToReadForHeader = 17;
+    //(1 bit for type flag)+(24 bits for length)=25 bits
+    let bitsToReadForHeader = 25;
 
     //Keeps track of the (byte, bit) postition where the next recovered header bit will need to be written to.
     let headerByte = 0;
     let headerBit = 0;
 
-    //This keeps track of how many more bits we need to read to reconstruct the hidden image.
+    //This keeps track of how many more bits we need to read to reconstruct the hidden textfile.
     //This is computed just after the header is recovered.
     let bitsToReadForNeedle = -1;
 
@@ -67,18 +67,20 @@ findText = function(haystack, greed) {
 
                 //If that was the last bit we needed to read to construct the header
                 if (bitsToReadForHeader == 0) {
-                    console.log("Here is the recovered 3 byte header: " + header[0] + ", " + header[1]/* + ", " + header[2]*/);
+                    console.log("Here is the recovered 3 byte header: " + header[0] + ", " + header[1] + ", " + header[2]);
 
                     //Compute needle's length
                     needleLength = header[0];
                     needleLength = needleLength << 8;
                     needleLength += header[1];
+                    needleLength = needleLength << 8;
+                    needleLength += header[2];
 
 
                     console.log("The hidden text's length appears to be: " + needleLength);
 
                     //How many bytes long is needle based on its length?
-                    let bytesNeededForNeedle = needleLength //* 4;
+                    let bytesNeededForNeedle = needleLength;
                     //How many bits long is that?
                     bitsToReadForNeedle = bytesNeededForNeedle * 8;
 
@@ -114,5 +116,5 @@ findText = function(haystack, greed) {
         }
     }
 
-    return new TextDecoder("utf-8").decode(foundNeedleData);
+    return new foundNeedleData;
 }
