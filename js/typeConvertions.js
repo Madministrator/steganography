@@ -73,6 +73,25 @@ async function convertFileToBasicImage(file) {
 }
 
 /**
+    @summary  Coverts a text file into an array of Bytes.
+              This is performed as an async operation returning a Promise.
+              No data is lost in this operation.
+    @brief  Converts inputted File containing raw text data to returned Promise of Uint8ClampedArray.
+    @param  file (https://developer.mozilla.org/en-US/docs/Web/API/File)
+    @return Promise (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+            of Uint8ClampedArray.
+*/
+async function convertFileToByteArray(file) {
+    return new Promise(function(resolve, reject) {
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onloadend = function(event) {
+            resolve(new Uint8ClampedArray(reader.result));
+        }
+    });
+}
+
+/**
     @summary  Uses the UPNG library (https://github.com/photopea/UPNG.js) 
               to encode a BasicImage into raw PNG file stored in a Blob.
               This is a pixel perfect operation.
@@ -81,9 +100,21 @@ async function convertFileToBasicImage(file) {
     @return  Blob (https://developer.mozilla.org/en-US/docs/Web/API/Blob)
              containing a PNG file.
 */
-function covertBasicImageToBlob(basicImage) {
+function convertBasicImageToBlob(basicImage) {
     let frames = basicImage.data.buffer;
     console.log(frames);
     let rawPNG = UPNG.encode([frames], basicImage.width, basicImage.height, 0);
     return new Blob([rawPNG], { type: "image/png" });
+}
+
+/**
+    @summary  Converts an array of ASCII character data into a
+              Blob containing an ASCII encoded text file.
+    @brief  Converts inputted Uint8ClampedArray to returned text file Blob.
+    @param  characterArray Uint8ClampedArray with ASCII encoded character data
+    @return  Blob (https://developer.mozilla.org/en-US/docs/Web/API/Blob)
+             containing an ASCII encoded text file.
+*/
+function convertCharArrayToBlob(characterArray) {
+    return new Blob(characterArray.buffer, { type: "text/plain" });
 }

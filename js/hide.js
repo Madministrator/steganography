@@ -25,6 +25,6 @@ async function hideImageFile(haystackFile, needleFile, greed) {
         if (basicLoadedHaystack == null)
             reject(null);
 
-        resolve(covertBasicImageToBlob(basicLoadedHaystack));
+        resolve(convertBasicImageToBlob(basicLoadedHaystack));
     });
 }

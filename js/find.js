@@ -22,6 +22,6 @@ async function findImageFile(loadedHaystackFile, greed) {
         if (basicNeedle == null)
             reject(null);
 
-        resolve(covertBasicImageToBlob(basicNeedle));
+        resolve(convertBasicImageToBlob(basicNeedle));
     });
 }
