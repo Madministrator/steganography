@@ -68,7 +68,7 @@ so that the secrets inside the .txt file don't get read by the wrong people.
  * As an internet connected person, I want to connect to the app via the internet to secure my data so that I can staganographize from any place.
    * Weeks: 1
    * Confirmation: A computer without the repository as local files can access the application in its web browser.
-   * This task was completed 12-06-2018, the site is hosted using [GitHub Pages](https://madministrator.github.io/steganography/ "GitHub Pages Link")
+   * This task was completed 12-06-2018, the site is hosted using [GitHub Pages](https://madministrator.github.io/steganography/ "https://madministrator.github.io/steganography/").
  * As a programmer, I want my code to be readable so that others can read our source code
    * Weeks: 2
    * Confirmation: All of the source code in this repository have an appropriate amount of comments, every function has doxygen documentation, and all files have appropriate headers. 
@@ -163,6 +163,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
   * What will I do? Create the magnifying glass feature. Mostly copying and pasting.
   * Is there anything blocking me? This weekend working hard for Stout Game Expo
   * What do I believe is the percent chance that we will complete the sprint? 75%
+
+* (12-11-2018)
+  * What did I do? Mostly worked on game for SGX, forgot about zoom, but made a quick prototype.
+  * What will I do? Probably still focus on SGX.
+  * Is there anything blocking me? I can't stop thinking about SGX.
+  * What do I believe is the percent chance that we will complete the sprint? 75%
   
  ## Austin Scott
  * As a programmer, I want a fixed length header to guide my file discovery algorithm so that we stop decrypting at the end of the hidden file.
@@ -196,3 +202,8 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What do I plan to do? I plan to help implement the findText and hideText functions as well as help convert BasicImage to a physical png file.
    * Is there anything that is blocking me? Not at the time.
    * What is the percent chance that the team will finish on time? 93%
+ * (12/11/2018)
+   * What did I do? I combined all of the finished hiding and finding functions into a single operational test prototype.
+   * What do I plan to do? I plan to hook up the back-end javascript code to our front-end interface and fix any problems that will inevitably arise from doing so.
+   * Is there anything that is blocking me? The front end interface still needs to be finished before I can properly use it.
+   * What is the percent chance that the team will finish on time? 95%
