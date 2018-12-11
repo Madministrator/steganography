@@ -137,6 +137,11 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Try to find a function that pulls back as a basic image
    * Is anything blocking me? No major blocks currently
    * What do I believe is the percent chance that we will complete the sprint? 85%
+* (12-11-2018)
+   * What did I do? Wrote code (for testing purposes) to get greediness from user
+   * What will I do? Help to test and merge code
+   * Is anything blocking me? No majore blocks currently
+   * What do I believe is the percent chance that we will complete the sprint? 90%
 
  ## Brendan Bard
  * As a developer, I want to check if my file sizes are able to support steganography and return an error message otherwise.
