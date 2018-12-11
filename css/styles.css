@@ -16,10 +16,15 @@ label{
 	margin: 1em 10%;
 	padding: 2px;
 	background-color: black; 
+  color: white;
 }
 h1{
 	color: green;
 	align-content: center;
+}
+button{
+  color: white;
+  background-color: black;
 }
 #pageborder{
 	align-content: center;
