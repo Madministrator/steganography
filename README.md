@@ -94,6 +94,11 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Research how to convert data into a PNG file and save that PNG onto the computer.
    * Is there anything in my way? The PNG format is largely unknown to me, so the complexity of the task is a known unknown. 
    * What do I believe is the percent chance that we will complete the sprint? 70%
+* (12-11-2018)
+   * What did I do? I did some research on blobs, but no implementation.
+   * What will I do? Coordinate the integration of code between backend and front end.
+   * Is there anything in my way? Everything is in separate branches.
+   * What do I believe is the percent chance that we will complete the sprint? 85%
 
  ## Tanner Verber
  * As a programmer, I want to detect the word size of an image file so that we know what format we are working with
