@@ -59,7 +59,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Start testing my current functions and trying to hide the needle
    * Is anything blocking me? I am having issues getting a text file into a js variable to use in my other functions
    * What do I believe is the percent chance that we will complete the sprint? 70% - May have to work more outside of class to complete my part
-
+ 
+ * (12-11-2018)
+   * What did I do? I completed a working version of my tasks
+   * What will I do? Integrate my code with the front end
+   * Is anything blocking me? No
+   * What do I believe is the percent chance that we will complete the sprint? 85%
 
  ## Evan Vander Hoeven
  * As a programmer I can have a repository to share my code so that we can collaborate as a team. 
