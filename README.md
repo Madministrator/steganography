@@ -26,6 +26,11 @@
   * I will implement some more css and work on implementation.
   * Nothing but other classes
   * 70%
+* 12-11-18
+  * I implemented greedyness tracking and html tags for submit, and radio buttons for show and hide.
+  * I will work on integrating the project with my group members.
+  * Other Classes
+  * 80%
  ## Connor Fergesen
  * As a Stegnographer, I want to hide a .txt file inside an image, 
 so that the secrets inside the .txt file don't get read by the wrong people.
