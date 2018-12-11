@@ -22,15 +22,24 @@
 					<label for="HiddenFile" id="HiddenLabel" accept="image/png,image/jpg,text/txt">Upload Hidden File</label>
 					<input type="file" id="HiddenFile">
 				</div>
+				<div class="border">
+					<input type="radio" name="action" value="show"> Show 
+					<input type="radio" name="action" value="hide"> Hide 
+				</div>
+
+				<div class="border">
+					<button type="button" id="submit">Submit</button>
+				</div>
 			</section>
 			<section>
 				<p>Greedyness</p>
+				<p id="greedNumber">1</p>
 				<span>1</span><input type="range" min="1" max="8" value="1" class="slider" id="greed"><span>8</span>
 			</section>
 			<section>
 				<p>Image Display and Magnify Zone</p>
 				<div class="border">
-					<img id="original"></img>
+					<canvas id="original"></canvas>
 				</div>
 				<div class="border">
 					<canvas id="changed">

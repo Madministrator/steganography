@@ -4,6 +4,9 @@ var inputImageLabel = document.getElementById('ImageLabel');
 var inputHiddenLabel = document.getElementById('HiddenLabel');
 var originalImage = document.getElementById('original');
 var changedImage = document.getElementById('changed');
+document.getElementById('greed').addEventListener('change', function(){
+	document.getElementById('greedNumber').innerHTML = document.getElementById('greed').value;
+})
 
 inputImage.addEventListener('change', function(){applyName(inputImage,inputImageLabel)});
 
