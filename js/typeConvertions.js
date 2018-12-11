@@ -101,6 +101,8 @@ async function convertFileToCharArray(file) {
              containing a PNG file.
 */
 function convertBasicImageToBlob(basicImage) {
+    if(basicImage==null) return null;
+
     let frames = basicImage.data.buffer;
     console.log(frames);
     let rawPNG = UPNG.encode([frames], basicImage.width, basicImage.height, 0);

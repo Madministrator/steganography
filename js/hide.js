@@ -23,7 +23,7 @@ async function hideImageFile(haystackFile, needleFile, greed) {
         let basicLoadedHaystack = hideImage(basicHaystack, basicNeedle, greed);
 
         if (basicLoadedHaystack == null)
-            reject(null);
+            resolve(null);
 
         resolve(convertBasicImageToBlob(basicLoadedHaystack));
     });
@@ -53,7 +53,7 @@ async function hideTextFile(haystackFile, needleFile, greed) {
         let basicLoadedHaystack = hideText(basicHaystack, charArray, greed);
 
         if (basicLoadedHaystack == null)
-            reject(null);
+            resolve(null);
 
         resolve(convertBasicImageToBlob(basicLoadedHaystack));
     });
