@@ -17,7 +17,7 @@ async function findFile(loadedHaystackFile, greed) {
     return new Promise(async function(resolve, reject) {
         let basicLoadedHaystack = await convertFileToBasicImage(loadedHaystackFile);
 
-        if(getHiddenFileType(basicLoadedHaystack)) { //The hidden file is an Image
+        if(getHiddenFileType(basicLoadedHaystack, greed)) { //The hidden file is an Image
             let basicNeedle = findImage(basicLoadedHaystack, greed);
 
             if (basicNeedle == null)
