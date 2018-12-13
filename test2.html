@@ -47,20 +47,6 @@
                
             </section>
 
-            <script src="js/libraries/download2.js"></script>
-            <script src="js/libraries/pako.js"></script>
-            <script src="js/libraries/UPNG.js"></script>
-            <script src="js/bitManipulation.js"></script>
-            <script src="js/BasicImage.js"></script>
-            <script src="js/utility.js"></script>
-            <script src="js/typeConvertions.js"></script>
-            <script src="js/hideImage.js"></script>
-            <script src="js/hideText.js"></script>
-            <script src="js/findImage.js"></script>
-            <script src="js/findText.js"></script>
-            <script src="js/hide.js"></script>
-            <script src="js/find.js"></script>
-
             <script>
                 var resultBlob = null;
                 var recovered = false;
@@ -129,6 +115,7 @@
                             return;
                         }
                     }
+                    initializeMouseMove();
 
                 }
                 async function saveResult() {
@@ -190,6 +177,15 @@
             <section>
 
                 <div class="hide" style="display:none">
+                    <div class="border">
+                        <div>
+                            <span>Original Color Value: </span><div id="original-rgb"></div>
+                            <span>Changed Color Value: </span><div id="changed-rgb"></div>
+                        </div>
+                        <span id="x-coordinate"></span>
+                        <span id="y-coordinate"></span>
+                        <canvas id="comparison" width=100 height=100></canvas>
+                    </div>
                     <p>Original file:</p>
                     <div class="border">
                         <canvas id="original"></canvas>
@@ -211,6 +207,20 @@
             </footer>
             <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
             <script type="text/javascript" src="js/Front.js"></script>
+            <script src="js/libraries/download2.js"></script>
+            <script src="js/libraries/pako.js"></script>
+            <script src="js/libraries/UPNG.js"></script>
+            <script src="js/bitManipulation.js"></script>
+            <script src="js/BasicImage.js"></script>
+            <script src="js/utility.js"></script>
+            <script src="js/typeConvertions.js"></script>
+            <script src="js/hideImage.js"></script>
+            <script src="js/hideText.js"></script>
+            <script src="js/findImage.js"></script>
+            <script src="js/findText.js"></script>
+            <script src="js/hide.js"></script>
+            <script src="js/find.js"></script>
+            <script src="js/pixel_zoom.js"></script>
         </div>
 
 	</body>
