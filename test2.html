@@ -106,9 +106,16 @@
                             resultBlob=recoveredFile;
                             recovered=true;
 
+                            let canvas = document.getElementById("recovered");
+                            let textDisplay = document.getElementById("textDisplay");
                             if(recoveredFile.type=="image/png") {
-                                let canvas = document.getElementById("recovered");
+                                canvas.style.display="block";
+                                textDisplay.style.display="none";
                                 drawBlobOnCanvas(canvas, recoveredFile);
+                            } else {
+                                canvas.style.display="none";
+                                textDisplay.style.display="block";
+                                textDisplay.data=URL.createObjectURL(recoveredFile);
                             }
                         } else {
                             alert("No hidden file was found.");
@@ -197,8 +204,9 @@
                 </div>
                 <div class="find" style="display:none">
                     <p>Recovered file:</p>
-                    <div class="border">
-                        <canvas id="recovered"></canvas>
+                    <div class="border" align="center">
+                        <canvas id="recovered" style="display:none"></canvas>
+                        <object id="textDisplay" width="800" height="600" style="background-color:white;display:none"></object>
                     </div>
                 </div>
             </section>
