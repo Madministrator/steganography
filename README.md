@@ -31,6 +31,11 @@
   * I will work on integrating the project with my group members.
   * Other Classes
   * 80%
+* 12-13-18
+  * I implemented some css related to image sizes and integrating backend elements into my html file.
+  * I will prepare to present to the class.
+  * Other Classes
+  * 80%
  ## Connor Fergesen
  * As a Stegnographer, I want to hide a .txt file inside an image, 
 so that the secrets inside the .txt file don't get read by the wrong people.
