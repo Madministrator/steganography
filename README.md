@@ -147,6 +147,11 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Help to test and merge code
    * Is anything blocking me? No majore blocks currently
    * What do I believe is the percent chance that we will complete the sprint? 90%
+* (12-13-2018)
+   * What did I do? Researched how to access PNG chunks
+   * What will I do? Help to implement code to access PNG chunks
+   * Anything blocking me?
+   *What do I believe is the percent chance that we will complete the sprint? 90%
 
  ## Brendan Bard
  * As a developer, I want to check if my file sizes are able to support steganography and return an error message otherwise.
