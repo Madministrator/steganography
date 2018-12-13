@@ -243,7 +243,7 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What do I plan to do? I plan to hook up the back-end javascript code to our front-end interface and fix any problems that will inevitably arise from doing so.
    * Is there anything that is blocking me? The front end interface still needs to be finished before I can properly use it.
    * What is the percent chance that the team will finish on time? 95%
- * (12/11/2018)
+ * (12/13/2018)
    * What did I do? I found the bug that plagued our team last time. Then I hooked the back-end up to the front-end. 
    * What do I plan to do? I plan to help fix whatever needs to be finished. 
    * Is there anything that is blocking me? Nope. 
