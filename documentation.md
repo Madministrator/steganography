@@ -47,3 +47,12 @@ function <functionName>(param1, param2)
 	//function body
 }
 ~~~~
+
+## Issues with asynchronous functions
+In order to handle the blob data type for our algorithm, we need an asynchronous function. Async functions are relatively new, and we not all web browsers support it. Here is our list of browsers that provide basic support of this feature. Without basic support of this feature, we cannot guarentee that the steganography application will work.
+* Google Chrome: version 55 or later
+* Edge: All versions provide basic support
+* Firefox: version 52 or later
+* Internet explorer provides no support.
+* Opera: version 42 or later
+* Safari: Version 10.1 or later
