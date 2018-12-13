@@ -109,6 +109,11 @@ so that the secrets inside the .txt file don't get read by the wrong people.
    * What will I do? Coordinate the integration of code between backend and front end.
    * Is there anything in my way? Everything is in separate branches.
    * What do I believe is the percent chance that we will complete the sprint? 85%
+* (12-13-2018)
+   * What did I do? I worked last Tuesday to coordinate the attachment of the front end and back end.
+   * What will I do? Coordinate the finalization of the application and run testing.
+   * Is there anything in my way? Some naming conventions were inconsistent between the front end and back end, those need to be resolved during the merge.
+   * What do I believe is the percent chance that we will complete the sprint? 90%
 
  ## Tanner Verber
  * As a programmer, I want to detect the word size of an image file so that we know what format we are working with
