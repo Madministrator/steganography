@@ -18,34 +18,33 @@
                     <input type="radio" name="operation" value="hide" checked="true" onchange="setHideVisibility()"> Hide
                     <input type="radio" name="operation" value="find" onchange="setHideVisibility()"> Find
                 </div>
-                <div class="hide">
+                <div class="hide" style="display:none">
                     <p>Please select the Image file you wish to hide your other file inside of.</p>
                 </div>
-                <div class="find">
+                <div class="find" style="display:none">
                     <p>Please select the Image file containing the hidden file.</p>
                 </div>
                 <div class="border">
                     <label for="ImageFile" id="ImageLabel">Select Image File</label>
-                    <input type="file" id="ImageFile" accept=".png,.jpg">
+                    <input type="file" id="ImageFile" accept=".png,.jpg" onchange="onSelectionChange()">
                 </div>
-                <div class="hide">
+                <div class="hide" style="display:none">
                     <p>Please select the PNG image or TXT file you wish to hide.</p>
                     <div class="border">
                         <label for="HiddenFile" id="HiddenLabel" accept=".png,.txt">Select Hidden File</label>
-                        <input type="file" id="HiddenFile">
+                        <input type="file" id="HiddenFile" onchange="onSelectionChange()">
                     </div>
                 </div>
-                <p>Please select how greedy the algorithm should be. </p>
-                <div class="hide">
-                    <p>The higher you set this value the more data you can hide but the more distorted the resulting image becomes.</p>
+                <div class="hide" style="display:none">
+                    <p>Please set greed level. The higher you set this value the more data you can hide but the more distorted the resulting image becomes.</p>
                 </div>
-                <div class="find">
-                    <p>You must use the same greed level you used to hide the hidden file to recover it.</p>
+                <div class="find" style="display:none">
+                    <p>Please set greed level. You must use the same greed level you used to hide the hidden file to recover it.</p>
                 </div>
-                <div class="border">
-                    <p id="greedNumber">1</p>
-                    <span>1</span><input type="range" min="1" max="8" value="1" class="slider" id="greed"><span>8</span>
-                </div>
+                
+                <p id="greedNumber">1</p>
+                <span>1</span><input type="range" min="1" max="8" value="1" class="slider" id="greed" onchange="onSelectionChange()"><span>8</span>
+               
             </section>
 
             <script src="js/libraries/download2.js"></script>
@@ -63,6 +62,9 @@
             <script src="js/find.js"></script>
 
             <script>
+                var resultBlob = null;
+                var recovered = false;
+
                 async function execute() {
 
                     let greed = document.getElementById("greed").value;
@@ -103,16 +105,24 @@
                             alert("Your haystack image was not large enough to hide your file at the current greed level.");
                             return;
                         }
-                        download(loadedHaystackBlob, "LoadedHaystack.png", "image/png");
+                        let canvasOriginal = document.getElementById("original");
+                        drawBlobOnCanvas(canvasOriginal, haystackBlob);
+                        let canvasChanged = document.getElementById("changed");
+                        drawBlobOnCanvas(canvasChanged, loadedHaystackBlob);
+
+                        resultBlob=loadedHaystackBlob;
+                        recovered=false;
                         //If the user is trying to find a hidden file
                     } else {
                         let recoveredFile = await findFile(haystackBlob, greed);
 
                         if(recoveredFile!=null) {
+                            resultBlob=recoveredFile;
+                            recovered=true;
+
                             if(recoveredFile.type=="image/png") {
-                                download(recoveredFile, "Needle.png", "image/png");
-                            } else {
-                                download(recoveredFile, "Needle.txt", "text/plain");
+                                let canvas = document.getElementById("recovered");
+                                drawBlobOnCanvas(canvas, recoveredFile);
                             }
                         } else {
                             alert("No hidden file was found.");
@@ -121,10 +131,28 @@
                     }
 
                 }
-                function saveResult() {
-
+                async function saveResult() {
+                    if(resultBlob!=null) {
+                        if(recovered) {
+                            if(resultBlob.type=="image/png") {
+                                download(resultBlob, "Needle.png", "image/png");
+                            } else {
+                                download(resultBlob, "Needle.txt", "text/plain");
+                            }
+                        } else {
+                            download(resultBlob, "LoadedHaystack.png", "image/png");
+                        }
+                    } else {
+                        await execute();
+                        if(resultBlob==null) {
+                            return;
+                        }
+                        saveResult();
+                    }
                 }
                 function setHideVisibility() {
+                    onSelectionChange();
+
                     let divHide = document.getElementsByClassName("hide");
                     let divFind = document.getElementsByClassName("find");
 
@@ -140,6 +168,9 @@
                         for(let i=0;i<divHide.length;i++)
                             divHide[i].style.display="none";
                     }
+                }
+                function onSelectionChange() {
+                    resultBlob=null;
                 }
             </script>
 
@@ -157,13 +188,22 @@
             </section>
             <br />
             <section>
-                <p>Haystack image:</p>
-                <div class="border">
-                    <canvas id="original"></canvas>
+
+                <div class="hide" style="display:none">
+                    <p>Original file:</p>
+                    <div class="border">
+                        <canvas id="original"></canvas>
+                    </div>
+                    <p>File with hidden data:</p>
+                    <div class="border">
+                        <canvas id="changed"></canvas>
+                    </div>
                 </div>
-                <p>Resulting image:</p>
-                <div class="border">
-                    <canvas id="changed"></canvas>
+                <div class="find" style="display:none">
+                    <p>Recovered file:</p>
+                    <div class="border">
+                        <canvas id="recovered"></canvas>
+                    </div>
                 </div>
             </section>
             <footer>
