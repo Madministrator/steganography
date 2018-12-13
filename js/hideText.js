@@ -91,9 +91,9 @@ hideText = function (haystack, needle, greed) {
 
                     //We still need to write the text file flag
                 } else {
-
                     //The first bit of the header is always false representing that this is an text file.
                     haystackWithNeedleData[haystackByte] = setBit(haystackWithNeedleData[haystackByte], haystackBit, false);
+                   
                     //Record that the header type flag has been written
                     textFlagWritten = true;
 

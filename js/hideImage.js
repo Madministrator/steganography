@@ -93,9 +93,9 @@ function hideImage(haystack, needle, greed) {
 
                 //We still need to write the image flag
                 } else {
-
 		            //The first bit of the header is always true representing that this is an image.
 		            haystackWithNeedleData[haystackByte]=setBit(haystackWithNeedleData[haystackByte], haystackBit, true);
+                   
                     //Record that the header type flag has been written
 		            fileTypeFlagWritten = true;
 

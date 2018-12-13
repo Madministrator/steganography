@@ -97,3 +97,17 @@ function getMaxHiddenSize(haystack, greediness, includeAlpha)
 function getHiddenFileType(loadedHaystack, greed) {
     return isBitSet(loadedHaystack.data[0], 8 - greed);
 }
+
+//Draws a blob on canvas
+function drawBlobOnCanvas(canvas, blob) {
+    if (blob.type == "image/png") {
+        let ctx = canvas.getContext('2d');
+        let img = new Image();
+        img.onload = function () {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+        }
+        img.src = URL.createObjectURL(blob);
+    }
+}

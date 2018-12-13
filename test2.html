@@ -1,0 +1,218 @@
+﻿<!doctype html>
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="google" content="notranslate">
+		<title>Steganography Project</title>
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
+	</head>
+	<body onload="setHideVisibility()">
+        <div id="pageborder">
+            <header>
+                <h1>Steganography Project</h1>
+            </header>
+            <section>
+                <p>Are you hiding a file inside of an image file or are you finding an already hidden file from an image?</p>
+                <div class="border">
+                    <input type="radio" name="operation" value="hide" checked="true" onchange="setHideVisibility()"> Hide
+                    <input type="radio" name="operation" value="find" onchange="setHideVisibility()"> Find
+                </div>
+                <div class="hide" style="display:none">
+                    <p>Please select the Image file you wish to hide your other file inside of.</p>
+                </div>
+                <div class="find" style="display:none">
+                    <p>Please select the Image file containing the hidden file.</p>
+                </div>
+                <div class="border">
+                    <label for="ImageFile" id="ImageLabel">Select Image File</label>
+                    <input type="file" id="ImageFile" accept=".png,.jpg" onchange="onSelectionChange()">
+                </div>
+                <div class="hide" style="display:none">
+                    <p>Please select the PNG image or TXT file you wish to hide.</p>
+                    <div class="border">
+                        <label for="HiddenFile" id="HiddenLabel" accept=".png,.txt">Select Hidden File</label>
+                        <input type="file" id="HiddenFile" onchange="onSelectionChange()">
+                    </div>
+                </div>
+                <div class="hide" style="display:none">
+                    <p>Please set greed level. The higher you set this value the more data you can hide but the more distorted the resulting image becomes.</p>
+                </div>
+                <div class="find" style="display:none">
+                    <p>Please set greed level. You must use the same greed level you used to hide the hidden file to recover it.</p>
+                </div>
+                
+                <p id="greedNumber">1</p>
+                <span>1</span><input type="range" min="1" max="8" value="1" class="slider" id="greed" onchange="onSelectionChange()"><span>8</span>
+               
+            </section>
+
+            <script src="js/libraries/download2.js"></script>
+            <script src="js/libraries/pako.js"></script>
+            <script src="js/libraries/UPNG.js"></script>
+            <script src="js/bitManipulation.js"></script>
+            <script src="js/BasicImage.js"></script>
+            <script src="js/utility.js"></script>
+            <script src="js/typeConvertions.js"></script>
+            <script src="js/hideImage.js"></script>
+            <script src="js/hideText.js"></script>
+            <script src="js/findImage.js"></script>
+            <script src="js/findText.js"></script>
+            <script src="js/hide.js"></script>
+            <script src="js/find.js"></script>
+
+            <script>
+                var resultBlob = null;
+                var recovered = false;
+
+                async function execute() {
+
+                    let greed = document.getElementById("greed").value;
+                    if(greed=="") {
+                        alert("Please select a greed level");
+                        return;
+                    }
+
+                    let radioButtons = document.getElementsByName("operation");
+                    let hide=false;
+                    if(radioButtons[0].checked==true) hide=true;
+
+                    let haystackBlob = document.getElementById('ImageFile').files.item(0);
+                    if(haystackBlob==null) {
+                        alert("Please select your Haystack image");
+                        return;
+                    }
+
+                    //If the user is trying to hide a file
+                    if(hide) {
+                        let needleBlob = document.getElementById('HiddenFile').files.item(0);
+                        if(needleBlob==null) {
+                            alert("Please select a file you want to hide");
+                            return;
+                        }
+
+                        let loadedHaystackBlob = null;
+                        if(needleBlob.type=="image/png") {
+                            loadedHaystackBlob = await hideImageFile(haystackBlob, needleBlob, greed);
+                        } else if(needleBlob.type=="text/plain") {
+                            loadedHaystackBlob = await hideTextFile(haystackBlob, needleBlob, greed);
+                        } else {
+                            alert("Invalid file selected for hiding.");
+                            return;
+                        }
+
+                        if(loadedHaystackBlob==null) {
+                            alert("Your haystack image was not large enough to hide your file at the current greed level.");
+                            return;
+                        }
+                        let canvasOriginal = document.getElementById("original");
+                        drawBlobOnCanvas(canvasOriginal, haystackBlob);
+                        let canvasChanged = document.getElementById("changed");
+                        drawBlobOnCanvas(canvasChanged, loadedHaystackBlob);
+
+                        resultBlob=loadedHaystackBlob;
+                        recovered=false;
+                        //If the user is trying to find a hidden file
+                    } else {
+                        let recoveredFile = await findFile(haystackBlob, greed);
+
+                        if(recoveredFile!=null) {
+                            resultBlob=recoveredFile;
+                            recovered=true;
+
+                            if(recoveredFile.type=="image/png") {
+                                let canvas = document.getElementById("recovered");
+                                drawBlobOnCanvas(canvas, recoveredFile);
+                            }
+                        } else {
+                            alert("No hidden file was found.");
+                            return;
+                        }
+                    }
+
+                }
+                async function saveResult() {
+                    if(resultBlob!=null) {
+                        if(recovered) {
+                            if(resultBlob.type=="image/png") {
+                                download(resultBlob, "Needle.png", "image/png");
+                            } else {
+                                download(resultBlob, "Needle.txt", "text/plain");
+                            }
+                        } else {
+                            download(resultBlob, "LoadedHaystack.png", "image/png");
+                        }
+                    } else {
+                        await execute();
+                        if(resultBlob==null) {
+                            return;
+                        }
+                        saveResult();
+                    }
+                }
+                function setHideVisibility() {
+                    onSelectionChange();
+
+                    let divHide = document.getElementsByClassName("hide");
+                    let divFind = document.getElementsByClassName("find");
+
+                    let radioButtons = document.getElementsByName("operation");
+                    if(radioButtons[0].checked==true) {
+                        for(let i=0;i<divHide.length;i++)
+                            divHide[i].style.display="block";
+                        for(let i=0;i<divFind.length;i++)
+                            divFind[i].style.display="none";
+                    } else {
+                        for(let i=0;i<divFind.length;i++)
+                            divFind[i].style.display="block";
+                        for(let i=0;i<divHide.length;i++)
+                            divHide[i].style.display="none";
+                    }
+                }
+                function onSelectionChange() {
+                    resultBlob=null;
+                }
+            </script>
+
+            <section>
+                <div class="hide">
+                    <p>Press "Submit" to hide the file and preview the result below. Press "Save Result" to save the generated image to your disk.</p>
+                </div>
+                <div class="find">
+                    <p>Press "Submit" to find the hidden file and preview the result below. Press "Save Result" to save the recovered file to your disk.</p>
+                </div>
+                <div class="border">
+                    <button type="button" onclick="execute()">Submit</button>
+                    <button type="button" onclick="saveResult()">Save Result</button>
+                </div>
+            </section>
+            <br />
+            <section>
+
+                <div class="hide" style="display:none">
+                    <p>Original file:</p>
+                    <div class="border">
+                        <canvas id="original"></canvas>
+                    </div>
+                    <p>File with hidden data:</p>
+                    <div class="border">
+                        <canvas id="changed"></canvas>
+                    </div>
+                </div>
+                <div class="find" style="display:none">
+                    <p>Recovered file:</p>
+                    <div class="border">
+                        <canvas id="recovered"></canvas>
+                    </div>
+                </div>
+            </section>
+            <footer>
+                &copy; 2018 Nicholas LaBelle, Evan Vander Hoeven, Tanner Verber, Brendan Bard, Austin Scott and Connor Fergesen
+            </footer>
+            <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+            <script type="text/javascript" src="js/Front.js"></script>
+        </div>
+
+	</body>
+		
+</html>
