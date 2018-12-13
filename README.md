@@ -194,6 +194,12 @@ so that the secrets inside the .txt file don't get read by the wrong people.
   * What will I do? Probably still focus on SGX.
   * Is there anything blocking me? I can't stop thinking about SGX.
   * What do I believe is the percent chance that we will complete the sprint? 75%
+
+* (12-13-2018)
+  * What did I do? Nothing from last time.
+  * What will I do? Intergrate the pixel comparison.
+  * Is there anything blocking me? Just now.
+  * What do I believe is the percent chance that we will complete the sprint? 85%
   
  ## Austin Scott
  * As a programmer, I want a fixed length header to guide my file discovery algorithm so that we stop decrypting at the end of the hidden file.
