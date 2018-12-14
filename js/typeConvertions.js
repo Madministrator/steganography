@@ -43,8 +43,8 @@ function convertCanvasToImage(canvas) {
 */
 function convertImageToBasicImage(image) {
     let canvas = convertImageToCanvas(image);
-    let width = image.width;
-    let height = image.height;
+    let width = canvas.width;
+    let height = canvas.height;
     let data = canvas.getContext("2d").getImageData(0, 0, width, height);
     return new BasicImage(width, height, data.data);
 }

@@ -31,7 +31,7 @@
                 <div class="hide" style="display:none">
                     <p>Please select the PNG image or TXT file you wish to hide.</p>
                     <div class="border">
-                        <label for="HiddenFile" id="HiddenLabel" accept=".png,.txt">Select Hidden File</label>
+                        <label for="HiddenFile" id="HiddenLabel" accept=".png,.jpg,.txt">Select Hidden File</label>
                         <input type="file" id="HiddenFile" onchange="onSelectionChange()">
                     </div>
                 </div>
@@ -41,11 +41,29 @@
                 <div class="find" style="display:none">
                     <p>Please set greed level. You must use the same greed level you used to hide the hidden file to recover it.</p>
                 </div>
-                
+
                 <p id="greedNumber">1</p>
                 <span>1</span><input type="range" min="1" max="8" value="1" class="slider" id="greed" onchange="onSelectionChange()"><span>8</span>
-               
+
             </section>
+
+            <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+            <script type="text/javascript" src="js/Front.js"></script>
+            <script src="js/libraries/download2.js"></script>
+            <script src="js/libraries/pako.js"></script>
+            <script src="js/libraries/UPNG.js"></script>
+            <script src="js/bitManipulation.js"></script>
+            <script src="js/BasicImage.js"></script>
+            <script src="js/utility.js"></script>
+            <script src="js/typeConvertions.js"></script>
+            <script src="js/hideImage.js"></script>
+            <script src="js/hideText.js"></script>
+            <script src="js/findImage.js"></script>
+            <script src="js/findText.js"></script>
+            <script src="js/hide.js"></script>
+            <script src="js/find.js"></script>
+            <script src="js/pixel_zoom.js"></script>
+            <script src="js/StandardizeImg.js"></script>
 
             <script>
                 var resultBlob = null;
@@ -213,22 +231,6 @@
             <footer>
                 &copy; 2018 Nicholas LaBelle, Evan Vander Hoeven, Tanner Verber, Brendan Bard, Austin Scott and Connor Fergesen
             </footer>
-            <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-            <script type="text/javascript" src="js/Front.js"></script>
-            <script src="js/libraries/download2.js"></script>
-            <script src="js/libraries/pako.js"></script>
-            <script src="js/libraries/UPNG.js"></script>
-            <script src="js/bitManipulation.js"></script>
-            <script src="js/BasicImage.js"></script>
-            <script src="js/utility.js"></script>
-            <script src="js/typeConvertions.js"></script>
-            <script src="js/hideImage.js"></script>
-            <script src="js/hideText.js"></script>
-            <script src="js/findImage.js"></script>
-            <script src="js/findText.js"></script>
-            <script src="js/hide.js"></script>
-            <script src="js/find.js"></script>
-            <script src="js/pixel_zoom.js"></script>
         </div>
 
 	</body>
