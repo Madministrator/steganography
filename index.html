@@ -182,6 +182,7 @@
                     }
                 }
                 function onSelectionChange() {
+                    URL.revokeObjectURL(resultBlob);
                     resultBlob=null;
                 }
             </script>
