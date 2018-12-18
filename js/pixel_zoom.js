@@ -27,6 +27,15 @@ function convertDecToHexString(dec) {
     return string;
 }
 
+function padNumberString(num, width) {
+    let numString = Number(num).toString(10);
+    let spaces = width - numString.length;
+    for (let i = 0; i < spaces; i++) {
+        numString = " " + numString;
+    }
+    return numString;
+}
+
 function convertRGBtoHexString(r, g, b) {
     return "#" + convertDecToHexString(r) + convertDecToHexString(g) + convertDecToHexString(b);
 }
@@ -92,17 +101,19 @@ function showComparison(event)
   context_compare.fillStyle = convertRGBtoHexString(redChanged, greenChanged, blueChanged);
   context_compare.fillRect(widthToDisplay, 0, widthToDisplay, heightToDisplay);
 
-  document.getElementById('original-rgb').innerHTML = 'Red: ' + redOriginal +
-                                                      ' Green: ' + greenOriginal +
-                                                      ' Blue: ' + blueOriginal +
-                                                      ' Alpha: ' + alphaOriginal;
-  document.getElementById('changed-rgb').innerHTML = 'Red: ' + redChanged +
-                                                      ' Green: ' + greenChanged +
-                                                      ' Blue: ' + blueChanged +
-                                                      ' Alpha: ' + alphaChanged;
-  // Add Coordinate Data    
-  document.getElementById('x-coordinate').innerHTML = 'X: ' + x;
-  document.getElementById('y-coordinate').innerHTML = 'Y: ' + y;
+  document.getElementById('original-rgb').innerHTML = '<pre><small>Red:</small><strong>' + padNumberString(redOriginal,3) + '</strong>' +
+                                                      ' <small>Green:</small><strong>' + padNumberString(greenOriginal,3) + '</strong>' +
+                                                      ' <small>Blue:</small><strong>' + padNumberString(blueOriginal,3) + '</strong>' +
+                                                      ' <small>Alpha:</small><strong>' + padNumberString(alphaOriginal,3) + '</strong></pre>';
+  document.getElementById('changed-rgb').innerHTML = '<pre><small>Red:</small><strong>' + padNumberString(redChanged,3) + '</strong>' +
+                                                      ' <small>Green:</small><strong>' + padNumberString(greenChanged,3) + '</strong>' +
+                                                      ' <small>Blue:</small><strong>' + padNumberString(blueChanged,3) + '</strong>' +
+                                                      ' <small>Alpha:</small><strong>' + padNumberString(alphaChanged,3) + '</strong></pre>';
+    // Add Coordinate Data 
+  let maxWidth = Number(width).toString(10).length;
+  document.getElementById('x-coordinate').innerHTML = '<pre><small>X:</small><strong>' + padNumberString(x, maxWidth) + '</strong></pre>';
+  let maxHeight = Number(height).toString(10).length;
+  document.getElementById('y-coordinate').innerHTML = ' <pre><small>Y:</small><strong>' + padNumberString(y, maxHeight) + '</strong></pre>';
 
   
 }
