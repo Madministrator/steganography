@@ -100,7 +100,7 @@ function getHiddenFileType(loadedHaystack, greed) {
 
 //Draws a blob on canvas
 function drawBlobOnCanvas(canvas, blob) {
-    if (blob.type == "image/png") {
+    if (blob.type == "image/png" || blob.type== "image/jpeg") {
         let ctx = canvas.getContext('2d');
         let img = new Image();
         img.onload = function () {

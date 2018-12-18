@@ -19,17 +19,17 @@
                     <input type="radio" name="operation" value="find" onchange="setHideVisibility()"> Find
                 </div>
                 <div class="hide" style="display:none">
-                    <p>Please select the Image file you wish to hide your other file inside of.</p>
+                    <p>Please select the image file you wish to hide your other file inside of.</p>
                 </div>
                 <div class="find" style="display:none">
-                    <p>Please select the Image file containing the hidden file.</p>
+                    <p>Please select the image file containing the hidden file.</p>
                 </div>
                 <div class="border">
                     <label for="ImageFile" id="ImageLabel">Select Image File</label>
                     <input type="file" id="ImageFile" accept=".png,.jpg" onchange="onSelectionChange()">
                 </div>
                 <div class="hide" style="display:none">
-                    <p>Please select the PNG image or TXT file you wish to hide.</p>
+                    <p>Please select the image or text file you wish to hide.</p>
                     <div class="border">
                         <label for="HiddenFile" id="HiddenLabel" accept=".png,.jpg,.txt">Select Hidden File</label>
                         <input type="file" id="HiddenFile" onchange="onSelectionChange()">
@@ -52,6 +52,7 @@
             <script src="js/libraries/download2.js"></script>
             <script src="js/libraries/pako.js"></script>
             <script src="js/libraries/UPNG.js"></script>
+            <script src="js/libraries/jpg.js"></script>
             <script src="js/bitManipulation.js"></script>
             <script src="js/BasicImage.js"></script>
             <script src="js/utility.js"></script>
@@ -96,7 +97,7 @@
                         }
 
                         let loadedHaystackBlob = null;
-                        if(needleBlob.type=="image/png") {
+                        if(needleBlob.type=="image/png" || needleBlob.type=="image/jpeg") {
                             loadedHaystackBlob = await hideImageFile(haystackBlob, needleBlob, greed);
                         } else if(needleBlob.type=="text/plain") {
                             loadedHaystackBlob = await hideTextFile(haystackBlob, needleBlob, greed);

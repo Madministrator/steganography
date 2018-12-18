@@ -60,16 +60,64 @@ function convertImageToBasicImage(image) {
             of BasicImage (from BasicImage.js)
 */
 async function convertFileToBasicImage(file) {
-    return new Promise(function(resolve, reject) {
-        let reader = new FileReader();
-        reader.readAsArrayBuffer(file);
-        reader.onloadend = function(event) {
-            let image = UPNG.decode(reader.result);
-            let unFormattedData = UPNG.toRGBA8(image)[0];
-            let data = new Uint8ClampedArray(unFormattedData);
-            resolve(new BasicImage(image.width, image.height, data));
-        }
-    });
+    if (file.type == "image/png") {
+        return new Promise(function(resolve, reject) {
+            let reader = new FileReader();
+            reader.readAsArrayBuffer(file);
+            reader.onloadend = function(event) {
+                let image = UPNG.decode(reader.result);
+                let unFormattedData = UPNG.toRGBA8(image)[0];
+                let data = new Uint8ClampedArray(unFormattedData);
+                resolve(new BasicImage(image.width, image.height, data));
+            }
+        });
+    } else { //Must be a JPEG file
+        return new Promise(function(resolve, reject) {
+            let reader = new FileReader();
+            reader.readAsArrayBuffer(file);
+            reader.onloadend = function(event) {
+                let parser = new JpegDecoder();
+                parser.parse(new Uint8Array(reader.result));
+                let width = parser.width;
+                let height = parser.height;
+                let components = parser.numComponents; //1 = grayscale, 3 = RGB, 4 = RGBA
+                let unformattedData = parser.getData(width, height);
+                let data = new Uint8ClampedArray(width*height*4);
+                if(components==1) {
+                    let i=0;
+                    for(let j=0;j<data.length;j+=4) {
+                        data[j]=unformattedData[i];
+                        data[j+1]=unformattedData[i];
+                        data[j+2]=unformattedData[i];
+                        data[j+3]=255;
+                        i++;
+                    }
+                } else if(components==3) {
+                    let i=0;
+                    for(let j=0;j<data.length;j+=4) {
+                        data[j]=unformattedData[i];
+                        data[j+1]=unformattedData[i+1];
+                        data[j+2]=unformattedData[i+2];
+                        data[j+3]=255;
+                        i+=3;
+                    }
+                } else if(components==4) {
+                    let i=0;
+                    for(let j=0;j<data.length;j+=4) {
+                        data[j]=unformattedData[i];
+                        data[j+1]=unformattedData[i+1];
+                        data[j+2]=unformattedData[i+2];
+                        data[j+3]=unformattedData[i+3];
+                        i+=4;
+                    }
+                } else {
+                    console.log("Error: Unsupported component number "+components);
+                    reject(null);
+                }
+                resolve(new BasicImage(width, height, data));
+            }
+        });
+    }
 }
 
 /**
