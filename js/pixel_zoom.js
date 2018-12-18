@@ -21,14 +21,14 @@ function getColorIndicesForCoord(x, y, width) {
 
 function showComparison(event)
 {
-  let height = canvas_one.height;
-  let width = canvas_two.width;
-  let widthToGrab = 1;
-  let heightToGrab = 1;
-  let widthToDisplay = 50;
-  let heightToDisplay = 50;
-  let x = event.layerX;
-  let y = event.layerY;
+  var height = canvas_one.height;
+  var width = canvas_two.width;
+  var widthToGrab = 1;
+  var heightToGrab = 1;
+  var widthToDisplay = 50;
+  var heightToDisplay = 50;
+  var x = event.layerX;
+  var y = event.layerY;
 
   // Display the pixels
   context_compare.drawImage(canvas_one,
