@@ -19,6 +19,18 @@ function getColorIndicesForCoord(x, y, width) {
   return [red, red + 1, red + 2, red + 3];
 }
 
+function convertDecToHexString(dec) {
+    let string = Number(dec).toString(16);
+    if (string.length < 2) {
+        string = "0" + string;
+    }
+    return string;
+}
+
+function convertRGBtoHexString(r, g, b) {
+    return "#" + convertDecToHexString(r) + convertDecToHexString(g) + convertDecToHexString(b);
+}
+
 function showComparison(event)
 {
   var height = canvas_one.height;
@@ -27,9 +39,16 @@ function showComparison(event)
   var heightToGrab = 1;
   var widthToDisplay = 50;
   var heightToDisplay = 50;
-  var x = event.layerX;
-  var y = event.layerY;
 
+  let rect = canvas_one.getBoundingClientRect();
+  var x = Math.floor(event.clientX - rect.left);
+  x = Math.max(0, x);
+  x = Math.min(width, x);
+  var y = Math.floor(event.clientY - rect.top);
+  y = Math.max(0, y);
+  y = Math.min(height, y);
+
+  /*
   // Display the pixels
   context_compare.drawImage(canvas_one,
                             Math.min(Math.max(0, x - 5), width - widthToGrab), // Don't go over the edge when clipping
@@ -43,24 +62,44 @@ function showComparison(event)
                               widthToGrab, heightToGrab, // The actual size to grab *in example, one pixel*
                               widthToDisplay, 0, // Right after the first one
                               widthToDisplay, heightToDisplay);
+  */
 
   // Display RGB Data
   let data_original = context_one.getImageData(0, 0, width, height);
   let data_changed = context_two.getImageData(0, 0, width, height);
   let colorIndices = getColorIndicesForCoord(x, y, width);
-  let redIndex = colorIndices[0];
-  let greenIndex = colorIndices[1];
-  let blueIndex = colorIndices[2];
-  let alphaIndex = colorIndices[3];
 
-  document.getElementById('original-rgb').innerHTML = 'Red: ' + data_original.data[redIndex] + 
-                                                      ' Green: ' + data_original.data[greenIndex] +
-                                                      ' Blue: ' + data_original.data[blueIndex] +
-                                                      ' Alpha: ' + data_original.data[alphaIndex];
-  document.getElementById('changed-rgb').innerHTML = 'Red: ' + data_changed.data[redIndex] + 
-                                                      ' Green: ' + data_changed.data[greenIndex] +
-                                                      ' Blue: ' + data_changed.data[blueIndex] +
-                                                      ' Alpha: ' + data_changed.data[alphaIndex];
+
+  let redIndex = colorIndices[0];
+  let redOriginal = data_original.data[redIndex];
+  let redChanged = data_changed.data[redIndex];
+
+  let greenIndex = colorIndices[1];
+  let greenOriginal = data_original.data[greenIndex];
+  let greenChanged = data_changed.data[greenIndex];
+
+  let blueIndex = colorIndices[2];
+  let blueOriginal = data_original.data[blueIndex];
+  let blueChanged = data_changed.data[blueIndex];
+
+  let alphaIndex = colorIndices[3];
+  let alphaOriginal = data_original.data[alphaIndex];
+  let alphaChanged = data_changed.data[alphaIndex];
+
+  context_compare.fillStyle = convertRGBtoHexString(redOriginal, greenOriginal, blueOriginal);
+  context_compare.fillRect(0, 0, widthToDisplay, heightToDisplay);
+
+  context_compare.fillStyle = convertRGBtoHexString(redChanged, greenChanged, blueChanged);
+  context_compare.fillRect(widthToDisplay, 0, widthToDisplay, heightToDisplay);
+
+  document.getElementById('original-rgb').innerHTML = 'Red: ' + redOriginal +
+                                                      ' Green: ' + greenOriginal +
+                                                      ' Blue: ' + blueOriginal +
+                                                      ' Alpha: ' + alphaOriginal;
+  document.getElementById('changed-rgb').innerHTML = 'Red: ' + redChanged +
+                                                      ' Green: ' + greenChanged +
+                                                      ' Blue: ' + blueChanged +
+                                                      ' Alpha: ' + alphaChanged;
   // Add Coordinate Data    
   document.getElementById('x-coordinate').innerHTML = 'X: ' + x;
   document.getElementById('y-coordinate').innerHTML = 'Y: ' + y;
