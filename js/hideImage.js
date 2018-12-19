@@ -69,9 +69,9 @@ function hideImage(haystack, needle, greed) {
     let fileTypeFlagWritten = false;
     
     //For every byte (RGBARGBARGBA...) in the haystack
-    for (let haystackByte = 0; haystackByte < haystack.data.length; haystackByte++) {
+    for (let haystackByte = 0; haystackByte < haystack.data.length && needleDataBitsToHide>0; haystackByte++) {
         //For every bit in that byte that we want to overwrite with our secret data
-        for (let haystackBit = 8 - greed; haystackBit < 8; haystackBit++) {
+        for (let haystackBit = 8 - greed; haystackBit < 8 && needleDataBitsToHide>0; haystackBit++) {
 
             //If we still have more data that needs to be hidden
             if (needleDataBitsToHide > 0) {
