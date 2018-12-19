@@ -35,9 +35,9 @@ findText = function(haystack, greed) {
     let textFlagRead = false;
 
     //For every byte (RGBARGBARGBA...) in Haystack
-    for (let haystackByte = 0; haystackByte < haystack.data.length; haystackByte++) {
+    for (let haystackByte = 0; haystackByte < haystack.data.length && (bitsToReadForHeader > 0 || bitsToReadForNeedle > 0); haystackByte++) {
         //For every bit where data should be hidden in that byte
-        for (let haystackBit = 8 - greed; haystackBit < 8; haystackBit++) {
+        for (let haystackBit = 8 - greed; haystackBit < 8 && (bitsToReadForHeader>0 || bitsToReadForNeedle>0); haystackBit++) {
 
 
             //If we still need to read more bits to finish constructing the header
