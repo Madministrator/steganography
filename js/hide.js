@@ -22,8 +22,24 @@ async function hideImageFile(haystackFile, needleFile, greed) {
  
         let basicLoadedHaystack = hideImage(basicHaystack, basicNeedle, greed);
 
-        if (basicLoadedHaystack == null)
+        if (basicLoadedHaystack == null) {
+            let minGreed=1;
+            for(;minGreed<9;minGreed++) {
+                if(canHideImage(basicHaystack.data.length, basicNeedle.data.length, minGreed)){
+                    break;
+                }
+            }
+            if(minGreed<9) {
+                if(minGreed!=8) {
+                    alert("Greed level "+greed+" is insufficient to hide your file. Please use greed level "+minGreed+" or higher.");
+                } else {
+                    alert("Greed level "+greed+" is insufficient to hide your file. Please use greed level 8.");
+                }
+            } else {
+                alert("Your haystack image is too small to hide your needle file at any greed level. Please choose a larger haystack image.");
+            }
             resolve(null);
+        }
 
         resolve(convertBasicImageToBlob(basicLoadedHaystack));
     });
@@ -52,8 +68,24 @@ async function hideTextFile(haystackFile, needleFile, greed) {
  
         let basicLoadedHaystack = hideText(basicHaystack, charArray, greed);
 
-        if (basicLoadedHaystack == null)
+        if (basicLoadedHaystack == null) {
+            let minGreed=1;
+            for(;minGreed<9;minGreed++) {
+                if(canHideText(basicHaystack.data.length, charArray.length, minGreed)){
+                    break;
+                }
+            }
+            if(minGreed<9) {
+                if(minGreed!=8) {
+                    alert("Greed level "+greed+" is insufficient to hide your file. Please use greed level "+minGreed+" or higher.");
+                } else {
+                    alert("Greed level "+greed+" is insufficient to hide your file. Please use greed level 8.");
+                }
+            } else {
+                alert("Your haystack image is too small to hide your needle file at any greed level. Please choose a larger haystack image.");
+            }
             resolve(null);
+        }
 
         resolve(convertBasicImageToBlob(basicLoadedHaystack));
     });
