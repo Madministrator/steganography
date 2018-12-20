@@ -57,22 +57,6 @@ function showComparison(event)
   y = Math.max(0, y);
   y = Math.min(height, y);
 
-  /*
-  // Display the pixels
-  context_compare.drawImage(canvas_one,
-                            Math.min(Math.max(0, x - 5), width - widthToGrab), // Don't go over the edge when clipping
-                            Math.min(Math.max(0, y - 5), height - heightToGrab), // Ditto
-                            widthToGrab, heightToGrab, // The actual size to grab *in example, one pixel*
-                            0, 0, // Top corner
-                            widthToDisplay, heightToDisplay);
-  context_compare.drawImage(canvas_two, // The canvas to compare to
-                              Math.min(Math.max(0, x - 5), width - widthToGrab),// Don't go over the edge when clipping
-                              Math.min(Math.max(0, y - 5), height - heightToGrab), // Ditto
-                              widthToGrab, heightToGrab, // The actual size to grab *in example, one pixel*
-                              widthToDisplay, 0, // Right after the first one
-                              widthToDisplay, heightToDisplay);
-  */
-
   // Display RGB Data
   let data_original = context_one.getImageData(0, 0, width, height);
   let data_changed = context_two.getImageData(0, 0, width, height);
