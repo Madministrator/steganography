@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="google" content="notranslate">
+	<title>Steganography</title>
+	<link href="css/bootstrap.min.css" type="text/css" rel="stylesheet">
+</head>
+
+<body> <!--onload="setHideVisibility()"-->
+	<div class="container-fluid">
+		<h1 class="text-center">Steganography Project</h1>
+		<div id="taskSelection">
+		<h3>Are you hiding a file inside of an image file, or are you finding an already hidden file from an image?</h3>
+		<input type="radio" name="operation" value="hide" checked="true" onChange="setHideVisibility()"> Hide
+		<input type="radio" name="operation" value="find" onchange="setHideVisibility()"> Find
+		</div> <!-- end div taskSelection -->
+		<div class="hide" style="display:none">
+			<p>Please select the image file you wish to hide your other file inside of:</p>
+		</div>
+	</div>
+	<!-- Javascript for Bootstrap -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+	<!-- Javascript for steganography -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+            <script type="text/javascript" src="js/Front.js"></script>
+            <script src="js/libraries/download2.js"></script>
+            <script src="js/libraries/pako.js"></script>
+            <script src="js/libraries/UPNG.js"></script>
+            <script src="js/libraries/jpg.js"></script>
+            <script src="js/bitManipulation.js"></script>
+            <script src="js/BasicImage.js"></script>
+            <script src="js/utility.js"></script>
+            <script src="js/typeConvertions.js"></script>
+            <script src="js/hideImage.js"></script>
+            <script src="js/hideText.js"></script>
+            <script src="js/findImage.js"></script>
+            <script src="js/findText.js"></script>
+            <script src="js/hide.js"></script>
+            <script src="js/find.js"></script>
+            <script src="js/pixel_zoom.js"></script>
+            <script src="js/StandardizeImg.js"></script>
+	
+	<!--JavaScript to start the process-->
+	<script>
+                var resultBlob = null;
+                var recovered = false;
+
+                async function execute() {
+
+                    let greed = document.getElementById("greed").value;
+                    if(greed=="") {
+                        alert("Please select a greed level");
+                        return;
+                    }
+
+                    let radioButtons = document.getElementsByName("operation");
+                    let hide=false;
+                    if(radioButtons[0].checked==true) hide=true;
+
+                    let haystackBlob = document.getElementById('ImageFile').files.item(0);
+                    if(haystackBlob==null) {
+                        alert("Please select your Haystack image");
+                        return;
+                    }
+
+                    //If the user is trying to hide a file
+                    if(hide) {
+                        let needleBlob = document.getElementById('HiddenFile').files.item(0);
+                        if(needleBlob==null) {
+                            alert("Please select a file you want to hide");
+                            return;
+                        }
+
+                        let loadedHaystackBlob = null;
+                        if(needleBlob.type=="image/png" || needleBlob.type=="image/jpeg") {
+                            loadedHaystackBlob = await hideImageFile(haystackBlob, needleBlob, greed);
+                        } else if(needleBlob.type=="text/plain") {
+                            loadedHaystackBlob = await hideTextFile(haystackBlob, needleBlob, greed);
+                        } else {
+                            alert("Invalid file selected for hiding.");
+                            return;
+                        }
+
+                        if(loadedHaystackBlob==null) {
+                            //Haystack wasn't large enough to hide the needle, abort
+                            return;
+                        }
+                        let canvasOriginal = document.getElementById("original");
+                        drawBlobOnCanvas(canvasOriginal, haystackBlob);
+                        let canvasChanged = document.getElementById("changed");
+                        drawBlobOnCanvas(canvasChanged, loadedHaystackBlob);
+
+                        resultBlob=loadedHaystackBlob;
+                        recovered=false;
+                        //If the user is trying to find a hidden file
+                    } else {
+                        let recoveredFile = await findFile(haystackBlob, greed);
+
+                        if(recoveredFile!=null) {
+                            resultBlob=recoveredFile;
+                            recovered=true;
+
+                            let canvas = document.getElementById("recovered");
+                            let textDisplay = document.getElementById("textDisplay");
+                            if(recoveredFile.type=="image/png") {
+                                canvas.style.display="block";
+                                textDisplay.style.display="none";
+                                drawBlobOnCanvas(canvas, recoveredFile);
+                            } else {
+                                canvas.style.display="none";
+                                textDisplay.style.display="block";
+                                textDisplay.data=URL.createObjectURL(recoveredFile);
+                            }
+                        } else {
+                            alert("No hidden file was found.");
+                            return;
+                        }
+                    }
+                    initializeMouseMove();
+
+                }
+                async function saveResult() {
+                    if(resultBlob!=null) {
+                        if(recovered) {
+                            if(resultBlob.type=="image/png") {
+                                download(resultBlob, "Needle.png", "image/png");
+                            } else {
+                                download(resultBlob, "Needle.txt", "text/plain");
+                            }
+                        } else {
+                            download(resultBlob, "LoadedHaystack.png", "image/png");
+                        }
+                    } else {
+                        await execute();
+                        if(resultBlob==null) {
+                            return;
+                        }
+                        saveResult();
+                    }
+                }
+                function setHideVisibility() {
+                    onSelectionChange();
+
+                    let divHide = document.getElementsByClassName("hide");
+                    let divFind = document.getElementsByClassName("find");
+
+                    let radioButtons = document.getElementsByName("operation");
+                    if(radioButtons[0].checked==true) {
+                        for(let i=0;i<divHide.length;i++)
+                            divHide[i].style.display="block";
+                        for(let i=0;i<divFind.length;i++)
+                            divFind[i].style.display="none";
+                    } else {
+                        for(let i=0;i<divFind.length;i++)
+                            divFind[i].style.display="block";
+                        for(let i=0;i<divHide.length;i++)
+                            divHide[i].style.display="none";
+                    }
+                }
+                function onSelectionChange() {
+                    URL.revokeObjectURL(resultBlob);
+                    resultBlob=null;
+                }
+            </script>
+</body>
+</html>
