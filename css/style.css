@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+
+#taskSelection{
+	margin: 15px auto;
+	display: block;
+}
+
+#fileSelection{
+	display: inline-block;
+}
+
+#haystackSelection, #needleSelection{
+	display: inherit;
+	width: 45%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+
+/*The @media tags make the website more mobile friendly and scale to screen size*/
+
+/*Small devices such as landscape-oriented mobile phones (576px and up)*/
+@media (min-width: 576px){
+	
+}
+
+/*Medium devices such as tablets (768px and up)*/
+@media (min-width: 768px) {
+	
+}
+
+/*Large devices such as laptops (992px and up)*/
+@media (min-width: 992px){
+	
+}
+
+/*Extra large devices such as large desktop monitors (1200px and up)*/
+@media (min-width: 1200px){
+	
+}

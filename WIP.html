@@ -4,44 +4,60 @@
 	<meta charset="utf-8">
 	<meta name="google" content="notranslate">
 	<title>Steganography</title>
+	<link href="css/style.css" type="text/css" rel="stylesheet">
 	<link href="css/bootstrap.min.css" type="text/css" rel="stylesheet">
 </head>
 
 <body> <!--onload="setHideVisibility()"-->
 	<div class="container-fluid">
 		<h1 class="text-center">Steganography Project</h1>
-		<div id="taskSelection">
-		<h3>Are you hiding a file inside of an image file, or are you finding an already hidden file from an image?</h3>
-		<input type="radio" name="operation" value="hide" checked="true" onChange="setHideVisibility()"> Hide
-		<input type="radio" name="operation" value="find" onchange="setHideVisibility()"> Find
-		</div> <!-- end div taskSelection -->
-		<div class="hide" style="display:none">
-			<p>Please select the image file you wish to hide your other file inside of:</p>
-		</div>
-	</div>
+		<div class="text-center" id="taskSetup">
+			<h3>Are you hiding a file inside of an image file, or are you finding an already hidden file from an image?</h3>
+			<div class="btn-group btn-group-toggle " id="taskSelection" data-toggle="buttons">
+				<label class="btn btn-primary active">
+					<input type="radio" name="task" id="Hide" autocomplete="off" checked="true" onChange="switchVisibility()"> <h2>Hide</h2>
+				</label>
+				<label class="btn btn-primary">
+					<input type="radio" name="task" id="find" autocomplete="off" checked="false" onChange="switchVisibility()"> <h2>Find</h2>
+				</label>
+			</div>
+			<div id="fileSelection">
+				<div class="custom-file" id="haystackSelection">
+					<label class="custom-file-label" for="haystackFile" id="haystackLabel">Haystack File</label>
+					<input class="custome-file-input" type="file" id="haystackFile" accept=".png,.jpg" onChange="onSelectionChange()">
+				</div>
+				<div class="custom-file" id="needleSelection">
+					<label class="custom-file-label" for="needleFile" id="needleLabel">Needle File</label>
+					<input class="custom-file-input" type="file" id="needleFile" accept=".png,.jpg,.txt" onchange="onSelectionChange()">
+				</div>
+			</div>
+			<div id="greedinessSelection">
+				
+			</div>
+		</div><!--End div id="taskSetup"-->
+	</div> <!--End div class="container-fluid"-->
 	<!-- Javascript for Bootstrap -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 	<!-- Javascript for steganography -->
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-            <script type="text/javascript" src="js/Front.js"></script>
-            <script src="js/libraries/download2.js"></script>
-            <script src="js/libraries/pako.js"></script>
-            <script src="js/libraries/UPNG.js"></script>
-            <script src="js/libraries/jpg.js"></script>
-            <script src="js/bitManipulation.js"></script>
-            <script src="js/BasicImage.js"></script>
-            <script src="js/utility.js"></script>
-            <script src="js/typeConvertions.js"></script>
-            <script src="js/hideImage.js"></script>
-            <script src="js/hideText.js"></script>
-            <script src="js/findImage.js"></script>
-            <script src="js/findText.js"></script>
-            <script src="js/hide.js"></script>
-            <script src="js/find.js"></script>
-            <script src="js/pixel_zoom.js"></script>
-            <script src="js/StandardizeImg.js"></script>
+	<script type="text/javascript" src="js/Front.js"></script>
+	<script src="js/libraries/download2.js"></script>
+	<script src="js/libraries/pako.js"></script>
+	<script src="js/libraries/UPNG.js"></script>
+	<script src="js/libraries/jpg.js"></script>
+	<script src="js/bitManipulation.js"></script>
+	<script src="js/BasicImage.js"></script>
+	<script src="js/utility.js"></script>
+	<script src="js/typeConvertions.js"></script>
+	<script src="js/hideImage.js"></script>
+	<script src="js/hideText.js"></script>
+	<script src="js/findImage.js"></script>
+	<script src="js/findText.js"></script>
+	<script src="js/hide.js"></script>
+	<script src="js/find.js"></script>
+	<script src="js/pixel_zoom.js"></script>
+	<script src="js/StandardizeImg.js"></script>
 	
 	<!--JavaScript to start the process-->
 	<script>
@@ -141,29 +157,38 @@
                         saveResult();
                     }
                 }
-                function setHideVisibility() {
-                    onSelectionChange();
-
-                    let divHide = document.getElementsByClassName("hide");
-                    let divFind = document.getElementsByClassName("find");
-
-                    let radioButtons = document.getElementsByName("operation");
-                    if(radioButtons[0].checked==true) {
-                        for(let i=0;i<divHide.length;i++)
-                            divHide[i].style.display="block";
-                        for(let i=0;i<divFind.length;i++)
-                            divFind[i].style.display="none";
-                    } else {
-                        for(let i=0;i<divFind.length;i++)
-                            divFind[i].style.display="block";
-                        for(let i=0;i<divHide.length;i++)
-                            divHide[i].style.display="none";
-                    }
-                }
-                function onSelectionChange() {
+				
+				function onSelectionChange() {
                     URL.revokeObjectURL(resultBlob);
                     resultBlob=null;
                 }
-            </script>
+		
+                function switchVisibility() {
+                    onSelectionChange();
+					
+					let haystackLabel = document.getElementById("haystackLabel");
+					let hayStackSelection = document.getElementById("haystackSelection");
+					
+					let needleSelection = document.getElementById("needleSelection");
+
+                    let radioButtons = document.getElementsByName("task");
+					
+                    if(radioButtons[0].checked==true) 
+					{
+                    	haystackLabel.innerHTML = "Haystack Image";
+						needleSelection.style.display = "inline-block";
+                    } 
+					else 
+					{
+						haystackLabel.innerHTML = "Steganographied Image";
+						needleSelection.style.display = "none";
+                    }
+                }
+		
+		//This function allows the custom-file Bootstrap objects to display the filenames on upload
+		$('.custom-file input').change(function (e) {
+        	$(this).next('.custom-file-label').html(e.target.files[0].name);
+    	});
+	</script>
 </body>
 </html>
