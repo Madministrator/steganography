@@ -11,7 +11,7 @@
 <body> <!--onload="setHideVisibility()"-->
 	<div class="container-fluid">
 		<h1 class="text-center">Steganography Project</h1>
-		<h6 class="text-muted text-center">Bootstrap isn't working? Try our <a href="index.html">previous version.</a></h6>
+		<h6 class="text-muted text-center">Bootstrap isn't working? Try our <a href="index.html">original version</a>.</h6>
 		<div class="text-center" id="taskSetup">
 			<h3>Are you hiding a file inside of an image file, or are you finding an already hidden file from an image?</h3>
 			<div class="btn-group btn-group-toggle " id="taskSelection" data-toggle="buttons">
@@ -29,18 +29,75 @@
 				<div id="haystackSelection">
 					<label for="haystackFile" id="haystackLabel">Haystack File</label>
 					<input type="file" id="haystackFile" accept=".png,.jpg" onChange="onSelectionChange()">
+					<h3><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#haystackPreview" aria-expanded="false" aria-controls="languageList">Preview the image</button></h3>
+					<div class="collapse" id="haystackPreview">
+						Work in progress, some javascript will determine if the image exists, and then will display it here. If there has been no input, an error message will display.
+					</div>
 				</div>
 				<div id="needleSelection">
 					<label for="needleFile" id="needleLabel">Needle File</label>
 					<input type="file" id="needleFile" accept=".png,.jpg,.txt" onchange="onSelectionChange()">
+					<h3><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#needlePreview" aria-expanded="false" aria-controls="languageList">Preview the file</button></h3>
+					<div class="collapse" id="needlePreview">
+						Work in progress, some javascript will determine if the file exists, and then will display it here. If there has been no input, an error message will display. If the file is a .txt file, it will not display because those can get very long very fast. 
+					</div>
 				</div>
 			</div>
 			<div id="greedinessSelection">
-				<input type="range" name="greediness" id="greedSlider" value="1" min="1" max="8" oninput="greedOutput.value = greedSlider.value">
-    			<output name="ageOutputName" id="greedOutput">1</output>
+				<h2>Select Greediness Level:</h2>
+				<input type="range" name="greediness" id="greedSlider" value="1" min="1" max="8" list="tickmarks" oninput="greedOutput.value = greedSlider.value;">
+				<datalist id="tickmarks">
+					<option value="1"></option>
+					<option value="2"></option>
+					<option value="3"></option>
+					<option value="4"></option>
+					<option value="5"></option>
+					<option value="6"></option>
+					<option value="7"></option>
+					<option value="8"></option>
+				</datalist>
+				<h1><output name="ageOutputName" id="greedOutput">1</output></h1>
+				
+				<button type="button" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="bottom" data-content="The data in your needle file is hidden in the RGBA color channels of the haystack image. In each channel, there are 8 bits (or one byte), and greediness is the number of bits per byte (1-8) that you are overwriting with your needle data. The more bits you use, the more data you can store, but the more the haystack image looks like it has been modified, which defeats the point of steganography. In short, the greedier you are, the easier it is to detect your data." data-original-title="Greed and steganography">What is greediness?</button>
+			</div>
+			<div id="submission">
+				<button type="button" class="btn btn-outline-primary" onClick="execute();">Submit</button>
+				<button type="button" class="btn btn-outline-primary" onClick="saveResult();">Save Result</button>
 			</div>
 		</div><!--End div id="taskSetup"-->
+		<div id="colorComparison">
+			<span>Original Color Value:</span>
+			<div id="original-rgb">
+				<pre>No data</pre>
+			</div>
+			<span>Changed Color Value: </span>
+			<div id="changed-rgb">
+				<pre>No data</pre>
+			</div>
+			<canvas id="comparison" width="100" height="50" align="center"></canvas>
+            <div>
+                <span id="x-coordinate"></span>
+                <span id="y-coordinate"></span>
+            </div>
+		</div><!--End div id="colorComparison"-->
+		<div id="canvases">
+			<p>Original file:</p>
+        	<div class="canvasPrint">
+        		<canvas id="original"></canvas>
+       		</div>
+        	<p>File with hidden data:</p>
+        	<div class="canvasPrint">
+        		<canvas id="changed"></canvas>
+        	</div>
+			<div class="canvasPrint">
+        		<p>Recovered file:</p>
+            	<canvas id="recovered"></canvas>
+      			<object id="textDisplay" width="800" height="600" style="background-color:white;display:none"></object>
+     		</div>
+		</div> <!--End div id="canvases"-->
 	</div> <!--End div class="container-fluid"-->
+	<footer>&copy; 2018 Nicholas LaBelle, Evan Vander Hoeven, Tanner Verber, Brendan Bard, Austin Scott and Connor Fergesen
+     </footer>
 	<!-- Javascript for Bootstrap -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
