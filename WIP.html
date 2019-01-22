@@ -11,6 +11,7 @@
 <body> <!--onload="setHideVisibility()"-->
 	<div class="container-fluid">
 		<h1 class="text-center">Steganography Project</h1>
+		<h6 class="text-muted text-center">Bootstrap isn't working? Try our <a href="index.html">previous version.</a></h6>
 		<div class="text-center" id="taskSetup">
 			<h3>Are you hiding a file inside of an image file, or are you finding an already hidden file from an image?</h3>
 			<div class="btn-group btn-group-toggle " id="taskSelection" data-toggle="buttons">
@@ -21,18 +22,22 @@
 					<input type="radio" name="task" id="find" autocomplete="off" checked="false" onChange="switchVisibility()"> <h2>Find</h2>
 				</label>
 			</div>
+			<div id="inputHelp">
+				<button type="button" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="bottom" data-content="If you are in hide mode, there are two inputs, the haystack, and the needle. The haystack has to be either a .jpg or .png image file. The needle can be a .jpg, .png, or a .txt file. The needle file will be hidden inside the haystack (the pun is intentional). The resulting output will appear similar to the haystack. If you are in find mode, your input should be a .png file that has been steganographied by this application (it is important to note that false positives are possible in reading a random .png image, and will result in nonsense)." data-original-title="Input Help Guide">What are all these inputs?</button>
+			</div>
 			<div id="fileSelection">
-				<div class="custom-file" id="haystackSelection">
-					<label class="custom-file-label" for="haystackFile" id="haystackLabel">Haystack File</label>
-					<input class="custome-file-input" type="file" id="haystackFile" accept=".png,.jpg" onChange="onSelectionChange()">
+				<div id="haystackSelection">
+					<label for="haystackFile" id="haystackLabel">Haystack File</label>
+					<input type="file" id="haystackFile" accept=".png,.jpg" onChange="onSelectionChange()">
 				</div>
-				<div class="custom-file" id="needleSelection">
-					<label class="custom-file-label" for="needleFile" id="needleLabel">Needle File</label>
-					<input class="custom-file-input" type="file" id="needleFile" accept=".png,.jpg,.txt" onchange="onSelectionChange()">
+				<div id="needleSelection">
+					<label for="needleFile" id="needleLabel">Needle File</label>
+					<input type="file" id="needleFile" accept=".png,.jpg,.txt" onchange="onSelectionChange()">
 				</div>
 			</div>
 			<div id="greedinessSelection">
-				
+				<input type="range" name="greediness" id="greedSlider" value="1" min="1" max="8" oninput="greedOutput.value = greedSlider.value">
+    			<output name="ageOutputName" id="greedOutput">1</output>
 			</div>
 		</div><!--End div id="taskSetup"-->
 	</div> <!--End div class="container-fluid"-->
@@ -61,6 +66,10 @@
 	
 	<!--JavaScript to start the process-->
 	<script>
+		$(function () {
+  			$('[data-toggle="popover"]').popover()
+		}) //Enables popovers to work.
+		
                 var resultBlob = null;
                 var recovered = false;
 
