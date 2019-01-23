@@ -131,18 +131,20 @@
                 var recovered = false;
 
                 async function execute() {
-
-                    let greed = document.getElementById("greed").value;
+					//getting the greediness value
+                    let greed = document.getElementById("greedSlider").value;
                     if(greed=="") {
                         alert("Please select a greed level");
                         return;
                     }
-
-                    let radioButtons = document.getElementsByName("operation");
+					
+					//determining our task (hidding a file or finding a file)
+                    let radioButtons = document.getElementsByName("task");
                     let hide=false;
                     if(radioButtons[0].checked==true) hide=true;
 
-                    let haystackBlob = document.getElementById('ImageFile').files.item(0);
+					//Getting the haystack file (always done regardless of stack)
+                    let haystackBlob = document.getElementById('haystackFile').files.item(0);
                     if(haystackBlob==null) {
                         alert("Please select your Haystack image");
                         return;
@@ -150,12 +152,14 @@
 
                     //If the user is trying to hide a file
                     if(hide) {
-                        let needleBlob = document.getElementById('HiddenFile').files.item(0);
+						//Get the needle file
+                        let needleBlob = document.getElementById('needleFile').files.item(0);
                         if(needleBlob==null) {
                             alert("Please select a file you want to hide");
                             return;
                         }
 
+						//THIS IS WHERE THE STEGANOGRAPHY IS DONE
                         let loadedHaystackBlob = null;
                         if(needleBlob.type=="image/png" || needleBlob.type=="image/jpeg") {
                             loadedHaystackBlob = await hideImageFile(haystackBlob, needleBlob, greed);
@@ -165,11 +169,13 @@
                             alert("Invalid file selected for hiding.");
                             return;
                         }
-
+						
                         if(loadedHaystackBlob==null) {
                             //Haystack wasn't large enough to hide the needle, abort
                             return;
                         }
+						
+						//Display the steganographied image with the original on the screen
                         let canvasOriginal = document.getElementById("original");
                         drawBlobOnCanvas(canvasOriginal, haystackBlob);
                         let canvasChanged = document.getElementById("changed");
