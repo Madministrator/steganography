@@ -58,7 +58,7 @@
 				</datalist>
 				<h1><output name="ageOutputName" id="greedOutput">1</output></h1>
 				
-				<button type="button" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="bottom" data-content="The data in your needle file is hidden in the RGBA color channels of the haystack image. In each channel, there are 8 bits (or one byte), and greediness is the number of bits per byte (1-8) that you are overwriting with your needle data. The more bits you use, the more data you can store, but the more the haystack image looks like it has been modified, which defeats the point of steganography. In short, the greedier you are, the easier it is to detect your data." data-original-title="Greed and steganography">What is greediness?</button>
+				<button type="button" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="bottom" data-content="The data in your needle file is hidden in the RGBA color channels of the haystack image. In each channel, there are 8 bits (or one byte), and greediness is the number of bits per byte (1-8) that you are overwriting with your needle data. The more bits you use, the more data you can store, but the more the haystack image looks like it has been modified, which defeats the point of steganography. In short, the greedier you are, the easier it is to detect your data. When recovering a file using the 'find' function, your greediness must match the greediness of when the file was encrypted." data-original-title="Greed and steganography">What is greediness?</button>
 			</div>
 			<div id="submission">
 				<button type="button" class="btn btn-outline-primary" onClick="execute();">Submit</button>
@@ -66,21 +66,25 @@
 			</div>
 		</div><!--End div id="taskSetup"-->
 		<div id="colorComparison">
-			<span>Original Color Value:</span>
-			<div id="original-rgb">
-				<pre>No data</pre>
+			<div class="RGBAlist">
+				<span>Original Color Value:</span>
+				<div id="original-rgb">
+					<pre>No data</pre>
+				</div>
+				<span>Changed Color Value: </span>
+				<div id="changed-rgb">
+					<pre>No data</pre>
+				</div>
 			</div>
-			<span>Changed Color Value: </span>
-			<div id="changed-rgb">
-				<pre>No data</pre>
+			<div class="RGBAlist">
+				<canvas id="comparison" width="100" height="50" align="center"></canvas>
+            	<div>
+                	<span id="x-coordinate"></span>
+                	<span id="y-coordinate"></span>
+            	</div>
 			</div>
-			<canvas id="comparison" width="100" height="50" align="center"></canvas>
-            <div>
-                <span id="x-coordinate"></span>
-                <span id="y-coordinate"></span>
-            </div>
 		</div><!--End div id="colorComparison"-->
-		<div id="canvases">
+		<div id="canvases" style="display: block;">
 			<p>Original file:</p>
         	<div class="canvasPrint">
         		<canvas id="original"></canvas>
@@ -103,7 +107,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 	<!-- Javascript for steganography -->
-	<script type="text/javascript" src="js/Front.js"></script>
+	<!-- Testing to make sure this is acutally needed <script type="text/javascript" src="js/Front.js"></script>-->
 	<script src="js/libraries/download2.js"></script>
 	<script src="js/libraries/pako.js"></script>
 	<script src="js/libraries/UPNG.js"></script>
@@ -256,11 +260,6 @@
 						needleSelection.style.display = "none";
                     }
                 }
-		
-		//This function allows the custom-file Bootstrap objects to display the filenames on upload
-		$('.custom-file input').change(function (e) {
-        	$(this).next('.custom-file-label').html(e.target.files[0].name);
-    	});
 	</script>
 </body>
 </html>

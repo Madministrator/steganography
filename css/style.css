@@ -22,8 +22,19 @@
 	height: 50px;
 }
 
-#colorComparison, #canvases, footer{
+#colorComparison, #canvases, #recovered, #textDisplay, footer{
 	text-align: center;
+	display: block;
+	margin: auto;
+}
+
+.RGBAlist{
+	display: inline-block;
+}
+
+/*Adding a border to the color comparison canvas so that colors pop more*/
+#comparison{
+	border: thick solid black;
 }
 
 /*The @media tags make the website more mobile friendly and scale to screen size*/
