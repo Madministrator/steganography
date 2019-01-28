@@ -29,17 +29,17 @@
 				<div id="haystackSelection">
 					<label for="haystackFile" id="haystackLabel">Haystack File</label>
 					<input type="file" id="haystackFile" accept=".png,.jpg" onChange="onSelectionChange()">
-					<h3><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#haystackPreview" aria-expanded="false" aria-controls="languageList">Preview the image</button></h3>
+					<h3><button class="btn btn-primary" id="haystackPreviewButton" type="button" data-toggle="collapse" data-target="#haystackPreview" aria-expanded="false" aria-controls="languageList" onClick="setPreview('haystackFile','haystackPreview');">Preview the image</button></h3>
 					<div class="collapse" id="haystackPreview">
-						Work in progress, some javascript will determine if the image exists, and then will display it here. If there has been no input, an error message will display.
+						Default Text
 					</div>
 				</div>
 				<div id="needleSelection">
 					<label for="needleFile" id="needleLabel">Needle File</label>
 					<input type="file" id="needleFile" accept=".png,.jpg,.txt" onchange="onSelectionChange()">
-					<h3><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#needlePreview" aria-expanded="false" aria-controls="languageList">Preview the file</button></h3>
+					<h3><button class="btn btn-primary" id="needlePreviewButton" type="button" data-toggle="collapse" data-target="#needlePreview" aria-expanded="false" aria-controls="languageList" onClick="setPreview('needleFile','needlePreview');">Preview the file</button></h3>
 					<div class="collapse" id="needlePreview">
-						Work in progress, some javascript will determine if the file exists, and then will display it here. If there has been no input, an error message will display. If the file is a .txt file, it will not display because those can get very long very fast. 
+						Default Text
 					</div>
 				</div>
 			</div>
@@ -131,135 +131,211 @@
   			$('[data-toggle="popover"]').popover()
 		}) //Enables popovers to work.
 		
-                var resultBlob = null;
-                var recovered = false;
+		var resultBlob = null;
+		var recovered = false;
 
-                async function execute() {
-					//getting the greediness value
-                    let greed = document.getElementById("greedSlider").value;
-                    if(greed=="") {
-                        alert("Please select a greed level");
-                        return;
-                    }
-					
-					//determining our task (hidding a file or finding a file)
-                    let radioButtons = document.getElementsByName("task");
-                    let hide=false;
-                    if(radioButtons[0].checked==true) hide=true;
+		async function execute() {
+			//getting the greediness value
+			let greed = document.getElementById("greedSlider").value;
+			if(greed=="") 
+			{
+				alert("Please select a greed level");
+				return;
+			}
 
-					//Getting the haystack file (always done regardless of stack)
-                    let haystackBlob = document.getElementById('haystackFile').files.item(0);
-                    if(haystackBlob==null) {
-                        alert("Please select your Haystack image");
-                        return;
-                    }
+			//determining our task (hidding a file or finding a file)
+			let radioButtons = document.getElementsByName("task");
+			let hide=false;
+			if(radioButtons[0].checked==true) 
+				hide=true;
 
-                    //If the user is trying to hide a file
-                    if(hide) {
-						//Get the needle file
-                        let needleBlob = document.getElementById('needleFile').files.item(0);
-                        if(needleBlob==null) {
-                            alert("Please select a file you want to hide");
-                            return;
-                        }
+			//Getting the haystack file (always done regardless of stack)
+			let haystackBlob = document.getElementById('haystackFile').files.item(0);
+			if(haystackBlob==null) 
+			{
+				alert("Please select your Haystack image");
+				return;
+			}
 
-						//THIS IS WHERE THE STEGANOGRAPHY IS DONE
-                        let loadedHaystackBlob = null;
-                        if(needleBlob.type=="image/png" || needleBlob.type=="image/jpeg") {
-                            loadedHaystackBlob = await hideImageFile(haystackBlob, needleBlob, greed);
-                        } else if(needleBlob.type=="text/plain") {
-                            loadedHaystackBlob = await hideTextFile(haystackBlob, needleBlob, greed);
-                        } else {
-                            alert("Invalid file selected for hiding.");
-                            return;
-                        }
-						
-                        if(loadedHaystackBlob==null) {
-                            //Haystack wasn't large enough to hide the needle, abort
-                            return;
-                        }
-						
-						//Display the steganographied image with the original on the screen
-                        let canvasOriginal = document.getElementById("original");
-                        drawBlobOnCanvas(canvasOriginal, haystackBlob);
-                        let canvasChanged = document.getElementById("changed");
-                        drawBlobOnCanvas(canvasChanged, loadedHaystackBlob);
+			//If the user is trying to hide a file
+			if(hide) 
+			{
+				//Get the needle file
+				let needleBlob = document.getElementById('needleFile').files.item(0);
+				if(needleBlob==null) 
+				{
+					alert("Please select a file you want to hide");
+					return;
+				}
 
-                        resultBlob=loadedHaystackBlob;
-                        recovered=false;
-                        //If the user is trying to find a hidden file
-                    } else {
-                        let recoveredFile = await findFile(haystackBlob, greed);
+				//THIS IS WHERE THE STEGANOGRAPHY IS DONE
+				let loadedHaystackBlob = null;
+				if(needleBlob.type=="image/png" || needleBlob.type=="image/jpeg") 
+				{
+					loadedHaystackBlob = await hideImageFile(haystackBlob, needleBlob, greed);
+				} 
+				else if(needleBlob.type=="text/plain") 
+				{
+					loadedHaystackBlob = await hideTextFile(haystackBlob, needleBlob, greed);
+				} 
+				else 
+				{
+					alert("Invalid file selected for hiding.");
+					return;
+				}
 
-                        if(recoveredFile!=null) {
-                            resultBlob=recoveredFile;
-                            recovered=true;
+				if(loadedHaystackBlob==null) 
+				{
+					//Haystack wasn't large enough to hide the needle, abort
+					return;
+				}
 
-                            let canvas = document.getElementById("recovered");
-                            let textDisplay = document.getElementById("textDisplay");
-                            if(recoveredFile.type=="image/png") {
-                                canvas.style.display="block";
-                                textDisplay.style.display="none";
-                                drawBlobOnCanvas(canvas, recoveredFile);
-                            } else {
-                                canvas.style.display="none";
-                                textDisplay.style.display="block";
-                                textDisplay.data=URL.createObjectURL(recoveredFile);
-                            }
-                        } else {
-                            alert("No hidden file was found.");
-                            return;
-                        }
-                    }
-                    initializeMouseMove();
+				//Display the steganographied image with the original on the screen
+				let canvasOriginal = document.getElementById("original");
+				drawBlobOnCanvas(canvasOriginal, haystackBlob);
+				let canvasChanged = document.getElementById("changed");
+				drawBlobOnCanvas(canvasChanged, loadedHaystackBlob);
 
-                }
-                async function saveResult() {
-                    if(resultBlob!=null) {
-                        if(recovered) {
-                            if(resultBlob.type=="image/png") {
-                                download(resultBlob, "Needle.png", "image/png");
-                            } else {
-                                download(resultBlob, "Needle.txt", "text/plain");
-                            }
-                        } else {
-                            download(resultBlob, "LoadedHaystack.png", "image/png");
-                        }
-                    } else {
-                        await execute();
-                        if(resultBlob==null) {
-                            return;
-                        }
-                        saveResult();
-                    }
-                }
-				
-				function onSelectionChange() {
-                    URL.revokeObjectURL(resultBlob);
-                    resultBlob=null;
-                }
-		
-                function switchVisibility() {
-                    onSelectionChange();
-					
-					let haystackLabel = document.getElementById("haystackLabel");
-					let hayStackSelection = document.getElementById("haystackSelection");
-					
-					let needleSelection = document.getElementById("needleSelection");
+				resultBlob=loadedHaystackBlob;
+				recovered=false;
+				//If the user is trying to find a hidden file
+			} 
+			else 
+			{
+				let recoveredFile = await findFile(haystackBlob, greed);
 
-                    let radioButtons = document.getElementsByName("task");
-					
-                    if(radioButtons[0].checked==true) 
+				if(recoveredFile!=null) 
+				{
+					resultBlob=recoveredFile;
+					recovered=true;
+
+					let canvas = document.getElementById("recovered");
+					let textDisplay = document.getElementById("textDisplay");
+					if(recoveredFile.type=="image/png") 
 					{
-                    	haystackLabel.innerHTML = "Haystack Image";
-						needleSelection.style.display = "inline-block";
-                    } 
+						canvas.style.display="block";
+						textDisplay.style.display="none";
+						drawBlobOnCanvas(canvas, recoveredFile);
+					} 
 					else 
 					{
-						haystackLabel.innerHTML = "Steganographied Image";
-						needleSelection.style.display = "none";
-                    }
-                }
+						canvas.style.display="none";
+						textDisplay.style.display="block";
+						textDisplay.data=URL.createObjectURL(recoveredFile);
+					}
+				} 
+				else 
+				{
+					alert("No hidden file was found.");
+					return;
+				}
+			}
+			initializeMouseMove();
+
+		}
+		async function saveResult() {
+			if(resultBlob!=null) {
+				if(recovered) {
+					if(resultBlob.type=="image/png") 
+					{
+						download(resultBlob, "Needle.png", "image/png");
+					} 
+					else 
+					{
+						download(resultBlob, "Needle.txt", "text/plain");
+					}
+				} 
+				else 
+				{
+					download(resultBlob, "LoadedHaystack.png", "image/png");
+				}
+			} 
+			else 
+			{
+				await execute();
+				if(resultBlob==null) 
+				{
+					return;
+				}
+				saveResult();
+			}
+		}
+
+		function onSelectionChange() {
+			//reset the resultBlob
+			URL.revokeObjectURL(resultBlob);
+			resultBlob=null;
+			
+			//collapse the preview windows if they are expanded
+			/* Old way stopped working for no reason
+			if($("#needlePreviewButton").attr("aria-expanded") == true)
+				$('#needlePreview').collapse('toggle');
+			if($("#haystackPreviewButton").attr("aria-expanded") == true)
+				$('#haystackPreview').collapse('toggle');*/
+			//always collapse both preview windows
+			$('#haystackPreview').collapse('hide');
+			$('#needlePreview').collapse('hide');
+		}
+		
+		function switchVisibility() {
+			onSelectionChange();
+
+			let haystackLabel = document.getElementById("haystackLabel");
+			let hayStackSelection = document.getElementById("haystackSelection");
+
+			let needleSelection = document.getElementById("needleSelection");
+
+			let radioButtons = document.getElementsByName("task");
+
+			if(radioButtons[0].checked==true) 
+			{
+				haystackLabel.innerHTML = "Haystack Image";
+				needleSelection.style.display = "inline-block";
+			} 
+			else 
+			{
+				haystackLabel.innerHTML = "Steganographied Image";
+				needleSelection.style.display = "none";
+			}
+		}
+		
+		/**
+			@brief	Pulls the file located in the previewID input tag, and displays it in the displayID div tag
+			@param	previewID	The ID of an HTML file input tag
+			@param	displayID	The ID of an HTML div tag whose content will be replaced with a preview of the file selected in the input tag indicated by previewID
+		*/
+		function setPreview(previewID, displayID){
+			if (previewID == undefined || displayID == undefined)
+				return; //Exit if we don't have what we need to work.
+			
+			//Get the file and the div we will display it in
+			let fileBlob = document.getElementById(previewID).files.item(0);
+			let previewDiv = document.getElementById(displayID);
+			
+			if(fileBlob == null) 
+			{
+				previewDiv.innerHTML = "No file available for preview";
+			}
+			else
+			{
+				if(fileBlob.type=="image/png" || fileBlob.type=="image/jpeg") 
+				{
+					//add an image tag and set it's source to the blob
+					
+					//let's see if it works?
+					previewDiv.innerHTML = "I have detected an image file";
+				} 
+				else if(fileBlob.type=="text/plain") 
+				{
+					//Do I display the text file?
+					previewDiv.innerHTML = "I have detected a text file"
+				} 
+				else 
+				{
+					previewDiv.innerHTML = "I have detected an unnacceptable file format.";
+				}
+			}
+		}
 	</script>
 </body>
 </html>
