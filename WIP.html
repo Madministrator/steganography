@@ -31,7 +31,7 @@
 					<input type="file" id="haystackFile" accept=".png,.jpg" onChange="onSelectionChange()">
 					<h3><button class="btn btn-primary" id="haystackPreviewButton" type="button" data-toggle="collapse" data-target="#haystackPreview" aria-expanded="false" aria-controls="languageList" onClick="setPreview('haystackFile','haystackPreview');">Preview the image</button></h3>
 					<div class="collapse" id="haystackPreview">
-						Default Text
+						<p>Placeholder Text</p>
 					</div>
 				</div>
 				<div id="needleSelection">
@@ -39,7 +39,7 @@
 					<input type="file" id="needleFile" accept=".png,.jpg,.txt" onchange="onSelectionChange()">
 					<h3><button class="btn btn-primary" id="needlePreviewButton" type="button" data-toggle="collapse" data-target="#needlePreview" aria-expanded="false" aria-controls="languageList" onClick="setPreview('needleFile','needlePreview');">Preview the file</button></h3>
 					<div class="collapse" id="needlePreview">
-						Default Text
+						<p>Placeholder Text</p>
 					</div>
 				</div>
 			</div>
@@ -85,15 +85,13 @@
 			</div>
 		</div><!--End div id="colorComparison"-->
 		<div id="canvases" style="display: block;">
-			<p>Original file:</p>
-        	<div class="canvasPrint">
-        		<canvas id="original"></canvas>
-       		</div>
-        	<p>File with hidden data:</p>
-        	<div class="canvasPrint">
-        		<canvas id="changed"></canvas>
-        	</div>
-			<div class="canvasPrint">
+			<div id="comparingCanvases">
+				<p>Original file:</p>
+				<canvas id="original"></canvas>
+				<p>File with hidden data:</p>
+				<canvas id="changed"></canvas>
+			</div>
+			<div id="recoveredCanvas">
         		<p>Recovered file:</p>
             	<canvas id="recovered"></canvas>
       			<object id="textDisplay" width="800" height="600" style="background-color:white;display:none"></object>
@@ -134,6 +132,14 @@
 		var resultBlob = null;
 		var recovered = false;
 
+		/**
+			@brief	executes the steganography algorithm based on the GUI state.
+			@summary	The function recieves all inputs from the GUI, namely the 
+						greediness level and the input files (.png, .jpeg, .txt) 
+						then runs them through the steganographic algorithms (for 
+						more on that, see the linked files) and finally displays 
+						the results on the screen.
+		*/
 		async function execute() {
 			//getting the greediness value
 			let greed = document.getElementById("greedSlider").value;
@@ -198,9 +204,8 @@
 
 				resultBlob=loadedHaystackBlob;
 				recovered=false;
-				//If the user is trying to find a hidden file
 			} 
-			else 
+			else //If the user is trying to find a hidden file
 			{
 				let recoveredFile = await findFile(haystackBlob, greed);
 
@@ -231,8 +236,12 @@
 				}
 			}
 			initializeMouseMove();
-
 		}
+		
+		/**
+			@brief	saves a blob object as either a .png or .txt to the 
+					user's computer.
+		*/
 		async function saveResult() {
 			if(resultBlob!=null) {
 				if(recovered) {
@@ -261,10 +270,15 @@
 			}
 		}
 
+		/**
+			@brief	handles events whenever the user selects a file
+			@summary	Resets the result blob object, and collapses
+						the preview collapsible divs for file selection.
+		*/
 		function onSelectionChange() {
 			//reset the resultBlob
 			URL.revokeObjectURL(resultBlob);
-			resultBlob=null;
+			resultBlob = null;
 			
 			//collapse the preview windows if they are expanded
 			/* Old way stopped working for no reason
@@ -277,34 +291,61 @@
 			$('#needlePreview').collapse('hide');
 		}
 		
+		/**
+			@brief Modifies which elements are made visible by the task selection
+			@summary	When "Hide" is pressed, the needed input objects will be set
+						to visible, and the results canvas that are the outputs of 
+						this program will also appear. Labels will change to make 
+						more sense. When "Find" is selected, the same will occur, 
+						accept that the colorPicker object to compare colors will 
+						also disappear as it isn't relevant.
+		*/
 		function switchVisibility() {
 			onSelectionChange();
 
 			let haystackLabel = document.getElementById("haystackLabel");
 			let hayStackSelection = document.getElementById("haystackSelection");
-
 			let needleSelection = document.getElementById("needleSelection");
-
+			
+			let colorCompare = document.getElementById("colorComparison");
+			let comparingCanvases = document.getElementById("comparingCanvases");
+			let recovered = document.getElementById("recoveredCanvas");
+			
 			let radioButtons = document.getElementsByName("task");
 
-			if(radioButtons[0].checked==true) 
+			if(radioButtons[0].checked==true) //Hide mode
 			{
+				//Setting changes for input 
 				haystackLabel.innerHTML = "Haystack Image";
 				needleSelection.style.display = "inline-block";
+				
+				//Setting changes for output
+				colorCompare.style.display = "block";
+				recovered.style.display = "none";
+				comparingCanvases.style.display = "block";
 			} 
-			else 
+			else //Find mode
 			{
+				//setting changes for input
 				haystackLabel.innerHTML = "Steganographied Image";
 				needleSelection.style.display = "none";
+				
+				//setting changes for output
+				colorCompare.style.display = "none";
+				recovered.style.display = "block";
+				comparingCanvases.style.display = "none";
 			}
 		}
 		
 		/**
-			@brief	Pulls the file located in the previewID input tag, and displays it in the displayID div tag
-			@param	previewID	The ID of an HTML file input tag
-			@param	displayID	The ID of an HTML div tag whose content will be replaced with a preview of the file selected in the input tag indicated by previewID
+			@brief	Pulls the file located in the previewID input tag, and displays it 
+					in the displayID div tag.
+					
+			@param	previewID	The ID of an HTML file input tag.
+			@param	displayID	The ID of an HTML div tag whose content will be replaced with 
+								a preview of the file selected in the input tag indicated by previewID
 		*/
-		function setPreview(previewID, displayID){
+		function setPreview(previewID, displayID){			
 			if (previewID == undefined || displayID == undefined)
 				return; //Exit if we don't have what we need to work.
 			
@@ -312,27 +353,47 @@
 			let fileBlob = document.getElementById(previewID).files.item(0);
 			let previewDiv = document.getElementById(displayID);
 			
+			//First, clear out everything currently inside the previewDiv
+			while (previewDiv.hasChildNodes()) {
+    			previewDiv.removeChild(previewDiv.childNodes[0]);
+  			}
+			
+			//Second, create new items for the previewDiv
 			if(fileBlob == null) 
 			{
-				previewDiv.innerHTML = "No file available for preview";
+				var errorMessage = document.createTextNode("No file available for preview");
+				previewDiv.appendChild(errorMessage);
 			}
 			else
 			{
 				if(fileBlob.type=="image/png" || fileBlob.type=="image/jpeg") 
-				{
-					//add an image tag and set it's source to the blob
-					
-					//let's see if it works?
-					previewDiv.innerHTML = "I have detected an image file";
+				{	
+					//create an img element with appropriate data
+					var image = document.createElement("IMG");
+					image.alt = "A preview of the input file image";
+					//Setting the blob as the source for the image
+					image.src = URL.createObjectURL(fileBlob);
+					//Putting the image element on the page
+					previewDiv.appendChild(image);
 				} 
 				else if(fileBlob.type=="text/plain") 
 				{
-					//Do I display the text file?
-					previewDiv.innerHTML = "I have detected a text file"
+					//Create an object for the text to exist in
+					var textPreview = document.createElement("OBJECT");
+					//Modify the appearance of the text object
+					textPreview.height = "350";
+					textPreview.width = "500";
+					textPreview.style = "background-color: white;";
+					//Setting the blob as the data of the text object
+					textPreview.data = URL.createObjectURL(fileBlob);
+					//putting the text on the page
+					previewDiv.appendChild(textPreview);
 				} 
 				else 
 				{
-					previewDiv.innerHTML = "I have detected an unnacceptable file format.";
+					//Should never occur since our input tags control allowable file types
+					var errorMessage = document.createTextNode("File type not supported, please try a different file.");
+					previewDiv.appendChild(errorMessage);
 				}
 			}
 		}
