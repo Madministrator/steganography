@@ -32,6 +32,10 @@
 	display: inline-block;
 }
 
+.helpPopover{
+	margin: 15px;
+}
+
 /*Adding a border to the color comparison canvas so that colors pop more*/
 #comparison{
 	border: thick solid black;
