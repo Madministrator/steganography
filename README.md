@@ -15,7 +15,7 @@ modified unless that it was both the original image, and the steganographied ima
 
 ## How to use the application
 This application requires the use of two files, a "needle" and a "haystack." The haystack must be a picture file in 
-either JPEG or PNG format. The needle, may be an image file in the same formats, or the needle may be a .txt file.
+either JPEG or PNG format. The needle may be an image file in the same formats, or the needle may be a .txt file.
 In this case, the needle file will be the hidden file, and the haystack file will be the image that everyone and 
 anyone can see. Next you need to decide your greediness level as described below. Then you can hit the submit button 
 to hide your data. Depending on the size of your input files, this may take a while. Once the process is done, two 
@@ -27,7 +27,7 @@ Once you're ready, you can download the encrypted photo with the "save result" b
 a png image because png uses a lossless data storage method, which is necessary to preserve your data. 
 
 To recover a file from a steganographied image, click the find button, supply a file, and use the same greediness level 
-that you use to encrypt a file. Then the file you be displayed on the screen, text files and images files will both 
+that you use to encrypt a file. Then the file you hid will be displayed on the screen, text files and images files will both 
 display in their own fashion. 
 
 ## What is the greediness level?
@@ -42,12 +42,13 @@ modifies the least significant bit.
 Inside the folder titled "files" there is a variety of different files for you to play with. PNGs in different formats, 
 JPEGs, and they can be used as both a needle and a haystack (as labelled). There are some other files which are very 
 interesting to play with.
-* "NestedHaystack.png" is a file whose needle is a haystack for another image. 
+* "NestedHaystack.png" is a file whose needle is a haystack for another image. The picture is of Austin Scott, who was one of the contributors for the project. 
 	* Find the first needle with greediness 1
 	* Find the seccond needle with greediness 2
-	* Keep going until you find the final needle.
+	* Find the third and final needle with greediness 3
 * Shakespeare's Hidden Works.png is a portrait of William Shakespeare which contains the entire works of William Shakespeare.
 	* They are hidden at level 3
 	* There is another file, Shakespeare's Works.txt which you can compare the results to.
 * Shakespeare's Not-So-Hidden Works.png is the entire works of William Shakespeare hidden at greediness level 8 on a blank white canvas
-	* The image looks like static, but since the original image is entirely overwritten, any haystack image would follow the same pattern.
+	* The image looks like static, but since the original image is entirely overwritten, any haystack image would follow the same pattern. The static is, as crazy as it sounds, the entire works of William Shakespeare encoded as color. 
+* blank.png is an extremely large (6400x4320) completely white 32-bit PNG image. It should be large enough to hold a lot of data, especially at greediness level 8. 
