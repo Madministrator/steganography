@@ -6,10 +6,6 @@
 	display: block;
 }
 
-#fileSelection{
-	display: inline-block;
-}
-
 #haystackSelection, #needleSelection{
 	display: inherit;
 	width: 45%;
@@ -17,9 +13,35 @@
 	text-align: center;
 }
 
+#haystackSelection label, #needleSelection input{
+	display: block;
+}
+
+#haystackSelection input, #needleSelection input{
+	margin: 10px auto;
+}
+
+#haystackPreview, #needlePreview{
+	max-width: 95%;
+	max-height: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	/*margin-top not needed, provided by the elements above it*/
+	margin-bottom: 20px;
+}
+
 #greedSlider{
 	width: 350px;
 	height: 50px;
+}
+
+#submission{
+	margin: 15px auto;
+}
+
+/*Adding a border to the color comparison canvas so that colors stand out more*/
+#comparison{
+	border: thick solid black;
 }
 
 #colorComparison, #canvases, #recovered, #textDisplay, footer{
@@ -30,27 +52,33 @@
 
 .RGBAlist{
 	display: inline-block;
+	margin: 15px;
 }
 
 .helpPopover{
 	margin: 15px;
 }
 
-/*Adding a border to the color comparison canvas so that colors pop more*/
-#comparison{
-	border: thick solid black;
-}
-
 /*The @media tags make the website more mobile friendly and scale to screen size*/
 
 /*Small devices such as landscape-oriented mobile phones (576px and up)*/
 @media (min-width: 576px){
-	
+	#fileSelection{
+		display: block;
+	}
 }
 
 /*Medium devices such as tablets (768px and up)*/
 @media (min-width: 768px) {
+	#fileSelection{
+		width: 100%; /*Makes sure that the inline-block element doesn't put additional items inline*/
+		display: inline-block;
+	}
 	
+	#haystackPreview, #needlePreview{
+		max-width: 80%;
+		max-height: 700px;
+	}
 }
 
 /*Large devices such as laptops (992px and up)*/

@@ -1,242 +1,415 @@
-﻿<!doctype html>
-
+<!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="google" content="notranslate">
-		<title>Steganography Project</title>
-		<link rel="stylesheet" type="text/css" href="css/styles.css">
-	</head>
-	<body onload="setHideVisibility()">
-        <div id="pageborder">
-            <header>
-                <h1>Steganography Project</h1>
-            </header>
-            <section>
-                <p>Are you hiding a file inside of an image file or are you finding an already hidden file from an image?</p>
-                <div class="border">
-                    <input type="radio" name="operation" value="hide" checked="true" onchange="setHideVisibility()"> Hide
-                    <input type="radio" name="operation" value="find" onchange="setHideVisibility()"> Find
-                </div>
-                <div class="hide" style="display:none">
-                    <p>Please select the image file you wish to hide your other file inside of.</p>
-                </div>
-                <div class="find" style="display:none">
-                    <p>Please select the image file containing the hidden file.</p>
-                </div>
-                <div class="border">
-                    <label for="ImageFile" id="ImageLabel">Select Image File</label>
-                    <input type="file" id="ImageFile" accept=".png,.jpg" onchange="onSelectionChange()">
-                </div>
-                <div class="hide" style="display:none">
-                    <p>Please select the image or text file you wish to hide.</p>
-                    <div class="border">
-                        <label for="HiddenFile" id="HiddenLabel" accept=".png,.jpg,.txt">Select Hidden File</label>
-                        <input type="file" id="HiddenFile" onchange="onSelectionChange()">
-                    </div>
-                </div>
-                <div class="hide" style="display:none">
-                    <p>Please set greed level. The higher you set this value the more data you can hide but the more distorted the resulting image becomes.</p>
-                </div>
-                <div class="find" style="display:none">
-                    <p>Please set greed level. You must use the same greed level you used to hide the hidden file to recover it.</p>
-                </div>
+<head>
+	<meta charset="utf-8">
+	<meta name="google" content="notranslate">
+	<title>Steganography</title>
+	<link href="css/style.css" type="text/css" rel="stylesheet">
+	<link href="css/bootstrap.min.css" type="text/css" rel="stylesheet">
+</head>
 
-                <p id="greedNumber">1</p>
-                <span>1</span><input type="range" min="1" max="8" value="1" class="slider" id="greed" onchange="onSelectionChange()"><span>8</span>
-
-            </section>
-
-            <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-            <script type="text/javascript" src="js/Front.js"></script>
-            <script src="js/libraries/download2.js"></script>
-            <script src="js/libraries/pako.js"></script>
-            <script src="js/libraries/UPNG.js"></script>
-            <script src="js/libraries/jpg.js"></script>
-            <script src="js/bitManipulation.js"></script>
-            <script src="js/BasicImage.js"></script>
-            <script src="js/utility.js"></script>
-            <script src="js/typeConvertions.js"></script>
-            <script src="js/hideImage.js"></script>
-            <script src="js/hideText.js"></script>
-            <script src="js/findImage.js"></script>
-            <script src="js/findText.js"></script>
-            <script src="js/hide.js"></script>
-            <script src="js/find.js"></script>
-            <script src="js/pixel_zoom.js"></script>
-            <script src="js/StandardizeImg.js"></script>
-
-            <script>
-                var resultBlob = null;
-                var recovered = false;
-
-                async function execute() {
-
-                    let greed = document.getElementById("greed").value;
-                    if(greed=="") {
-                        alert("Please select a greed level");
-                        return;
-                    }
-
-                    let radioButtons = document.getElementsByName("operation");
-                    let hide=false;
-                    if(radioButtons[0].checked==true) hide=true;
-
-                    let haystackBlob = document.getElementById('ImageFile').files.item(0);
-                    if(haystackBlob==null) {
-                        alert("Please select your Haystack image");
-                        return;
-                    }
-
-                    //If the user is trying to hide a file
-                    if(hide) {
-                        let needleBlob = document.getElementById('HiddenFile').files.item(0);
-                        if(needleBlob==null) {
-                            alert("Please select a file you want to hide");
-                            return;
-                        }
-
-                        let loadedHaystackBlob = null;
-                        if(needleBlob.type=="image/png" || needleBlob.type=="image/jpeg") {
-                            loadedHaystackBlob = await hideImageFile(haystackBlob, needleBlob, greed);
-                        } else if(needleBlob.type=="text/plain") {
-                            loadedHaystackBlob = await hideTextFile(haystackBlob, needleBlob, greed);
-                        } else {
-                            alert("Invalid file selected for hiding.");
-                            return;
-                        }
-
-                        if(loadedHaystackBlob==null) {
-                            //Haystack wasn't large enough to hide the needle, abort
-                            return;
-                        }
-                        let canvasOriginal = document.getElementById("original");
-                        drawBlobOnCanvas(canvasOriginal, haystackBlob);
-                        let canvasChanged = document.getElementById("changed");
-                        drawBlobOnCanvas(canvasChanged, loadedHaystackBlob);
-
-                        resultBlob=loadedHaystackBlob;
-                        recovered=false;
-                        //If the user is trying to find a hidden file
-                    } else {
-                        let recoveredFile = await findFile(haystackBlob, greed);
-
-                        if(recoveredFile!=null) {
-                            resultBlob=recoveredFile;
-                            recovered=true;
-
-                            let canvas = document.getElementById("recovered");
-                            let textDisplay = document.getElementById("textDisplay");
-                            if(recoveredFile.type=="image/png") {
-                                canvas.style.display="block";
-                                textDisplay.style.display="none";
-                                drawBlobOnCanvas(canvas, recoveredFile);
-                            } else {
-                                canvas.style.display="none";
-                                textDisplay.style.display="block";
-                                textDisplay.data=URL.createObjectURL(recoveredFile);
-                            }
-                        } else {
-                            alert("No hidden file was found.");
-                            return;
-                        }
-                    }
-                    initializeMouseMove();
-
-                }
-                async function saveResult() {
-                    if(resultBlob!=null) {
-                        if(recovered) {
-                            if(resultBlob.type=="image/png") {
-                                download(resultBlob, "Needle.png", "image/png");
-                            } else {
-                                download(resultBlob, "Needle.txt", "text/plain");
-                            }
-                        } else {
-                            download(resultBlob, "LoadedHaystack.png", "image/png");
-                        }
-                    } else {
-                        await execute();
-                        if(resultBlob==null) {
-                            return;
-                        }
-                        saveResult();
-                    }
-                }
-                function setHideVisibility() {
-                    onSelectionChange();
-
-                    let divHide = document.getElementsByClassName("hide");
-                    let divFind = document.getElementsByClassName("find");
-
-                    let radioButtons = document.getElementsByName("operation");
-                    if(radioButtons[0].checked==true) {
-                        for(let i=0;i<divHide.length;i++)
-                            divHide[i].style.display="block";
-                        for(let i=0;i<divFind.length;i++)
-                            divFind[i].style.display="none";
-                    } else {
-                        for(let i=0;i<divFind.length;i++)
-                            divFind[i].style.display="block";
-                        for(let i=0;i<divHide.length;i++)
-                            divHide[i].style.display="none";
-                    }
-                }
-                function onSelectionChange() {
-                    URL.revokeObjectURL(resultBlob);
-                    resultBlob=null;
-                }
-            </script>
-
-            <section>
-                <div class="hide">
-                    <p>Press "Submit" to hide the file and preview the result below. Press "Save Result" to save the generated image to your disk.</p>
-                </div>
-                <div class="find">
-                    <p>Press "Submit" to find the hidden file and preview the result below. Press "Save Result" to save the recovered file to your disk.</p>
-                </div>
-                <div class="border">
-                    <button type="button" onclick="execute()">Submit</button>
-                    <button type="button" onclick="saveResult()">Save Result</button>
-                </div>
-            </section>
-            <br />
-            <section>
-
-                <div class="hide" style="display:none">
-                    <div class="border">
-                        <div>
-                            <span>Original Color Value: </span><div id="original-rgb"><pre>No data</pre></div>
-                            <span>Changed Color Value: </span><div id="changed-rgb"><pre>No data</pre></div>
-                        </div>
-                        <canvas id="comparison" width=100 height=50 align="center"></canvas>
-                        <div>
-                            <span id="x-coordinate"></span>
-                            <span id="y-coordinate"></span>
-                        </div>
-                    </div>
-                    <p>Original file:</p>
-                    <div class="border">
-                        <canvas id="original"></canvas>
-                    </div>
-                    <p>File with hidden data:</p>
-                    <div class="border">
-                        <canvas id="changed"></canvas>
-                    </div>
-                </div>
-                <div class="find" style="display:none">
-                    <p>Recovered file:</p>
-                    <div class="border" align="center">
-                        <canvas id="recovered"></canvas>
-                        <object id="textDisplay" width="800" height="600" style="background-color:white;display:none"></object>
-                    </div>
-                </div>
-            </section>
-            <footer>
-                &copy; 2018 Nicholas LaBelle, Evan Vander Hoeven, Tanner Verber, Brendan Bard, Austin Scott and Connor Fergesen
-            </footer>
-        </div>
-
-	</body>
+<body onLoad="configureGUI();"> 
+	<div class="container-fluid">
+		<h1 class="text-center">Steganography Project</h1>
+		<h6 class="text-muted text-center">Bootstrap isn't working? Try our <a href="version1.html">original version</a>.</h6>
+		<div class="text-center" id="taskSetup">
+			<h3>Are you hiding a file inside of an image file, or are you finding an already hidden file from an image?</h3>
+			<div class="btn-group btn-group-toggle " id="taskSelection" data-toggle="buttons">
+				<label class="btn btn-primary active">
+					<input type="radio" name="task" id="Hide" autocomplete="off" checked="true" onChange="switchVisibility()"> <h2>Hide</h2>
+				</label>
+				<label class="btn btn-primary">
+					<input type="radio" name="task" id="find" autocomplete="off" checked="false" onChange="switchVisibility()"> <h2>Find</h2>
+				</label>
+			</div>
+			<div id="inputHelp" class="helpPopover">
+				<button type="button" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="bottom" data-content="If you are in hide mode, there are two inputs, the haystack, and the needle. The haystack has to be either a .jpg or .png image file. The needle can be a .jpg, .png, or a .txt file. The needle file will be hidden inside the haystack (the pun is intentional). The resulting output will appear similar to the haystack. If you are in find mode, your input should be a .png file that has been steganographied by this application (it is important to note that false positives are possible in reading a random .png image, and will result in nonsense)." data-original-title="Input Help Guide">What are all these inputs?</button>
+			</div>
+			<div id="fileSelection">
+				<div id="haystackSelection">
+					<label for="haystackFile" id="haystackLabel">Haystack File</label>
+					<input type="file" id="haystackFile" accept=".png,.jpg" onChange="onSelectionChange()">
+					<h3><button class="btn btn-primary" id="haystackPreviewButton" type="button" data-toggle="collapse" data-target="#haystackPreview" aria-expanded="false" aria-controls="languageList" onClick="setPreview('haystackFile','haystackPreview');">Preview the image</button></h3>
+					<div class="collapse" id="haystackPreview">
+						<p>Placeholder Text</p>
+					</div>
+				</div>
+				<div id="needleSelection">
+					<label for="needleFile" id="needleLabel">Needle File</label>
+					<input type="file" id="needleFile" accept=".png,.jpg,.txt" onchange="onSelectionChange()">
+					<h3><button class="btn btn-primary" id="needlePreviewButton" type="button" data-toggle="collapse" data-target="#needlePreview" aria-expanded="false" aria-controls="languageList" onClick="setPreview('needleFile','needlePreview');">Preview the file</button></h3>
+					<div class="collapse" id="needlePreview">
+						<p>Placeholder Text</p>
+					</div>
+				</div>
+			</div>
+			<div id="greedinessSelection">
+				<h2>Select Greediness Level: <output name="ageOutputName" id="greedOutput">1</output></h2>
+				<div class="helpPopover">
+					<button type="button" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="bottom" data-content="The data in your needle file is hidden in the RGBA color channels of the haystack image. In each channel, there are 8 bits (or one byte), and greediness is the number of bits per byte (1-8) that you are overwriting with your needle data. The more bits you use, the more data you can store, but the more the haystack image looks like it has been modified, which defeats the point of steganography. In short, the greedier you are, the easier it is to detect your data. When recovering a file using the 'find' function, your greediness must match the greediness of when the file was encrypted." data-original-title="Greed and steganography">What is greediness?</button>
+				</div>
+				<input type="range" name="greediness" id="greedSlider" value="1" min="1" max="8" list="tickmarks" oninput="greedOutput.value = greedSlider.value;">
+				<datalist id="tickmarks">
+					<option value="1"></option>
+					<option value="2"></option>
+					<option value="3"></option>
+					<option value="4"></option>
+					<option value="5"></option>
+					<option value="6"></option>
+					<option value="7"></option>
+					<option value="8"></option>
+				</datalist>
+			</div>
+			<div id="submission">
+				<button type="button" class="btn btn-outline-primary" onClick="execute();">Submit</button>
+				<button type="button" class="btn btn-outline-primary" onClick="saveResult();">Save Result</button>
+				<!--Here is where I would put a button that would scale the resulting images to scale to fit the screen-->
+			</div>
+		</div><!--End div id="taskSetup"-->
+		<div id="colorComparison">
+			<h6>Color Comparison: Compare the pixels of the original and the encrypted image to see how the steganography application has changed your image!</h6>
+			<div class="RGBAlist">
+				<span>Original Color Value:</span>
+				<div id="original-rgb">
+					<pre>No data</pre>
+				</div>
+				<span>Changed Color Value: </span>
+				<div id="changed-rgb">
+					<pre>No data</pre>
+				</div>
+			</div>
+			<div class="RGBAlist">
+				<canvas id="comparison" width="100" height="50" align="center"></canvas>
+            	<div>
+                	<span id="x-coordinate"></span>
+                	<span id="y-coordinate"></span>
+            	</div>
+			</div>
+		</div><!--End div id="colorComparison"-->
+		<div id="canvases" style="display: block;">
+			<div id="comparingCanvases">
+				<p>Original file:</p>
+				<canvas id="original"></canvas>
+				<p>File with hidden data:</p>
+				<canvas id="changed"></canvas>
+			</div>
+			<div id="recoveredCanvas">
+        		<p>Recovered file:</p>
+            	<canvas id="recovered"></canvas>
+      			<object id="textDisplay" width="800" height="600" style="background-color:white;display:none"></object>
+     		</div>
+		</div> <!--End div id="canvases"-->
+	</div> <!--End div class="container-fluid"-->
+	<footer>&copy; 2018 Nicholas LaBelle, Evan Vander Hoeven, Tanner Verber, Brendan Bard, Austin Scott and Connor Fergesen
+     </footer>
+	<!-- Javascript for Bootstrap -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+	<!-- Javascript for steganography -->
+	<!-- Testing to make sure this is acutally needed <script type="text/javascript" src="js/Front.js"></script>-->
+	<script src="js/libraries/download2.js"></script>
+	<script src="js/libraries/pako.js"></script>
+	<script src="js/libraries/UPNG.js"></script>
+	<script src="js/libraries/jpg.js"></script>
+	<script src="js/bitManipulation.js"></script>
+	<script src="js/BasicImage.js"></script>
+	<script src="js/utility.js"></script>
+	<script src="js/typeConvertions.js"></script>
+	<script src="js/hideImage.js"></script>
+	<script src="js/hideText.js"></script>
+	<script src="js/findImage.js"></script>
+	<script src="js/findText.js"></script>
+	<script src="js/hide.js"></script>
+	<script src="js/find.js"></script>
+	<script src="js/pixel_zoom.js"></script>
+	<script src="js/StandardizeImg.js"></script>
+	
+	<!--JavaScript to start the process-->
+	<script>
+		$(function () {
+  			$('[data-toggle="popover"]').popover()
+		}) //Enables popovers to work.
 		
+		/**
+			@brief	Runs commands when the body is loaded so that a bug is fixed
+			@summary	Ensures that the GUI is set up correctly by forcing the 
+						value of a radio button (hide) to checked="true", then 
+						runs switchVisibility() which uses this value to correctly 
+						configure the GUI. This fixes a bug where attempting to hide 
+						a file without first clicking the hide button caused the 
+						application to try and find a needle in the haystack file.
+		*/
+		function configureGUI(){
+			let radioButtons = document.getElementsByName("task");
+			radioButtons[0].checked = true; //forces the desired behavior.
+						
+			//configures the GUI based on the state of radioButtons[0].checked
+			switchVisibility(); 
+		}
+		
+		var resultBlob = null;
+		var recovered = false;
+
+		/**
+			@brief	executes the steganography algorithm based on the GUI state.
+			@summary	The function recieves all inputs from the GUI, namely the 
+						greediness level and the input files (.png, .jpeg, .txt) 
+						then runs them through the steganographic algorithms (for 
+						more on that, see the linked files) and finally displays 
+						the results on the screen.
+		*/
+		async function execute() {
+			//getting the greediness value
+			let greed = document.getElementById("greedSlider").value;
+			if(greed=="") 
+			{
+				alert("Please select a greed level");
+				return;
+			}
+
+			//determining our task (hidding a file or finding a file)
+			let radioButtons = document.getElementsByName("task");
+			let hide=false;
+			if(radioButtons[0].checked==true) 
+				hide=true;
+
+			//Getting the haystack file (always done regardless of stack)
+			let haystackBlob = document.getElementById('haystackFile').files.item(0);
+			if(haystackBlob==null) 
+			{
+				alert("Please select your Haystack image");
+				return;
+			}
+
+			//If the user is trying to hide a file
+			if(hide) 
+			{
+				//Get the needle file
+				let needleBlob = document.getElementById('needleFile').files.item(0);
+				if(needleBlob==null) 
+				{
+					alert("Please select a file you want to hide");
+					return;
+				}
+
+				//THIS IS WHERE THE STEGANOGRAPHY IS DONE
+				let loadedHaystackBlob = null;
+				if(needleBlob.type=="image/png" || needleBlob.type=="image/jpeg") 
+				{
+					loadedHaystackBlob = await hideImageFile(haystackBlob, needleBlob, greed);
+				} 
+				else if(needleBlob.type=="text/plain") 
+				{
+					loadedHaystackBlob = await hideTextFile(haystackBlob, needleBlob, greed);
+				} 
+				else 
+				{
+					alert("Invalid file selected for hiding.");
+					return;
+				}
+
+				if(loadedHaystackBlob==null) 
+				{
+					//Haystack wasn't large enough to hide the needle, abort
+					return;
+				}
+
+				//Display the steganographied image with the original on the screen
+				let canvasOriginal = document.getElementById("original");
+				drawBlobOnCanvas(canvasOriginal, haystackBlob);
+				let canvasChanged = document.getElementById("changed");
+				drawBlobOnCanvas(canvasChanged, loadedHaystackBlob);
+
+				resultBlob=loadedHaystackBlob;
+				recovered=false;
+			} 
+			else //If the user is trying to find a hidden file
+			{
+				let recoveredFile = await findFile(haystackBlob, greed);
+
+				if(recoveredFile!=null) 
+				{
+					resultBlob=recoveredFile;
+					recovered=true;
+
+					let canvas = document.getElementById("recovered");
+					let textDisplay = document.getElementById("textDisplay");
+					if(recoveredFile.type=="image/png") 
+					{
+						canvas.style.display="block";
+						textDisplay.style.display="none";
+						drawBlobOnCanvas(canvas, recoveredFile);
+					} 
+					else 
+					{
+						canvas.style.display="none";
+						textDisplay.style.display="block";
+						textDisplay.data=URL.createObjectURL(recoveredFile);
+					}
+				} 
+				else 
+				{
+					alert("No hidden file was found.");
+					return;
+				}
+			}
+			initializeMouseMove();
+		}
+		
+		/**
+			@brief	saves a blob object as either a .png or .txt to the 
+					user's computer.
+		*/
+		async function saveResult() {
+			if(resultBlob!=null) {
+				if(recovered) {
+					if(resultBlob.type=="image/png") 
+					{
+						download(resultBlob, "Needle.png", "image/png");
+					} 
+					else 
+					{
+						download(resultBlob, "Needle.txt", "text/plain");
+					}
+				} 
+				else 
+				{
+					download(resultBlob, "LoadedHaystack.png", "image/png");
+				}
+			} 
+			else 
+			{
+				await execute();
+				if(resultBlob==null) 
+				{
+					return;
+				}
+				saveResult();
+			}
+		}
+
+		/**
+			@brief	handles events whenever the user selects a file
+			@summary	Resets the result blob object, and collapses
+						the preview collapsible divs for file selection.
+		*/
+		function onSelectionChange() {
+			//reset the resultBlob
+			URL.revokeObjectURL(resultBlob);
+			resultBlob = null;
+			
+			//collapse the preview windows if they are expanded
+			/* Old way stopped working for no reason
+			if($("#needlePreviewButton").attr("aria-expanded") == true)
+				$('#needlePreview').collapse('toggle');
+			if($("#haystackPreviewButton").attr("aria-expanded") == true)
+				$('#haystackPreview').collapse('toggle');*/
+			//always collapse both preview windows
+			$('#haystackPreview').collapse('hide');
+			$('#needlePreview').collapse('hide');
+		}
+		
+		/**
+			@brief Modifies which elements are made visible by the task selection
+			@summary	When "Hide" is pressed, the needed input objects will be set
+						to visible, and the results canvas that are the outputs of 
+						this program will also appear. Labels will change to make 
+						more sense. When "Find" is selected, the same will occur, 
+						accept that the colorPicker object to compare colors will 
+						also disappear as it isn't relevant.
+		*/
+		function switchVisibility() {
+			onSelectionChange();
+			
+			let radioButtons = document.getElementsByName("task");
+			if(radioButtons[0].checked==true) //Hide mode
+			{
+				//Setting changes for input 
+				document.getElementById("haystackLabel").innerHTML = "Haystack Image";
+				document.getElementById("needleSelection").style.display = "inherit";
+				
+				//Setting changes for output
+				document.getElementById("colorComparison").style.display = "block";
+				document.getElementById("recoveredCanvas").style.display = "none";
+				document.getElementById("comparingCanvases").style.display = "block";
+			} 
+			else //Find mode
+			{
+				//setting changes for input
+				document.getElementById("haystackLabel").innerHTML = "Steganographied Image";
+				document.getElementById("needleSelection").style.display = "none";
+				
+				//setting changes for output
+				document.getElementById("colorComparison").style.display = "none";
+				document.getElementById("recoveredCanvas").style.display = "block";
+				document.getElementById("comparingCanvases").style.display = "none";
+			}
+		}
+		
+		/**
+			@brief	Pulls the file located in the previewID input tag, and displays it 
+					in the displayID div tag.
+					
+			@param	previewID	The ID of an HTML file input tag.
+			@param	displayID	The ID of an HTML div tag whose content will be replaced with 
+								a preview of the file selected in the input tag indicated by previewID
+		*/
+		function setPreview(previewID, displayID){			
+			if (previewID == undefined || displayID == undefined)
+				return; //Exit if we don't have what we need to work.
+			
+			//Get the file and the div we will display it in
+			let fileBlob = document.getElementById(previewID).files.item(0);
+			let previewDiv = document.getElementById(displayID);
+			
+			//First, clear out everything currently inside the previewDiv
+			while (previewDiv.hasChildNodes()) {
+    			previewDiv.removeChild(previewDiv.childNodes[0]);
+  			}
+			
+			//Second, create new items for the previewDiv
+			if(fileBlob == null) 
+			{
+				var errorMessage = document.createTextNode("No file available for preview");
+				previewDiv.appendChild(errorMessage);
+			}
+			else
+			{
+				if(fileBlob.type=="image/png" || fileBlob.type=="image/jpeg") 
+				{	
+					//create an img element with appropriate data
+					var image = document.createElement("IMG");
+					image.alt = "A preview of the input file image";
+					//Setting the blob as the source for the image
+					image.src = URL.createObjectURL(fileBlob);
+					//making the image fit nicely in the parent DOM object
+					image.style.maxWidth = "100%";
+					//Putting the image element on the page
+					previewDiv.appendChild(image);
+				} 
+				else if(fileBlob.type=="text/plain") 
+				{
+					//Create an object for the text to exist in
+					var textPreview = document.createElement("OBJECT");
+					//Modify the appearance of the text object
+					textPreview.height = "600";
+					textPreview.width = "500";
+					textPreview.style.backgroundColor = "white";
+					textPreview.style.border = "solid black thin";
+					//Setting the blob as the data of the text object
+					textPreview.data = URL.createObjectURL(fileBlob);
+					//putting the text on the page
+					previewDiv.appendChild(textPreview);
+				} 
+				else 
+				{
+					//Should never occur since our input tags control allowable file types
+					var errorMessage = document.createTextNode("File type not supported, please try a different file.");
+					previewDiv.appendChild(errorMessage);
+				}
+			}
+		}
+	</script>
+</body>
 </html>
